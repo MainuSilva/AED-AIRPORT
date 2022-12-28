@@ -19,6 +19,7 @@ public:
     struct Node {
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
         bool visited;   // As the node been visited on a search?
+        int distance;
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
