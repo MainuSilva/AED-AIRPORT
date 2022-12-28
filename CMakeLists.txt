@@ -3,4 +3,4 @@ project(AED_Air)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(AED_Air main.cpp)
+add_executable(AED_Air main.cpp graph.cpp graph.h)
