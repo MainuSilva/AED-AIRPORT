@@ -21,10 +21,10 @@ string Airport::get_code() const { return code; }
 
 string Airport::get_name() const { return name; }
 
-string Airport::get_country() const { return country; }
+string Airport::get_city() const { return city; }
 
 string Airport::get_country() const { return country; }
 
-double Airport::get_latitude() const { return country; }
+double Airport::get_latitude() const { return latitude; }
 
 double Airport::get_longitude() const { return longitude; }
