@@ -6,6 +6,8 @@
 #define AED_AIR_COORDDISTANCE_H
 
 #include <cmath>
+#include "Airport.h"
+
 class CoordDistance {
     /**
      * Calculates the shortest distance between two coordenates.
@@ -20,6 +22,9 @@ class CoordDistance {
      */
     static double haversine(double lat1, double lat2, double long1, double long2);
 
+public:
+
+    static double haversine(Airport &airportSrc, Airport &airportDest);
 };
 
 

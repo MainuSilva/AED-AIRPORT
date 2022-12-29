@@ -8,6 +8,8 @@
 
 using namespace std;
 
+Airport::Airport() {}
+
 Airport::Airport(string code_, string name_, string city_, string country_, double latitude_, double longitude_) {
     code = code_;
     name = name_;

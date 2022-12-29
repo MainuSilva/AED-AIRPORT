@@ -3,6 +3,7 @@
 //
 
 #include "CoordDistance.h"
+#include "Airport.h"
 
 double CoordDistance::haversine(double lat1, double lat2,double lon1, double lon2){
 
@@ -17,4 +18,9 @@ double CoordDistance::haversine(double lat1, double lat2,double lon1, double lon
     double c = 2 * asin(sqrt(a));
 
     return rad * c;
+}
+
+double CoordDistance::haversine(Airport &airportSrc, Airport &airportDest) {
+    return haversine(airportSrc.get_latitude(), airportDest.get_latitude(),
+                     airportSrc.get_longitude(), airportDest.get_longitude());
 }

@@ -19,6 +19,9 @@ private:
     double longitude;
 
 public:
+
+    Airport();
+
     Airport(string code, string name, string callsign, string country, double latitude, double longitude);
     string get_code() const;
     string get_name() const;
