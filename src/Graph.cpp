@@ -4,7 +4,7 @@
 Graph::Graph(){}
 
 void Graph::addNode( const Airport& airport) {
-    nodes.insert({ airport.get_code(), { {}, false }});
+    nodes.insert({ airport.get_code(), {{}, false }});
 }
 
 // Add edge from source to destination with a certain weight
@@ -40,6 +40,7 @@ void Graph::dfs(const string& v) {
 void Graph::bfs(string v) {
     queue<string> q;
 
+    // Mark the current node as visited and enqueue it
     nodes[v].visited = true;
     q.push(v);
 

@@ -1,0 +1,4 @@
+# ninja log v5
+4	255	6940192902064071	CMakeFiles/AED_Air.dir/src/Airline.cpp.obj	9d437c56b7bc8381
+9	256	6940192902064071	CMakeFiles/AED_Air.dir/src/Airport.cpp.obj	4e24f9d3bdc97a71
+0	273	6940192902273341	CMakeFiles/AED_Air.dir/src/main.cpp.obj	b6150ccf7446e2a3

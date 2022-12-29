@@ -24,6 +24,7 @@ public:
     };
 
     unordered_map<string, Node> nodes;
+    unordered_map<string, Airport>; // colocar os aeroportos existentes
 
     // Constructor: nr nodes and direction (default: undirected)
     Graph();
