@@ -1,47 +1,56 @@
 #include "Graph.h"
 
 // Constructor: nr nodes and direction (default: undirected)
-Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num+1) {
+Graph::Graph(){}
+
+void Graph::addNode( const Airport& airport) {
+    nodes.insert({ airport.get_code(), { {}, false }});
 }
 
 // Add edge from source to destination with a certain weight
-void Graph::addEdge(int src, int dest, string airline, int weight) {
-    if (src<1 || src>n || dest<1 || dest>n) return;
-    for (Edge &e : nodes[src].adj)
-        if (e.dest == dest) {
+void Graph::addEdge(const string& src, const string& dest, const string& airline) {
+    auto src_airport = nodes.find(src);
+    auto dest_airport = nodes.find(dest);
+
+    if (src_airport == nodes.end() || dest_airport == nodes.end()) return;
+
+    for (Edge &e: src_airport->second.adj){
+        if (e.destination == dest) {
             e.airlines.push_back(airline);
             return;
         }
-    nodes[src].adj.push_back({dest, weight, {airline}});
+    }
+    src_airport->second.adj.push_back({dest, {airline}});
+
 }
 
 // Depth-First Search: example implementation
-void Graph::dfs(int v) {
-    // show node order
-    // cout << v << " ";
+void Graph::dfs(const string& v) {
     nodes[v].visited = true;
-    for (auto e : nodes[v].adj) {
-        int w = e.dest;
-        if (!nodes[w].visited)
-            dfs(w);
+
+    // Recursively visit all unvisited adjacent nodes
+    for (const auto& edge : nodes[v].adj) {
+        if (!nodes[edge.destination].visited) {
+            dfs(edge.destination);
+        }
     }
 }
 
 // Breadth-First Search: example implementation
-void Graph::bfs(int v) {
-    for (int i=1; i<=n; i++) nodes[i].visited = false;
-    queue<int> q; // queue of unvisited nodes
-    q.push(v);
+void Graph::bfs(string v) {
+    queue<string> q;
+
     nodes[v].visited = true;
-    while (!q.empty()) { // while there are still unvisited nodes
-        int u = q.front(); q.pop();
-        // show node order
-        //cout << u << " ";
-        for (auto e : nodes[u].adj) {
-            int w = e.dest;
-            if (!nodes[w].visited) {
-                q.push(w);
-                nodes[w].visited = true;
+    q.push(v);
+
+    while (!q.empty()) {
+        string curr = q.front();
+        q.pop();
+
+        for (const auto& edge : nodes[curr].adj) {
+            if (!nodes[edge.destination].visited) {
+                nodes[edge.destination].visited = true;
+                q.push(edge.destination);
             }
         }
     }

@@ -5,38 +5,41 @@
 #include <vector>
 #include <queue>
 #include <iostream>
+#include <unordered_map>
+#include "Airport.h"
 
 using namespace std;
 
 class Graph {
 public:
     struct Edge {
-        int dest;   // Destination node
-        int weight; // An integer weight
+        string destination;   // Destination node
         vector<string> airlines;
     };
 
     struct Node {
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
         bool visited;   // As the node been visited on a search?
-        int distance;
+        double distance;
     };
 
-    int n;              // Graph size (vertices are numbered from 1 to n)
-    bool hasDir;        // false: undirected; true: directed
-    vector<Node> nodes; // The list of nodes being represented
+    unordered_map<string, Node> nodes;
 
     // Constructor: nr nodes and direction (default: undirected)
-    Graph(int nodes, bool dir = false);
+    Graph();
+
+    void addNode(const Airport &airport);
 
     // Add edge from source to destination with a certain weight
-    void addEdge(int src, int dest, string airline, int weight = 1);
+    void addEdge(const string& src, const string& dest, const string& airline);
 
     // Depth-First Search
-    void dfs(int v);
+    void dfs(const string& v);
 
     // Breadth-First Search
-    void bfs(int v);
+    void bfs(string v);
+
+    void addNode(const string airport_code, const Airport &airport);
 };
 
 #endif //AED_AIR_GRAPH_H
