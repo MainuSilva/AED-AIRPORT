@@ -20,7 +20,7 @@ public:
     struct Node {
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
         bool visited;   // As the node been visited on a search?
-        double distance;
+        int distance;
     };
 
     unordered_map<string, Node> nodes;
@@ -38,9 +38,14 @@ public:
     void dfs(const string& v);
 
     // Breadth-First Search
-    void bfs(string v);
+    void bfs(const string& v);
 
     void addNode(const string airport_code, const Airport &airport);
+
+    list<string> findMinPathBfs(const string &airportSrc, const string &airportDest);
+
+    void restart();
+
 };
 
 #endif //AED_AIR_GRAPH_H

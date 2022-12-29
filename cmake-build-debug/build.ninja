@@ -73,6 +73,12 @@ build CMakeFiles/AED_Air.dir/src/Airport.cpp.obj: CXX_COMPILER__AED_Air_Debug C$
   OBJECT_DIR = CMakeFiles\AED_Air.dir
   OBJECT_FILE_DIR = CMakeFiles\AED_Air.dir\src
 
+build CMakeFiles/AED_Air.dir/src/CoordDistance.cpp.obj: CXX_COMPILER__AED_Air_Debug C$:/Users/manue/CLionProjects/AED_Air/src/CoordDistance.cpp || cmake_object_order_depends_target_AED_Air
+  DEP_FILE = CMakeFiles\AED_Air.dir\src\CoordDistance.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles\AED_Air.dir
+  OBJECT_FILE_DIR = CMakeFiles\AED_Air.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AED_Air
@@ -81,7 +87,7 @@ build CMakeFiles/AED_Air.dir/src/Airport.cpp.obj: CXX_COMPILER__AED_Air_Debug C$
 #############################################
 # Link the executable AED_Air.exe
 
-build AED_Air.exe: CXX_EXECUTABLE_LINKER__AED_Air_Debug CMakeFiles/AED_Air.dir/src/main.cpp.obj CMakeFiles/AED_Air.dir/src/Graph.cpp.obj CMakeFiles/AED_Air.dir/src/Airline.cpp.obj CMakeFiles/AED_Air.dir/src/Airport.cpp.obj
+build AED_Air.exe: CXX_EXECUTABLE_LINKER__AED_Air_Debug CMakeFiles/AED_Air.dir/src/main.cpp.obj CMakeFiles/AED_Air.dir/src/Graph.cpp.obj CMakeFiles/AED_Air.dir/src/Airline.cpp.obj CMakeFiles/AED_Air.dir/src/Airport.cpp.obj CMakeFiles/AED_Air.dir/src/CoordDistance.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\AED_Air.dir

@@ -35,24 +35,54 @@ void Graph::dfs(const string& v) {
         }
     }
 }
+void Graph::restart(){
+    for(auto &node: nodes) {
+        node.second.visited = false;
+        node.second.distance = INT_MAX;
+    }
+}
 
 // Breadth-First Search: example implementation
-void Graph::bfs(string v) {
+list<string> Graph::findMinPathBfs(const string& airportSrc, const string& airportDest) {
+    restart();
+
     queue<string> q;
 
-    // Mark the current node as visited and enqueue it
-    nodes[v].visited = true;
-    q.push(v);
+    nodes[airportSrc].distance = 0;
+    nodes[airportSrc].visited = true;
+    q.push(airportSrc);
+
+    // Create a map to store the predecessor of each node
+    unordered_map<string, string> pred;
 
     while (!q.empty()) {
         string curr = q.front();
         q.pop();
 
+        if (curr == airportDest) {
+            list<string> path;
+            string curr_node = curr;
+            while (curr_node != airportSrc) {
+                path.push_back(curr_node);
+                curr_node = pred[curr_node];
+            }
+            path.push_back(airportSrc);
+            path.reverse();
+            return path;
+        }
+
         for (const auto& edge : nodes[curr].adj) {
-            if (!nodes[edge.destination].visited) {
-                nodes[edge.destination].visited = true;
+            auto w = edge.destination;
+            if (!nodes[w].visited) {
+                nodes[w].visited = true;
+                nodes[w].distance = nodes[curr].distance + 1;
+
+                pred[w] = curr;
                 q.push(edge.destination);
             }
         }
     }
+
+    // Return an empty path if we have not reached the end node
+    return {};
 }
