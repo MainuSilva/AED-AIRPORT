@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <set>
+#include <stack>
 #include "Graph.h"
 #include "CoordDistance.h"
 
@@ -7,7 +8,7 @@
 Graph::Graph(){}
 
 void Graph::addNode( const Airport& airport) {
-    nodes.insert({ airport.get_code(), {airport, {}, false }});
+    nodes.insert({ airport.get_code(), {airport, {} }});
 }
 
 // Add edge from source to destination with a certain weight
@@ -35,6 +36,8 @@ void Graph::restart(){
         node.second.visited = false;
         node.second.pred = nullptr;
         node.second.distance = INT_MAX;
+        node.second.num = INT_MAX;
+        node.second.low = INT_MAX;
     }
 }
 
@@ -132,6 +135,32 @@ list<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const strin
     return result;
 }
 
+int Graph::dfsArticulations(string v){
+    int sum = 0;
+    restart();
+    int index = 1;
+    stack<string> s;
+    nodes[v].num = index;
+    nodes[v].low = index;
+    index++;
+    nodes[v].inStack = true;
+    s.push(v);
+
+    for(const auto& e: nodes[v].adj){
+        auto w = e.destination;
+        if(!nodes[w].visited){
+            sum += dfsArticulations(w);
+            nodes[v].low = min(nodes[v].low, nodes[w].low);
+            if(nodes[w].low >= nodes[v].num)
+                sum++;
+        }
+        else if(nodes[w].inStack)
+            nodes[v].low = min (nodes[v].low, nodes[w].num);
+    }
+    s.pop();
+    return sum;
+}
+
 //utilizar closestAirports ou cityAirports para determinar a lista de aeroportos
 list<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
     list<list<Airport>> result;
@@ -202,3 +231,4 @@ set<string> Graph:: possibleCountries(const string& airportSrc, int flights){
         result.insert(airport.get_country());
     }
 }
+

@@ -23,8 +23,11 @@ public:
     struct Node {
         Airport airport;
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
-        bool visited;   // As the node been visited on a search?
+        bool visited;// As the node been visited on a search?
+        bool inStack;
         int distance;
+        int num;
+        int low;
         string pred;
     };
 
@@ -41,6 +44,8 @@ public:
     void restart();
 
     void bfs(const string& v );
+
+    int dfsArticulations(string v);
 
     list<list<Airport>>findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
