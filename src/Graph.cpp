@@ -222,7 +222,7 @@ set<string> Graph:: possibleCities(const string& airportSrc, int flights){
     }
 }
 
-set<string> Graph:: possibleCountries(const string& airportSrc, int flights){
+set<string> Graph::possibleCountries(const string& airportSrc, int flights){
     set<string> result;
 
     list<Airport> airports = possibleAirports(airportSrc, flights);
