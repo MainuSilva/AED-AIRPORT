@@ -25,6 +25,8 @@ class CoordDistance {
 public:
 
     static double haversine(Airport &airportSrc, Airport &airportDest);
+
+    static double haversine(double lat, double lon, Airport &airportDest);
 };
 
 

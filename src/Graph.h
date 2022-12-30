@@ -8,6 +8,7 @@
 #include <queue>
 #include <iostream>
 #include <unordered_map>
+#include <set>
 
 using namespace std;
 
@@ -39,11 +40,21 @@ public:
 
     void restart();
 
-    void bfs(const string& v);
+    void bfs(const string& v );
 
     list<list<Airport>>findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
+    list<list<Airport>> minPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
+
     list<Airport> possibleAirports(const string &airportSrc, int flights);
+
+    list <string> closestAirports(double lat, double lon , double kmdistance);
+
+    list<string> cityAirports(const string& city);
+
+    set<string> possibleCities(const string &airportSrc, int flights);
+
+    set<string> possibleCountries(const string &airportSrc, int flights);
 
 };
 

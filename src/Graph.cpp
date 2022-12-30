@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <set>
 #include "Graph.h"
 #include "CoordDistance.h"
 
@@ -37,7 +38,7 @@ void Graph::restart(){
     }
 }
 
-void Graph::bfs(const string& v) {
+void Graph::bfs(const string& v ) {
     restart();
 
     queue<string> q;
@@ -55,13 +56,14 @@ void Graph::bfs(const string& v) {
             if (!nodes[w].visited) {
                 nodes[w].visited = true;
                 nodes[w].distance = nodes[curr].distance + 1;
+
                 q.push(w);
             }
         }
     }
 }
 
-//the list of the min Paths possible for a destination
+//the list of the min Paths possible for a local -> airportDestination
 list<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}) {
     restart();
 
@@ -130,6 +132,43 @@ list<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const strin
     return result;
 }
 
+//utilizar closestAirports ou cityAirports para determinar a lista de aeroportos
+list<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+    list<list<Airport>> result;
+
+    for(const string& airportDest: wantedAirports){
+        auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
+        result.insert(result.end(), minPaths.begin(), minPaths.end());
+    }
+
+    return result;
+}
+
+//determinar os aeroportos a Xkm de uma determinada coordenada
+list<string> Graph::closestAirports(double lat, double lon, double kmdistance){
+    list<string> result;
+
+    for(auto node : nodes) {
+        double resultDist = CoordDistance::haversine(lat, lon, node.second.airport);
+
+        if(resultDist <= kmdistance)
+            result.push_back(node.first);
+    }
+
+    return result;
+}
+
+list<string> Graph::cityAirports(const string& city){
+    list<string> result;
+
+    for(const auto& node: nodes) {
+        if(node.second.airport.get_city() == city)
+            result.push_back(node.first);
+    }
+
+    return result;
+}
+
 //obter uma lista de aeroportos que consegue atingir com um determinado número de voos
 list<Airport> Graph::possibleAirports(const string& airportSrc, int flights){
     list<Airport> result;
@@ -140,6 +179,26 @@ list<Airport> Graph::possibleAirports(const string& airportSrc, int flights){
         if(node.second.distance <= flights)
             result.push_back(node.second.airport);
     }
+
+    return result;
 }
 
+set<string> Graph:: possibleCities(const string& airportSrc, int flights){
+    set<string> result;
 
+    list<Airport> airports = possibleAirports(airportSrc, flights);
+
+    for(const Airport& airport : airports){
+        result.insert(airport.get_city());
+    }
+}
+
+set<string> Graph:: possibleCountries(const string& airportSrc, int flights){
+    set<string> result;
+
+    list<Airport> airports = possibleAirports(airportSrc, flights);
+
+    for(const Airport& airport : airports){
+        result.insert(airport.get_country());
+    }
+}
