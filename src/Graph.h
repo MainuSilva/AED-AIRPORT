@@ -17,7 +17,6 @@ public:
     struct Edge {
         string destination;   // Destination node
         list<string> airlines;
-        double kmDistance;
     };
 
     struct Node {
@@ -45,7 +44,7 @@ public:
 
     void bfs(const string& v );
 
-    int dfsArticulations(string v);
+    int dfsArticulations(const string& v , const list<string>& wantedAirlines);
 
     list<list<Airport>>findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
@@ -61,6 +60,11 @@ public:
 
     set<string> possibleCountries(const string &airportSrc, int flights);
 
+    bool condition(const list<Airport>& airportA, const list<Airport>& airportB);
+
+    bool hasCommonAirlines(const list<string> &airlines1, const list<string> &airlines2);
+
+    list<Airport> constructPath(string curr, const string& airportSrc);
 };
 
 #endif //AED_AIR_GRAPH_H
