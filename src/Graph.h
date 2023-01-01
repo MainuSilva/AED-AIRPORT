@@ -9,6 +9,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <set>
+#include <stack>
 
 using namespace std;
 
@@ -22,8 +23,10 @@ public:
     struct Node {
         Airport airport;
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
+        set<string> allAirlines;
         bool visited;// As the node been visited on a search?
         bool inStack;
+        bool inArt;
         int distance;
         int num;
         int low;
@@ -44,11 +47,9 @@ public:
 
     void bfs(const string& v );
 
-    int dfsArticulations(const string& v , const list<string>& wantedAirlines);
+    vector<list<struct Airport>> findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
-    list<list<Airport>>findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
-
-    list<list<Airport>> minPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
+    vector<list<struct Airport>> minPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
     list<Airport> possibleAirports(const string &airportSrc, int flights);
 
@@ -60,11 +61,23 @@ public:
 
     set<string> possibleCountries(const string &airportSrc, int flights);
 
-    bool condition(const list<Airport>& airportA, const list<Airport>& airportB);
+    static bool conditionPaths(const list<Airport>& airportA, const list<Airport>& airportB);
 
     bool hasCommonAirlines(const list<string> &airlines1, const list<string> &airlines2);
 
     list<Airport> constructPath(string curr, const string& airportSrc);
+
+    list<string> getArticulationPoints(const list<string> &wantedAirlines);
+
+    void dfsArticulations(const string& v, stack<string> &s, const list<string> &wantedAirlines, list<string> &result, int index);
+
+    int bfs_diameter(const string &v);
+
+    int getDiameter();
+
+    vector<string> getTopAirports(int number);
+
+    int pathDistance(list<Airport> airports);
 };
 
 #endif //AED_AIR_GRAPH_H

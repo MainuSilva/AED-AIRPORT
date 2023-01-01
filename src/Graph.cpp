@@ -18,6 +18,8 @@ void Graph::addEdge(const string& src, const string& dest, const string& airline
 
     if (src_airport == nodes.end() || dest_airport == nodes.end() || src_airport == dest_airport) return;
 
+    nodes[src].allAirlines.insert(airline);
+
     for (Edge &e: src_airport->second.adj){
         if (e.destination == dest) {
             e.airlines.push_back(airline);
@@ -52,7 +54,7 @@ void Graph::bfs(const string& v ) {
         string curr = q.front();
         q.pop();
 
-        for (const auto& edge : nodes[curr].adj) {º
+        for (const auto& edge : nodes[curr].adj) {
             auto w = edge.destination;
             if (!nodes[w].visited) {
                 nodes[w].visited = true;
@@ -65,11 +67,11 @@ void Graph::bfs(const string& v ) {
 }
 
 //the list of the min Paths possible for a local -> airportDestination
-list<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}) {
+vector<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}) {
     restart();
 
     int min = INT_MAX;
-    list<list<Airport>> result;
+    vector<list<Airport>> result;
     queue<string> q;
 
     nodes[airportSrc].distance = 0;
@@ -129,39 +131,55 @@ bool Graph::hasCommonAirlines(const list<string>& airlines1, const list<string>&
     return !intersection.empty();
 }
 
-//determinar o número de articulações da rede ou de determinadas companhias
-int Graph::dfsArticulations(const string& v, const list<string>& wantedAirlines = {}){
-    restart();
-    int sum = 0;
-    int index = 1;
-    stack<string> s;
+//determinar o as de articulações da rede de determinadas companhias
+void Graph::dfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
     nodes[v].num = index;
     nodes[v].low = index;
     index++;
     nodes[v].inStack = true;
     s.push(v);
 
+    int count = 0;
     for(const auto& e: nodes[v].adj){
         auto w = e.destination;
         if(!wantedAirlines.empty() && !hasCommonAirlines(e.airlines, wantedAirlines)) continue;
 
         if(!nodes[w].visited){
-            sum += dfsArticulations(w);
+            count++;
+            dfsArticulations(v, s, wantedAirlines, result, index);
             nodes[v].low = min(nodes[v].low, nodes[w].low);
-            if(nodes[w].low >= nodes[v].num)
-                sum++;
         }
         else if(nodes[w].inStack)
             nodes[v].low = min (nodes[v].low, nodes[w].num);
+
+        if(nodes[v].num != 1 && !nodes[v].inArt && nodes[w].low >= nodes[v].num){
+            result.push_back(v);
+            nodes[v].inArt = true;
+        }
+        else if(!nodes[v].inArt && nodes[v].num == 1 && count > 1) {
+            result.push_back(v);
+            nodes[v].inArt = true;
+        }
     }
     s.pop();
-    return sum;
 }
 
+list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {}){
+    list<string> result;
+    restart();
+    stack<string> s;
+    for(const auto& node : nodes){
+        if(!node.second.visited)
+            dfsArticulations(node.first, s, wantedAirlines, result, 1);
+    }
+    return result;
+}
+
+
 //utilizar closestAirports ou cityAirports para determinar a lista de aeroportos e depois determinar o aeroporto com o caminho mais rapido
-list<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+vector<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
     int min = INT_MAX;
-    list<list<Airport>> result;
+    vector<list<Airport>> result;
 
     for(const string& airportDest: wantedAirports){
         auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
@@ -206,6 +224,28 @@ list<string> Graph::cityAirports(const string& city){
     return result;
 }
 
+//calcula a distancia de um path completo
+int Graph::pathDistance(list<Airport> airports){
+    int distance = 0;
+    auto it = airports.begin();
+    Airport curr = *it;
+    it++;
+    while(it != airports.end()){
+        Airport next = *it;
+        distance += CoordDistance::haversine(curr, next);
+        curr = next;
+        it++;
+    }
+    return distance;
+}
+
+// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
+bool Graph::conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB){
+    if(airportsA.size() == airportsB.size())
+        return pathDistance(airportsA) < pathDistance(airportsB);
+    return airportsA.size() < airportsB.size();
+
+}
 
 
 //obter uma lista de aeroportos que consegue atingir com um determinado número de voos
@@ -242,25 +282,53 @@ set<string> Graph::possibleCountries(const string& airportSrc, int flights){
     }
 }
 
-int pathDistance(list<Airport> airports){
-    int distance = 0;
-    auto it = airports.begin();
-    Airport curr = *it;
-    it++;
-    while(it != airports.end()){
-        Airport next = *it;
-        distance += CoordDistance::haversine(curr, next);
-        curr = next;
-        it++;
+
+int Graph::bfs_diameter(const string& v) {
+    int diameter = 0;
+    queue<string> q; // queue of unvisited nodes
+    q.push(v);
+    nodes[v].distance = 0;
+    nodes[v].visited = true;
+    while (!q.empty()) { // while there are still unvisited nodes
+        string u = q.front();
+        q.pop();
+        for (const auto& e : nodes[u].adj) {
+            string w = e.destination;
+            if (!nodes[w].visited) {
+                q.push(w);
+                nodes[w].visited = true;
+                nodes[w].distance = nodes[u].distance + 1;
+                diameter = max(diameter, nodes[w].distance);
+            }
+        }
     }
-    return distance;
+    return diameter;
 }
 
-// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
-bool condition(const list<Airport>& airportsA, const list<Airport>& airportsB){
-    if(airportsA.size() == airportsB.size())
-        return pathDistance(airportsA) < pathDistance(airportsB);
-    return airportsA.size() < airportsB.size();
-
+int Graph::getDiameter() {
+    restart();
+    int diameter = 0;
+    for(const auto& node: nodes){
+        string w = node.first;
+        if (!nodes[w].visited) {
+            diameter = max(diameter, bfs_diameter(w));
+        }
+    }
+    return diameter;
 }
 
+//get the best *number* airports
+vector<string> Graph::getTopAirports(int number) {
+    vector<string> airports;
+    for (const auto &node: nodes) {
+        airports.push_back(node.first);
+    }
+    sort(airports.begin(), airports.end(), [&](const string &a, const string &b) {
+        // In case of the same number of flights, sort by number of airlines
+        if (nodes[a].adj.size() == nodes[b].adj.size()) {
+            return nodes[a].allAirlines > nodes[b].allAirlines;
+        }
+        return nodes[a].adj.size() > nodes[b].adj.size();
+    });
+    return vector<string>(airports.begin(), airports.begin() + number);
+}
