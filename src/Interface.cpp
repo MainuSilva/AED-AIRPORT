@@ -4,6 +4,7 @@
 using namespace std;
 
 Interface::Interface(){
+    end_prog = false;
 }
 
 void wait_B(){

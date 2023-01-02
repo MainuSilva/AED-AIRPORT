@@ -7,6 +7,7 @@
 #include <string>
 
 using namespace std;
+Airline::Airline() {}
 
 Airline::Airline(string code_, string name_, string callsign_, string country_) {
     code = code_;

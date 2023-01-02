@@ -13,17 +13,44 @@
 using namespace std;
 
 class Gestor {
-
 private:
-
     Graph* graph;
 public:
     Gestor();
     ~Gestor();
+    void readAirports();
+    void readFlights();
+    void readAirlines();
 
-    static void readAirports(Graph &graph);
+    vector<list<Airport>> getMinPathTwoAirports(const string &airportSrc, const string &airportDest, const list<string> &wantedAirlines);
 
-    static void readFlights(Graph &graph);
+    vector<list<Airport>> getMinPathToCity(const string &airportSrc, const string &city, const list<string> &wantedAirlines);
+
+    vector<list<Airport>> getMinPathToLocation(const string &airportSrc, double lat, double lon, double kmDistance, const list<string> &wantedAirlines);
+
+    list<string> getArticulationPoints(const list<string> &wantedAirlines);
+
+    int getNumberOfAirportFlights(const string& airport);
+
+    list<Airline> getAirportAirlines(const string &airport);
+
+    int getDiameter(const list<string> &wantedAirlines);
+
+    list<Airport> getAirportsArrived(const string &airport);
+
+    set<string> getCitiesArrived(const string &airport);
+
+    set<string> getCountriesArrived(const string &airport);
+
+    set<string> getPossibleFlightsCountries(const string &airportSrc, int flights);
+
+    set<string> getPossibleFlightsCities(const string &airportSrc, int flights);
+
+    list<Airport> getPossibleFlightsAirports(const string &airportSrc, int flights);
+
+    vector<string> getTopNumberAirports(int number);
+
+    bool conditionPaths(const list<Airport> &airportsA, const list<Airport> &airportsB);
 };
 
 

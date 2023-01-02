@@ -11,6 +11,10 @@ void Graph::addNode( const Airport& airport) {
     nodes.insert({ airport.get_code(), {airport, {} }});
 }
 
+void Graph::addAirline(const Airline& airline){
+    airlines.insert({airline.get_code(),airline});
+}
+
 // Add edge from source to destination with a certain weight
 void Graph::addEdge(const string& src, const string& dest, const string& airline) {
     auto src_airport = nodes.find(src);
@@ -28,7 +32,6 @@ void Graph::addEdge(const string& src, const string& dest, const string& airline
     }
 
     src_airport->second.adj.push_back({dest, {airline}});
-
 }
 
 void Graph::restart(){
@@ -41,7 +44,7 @@ void Graph::restart(){
     }
 }
 
-void Graph::bfs(const string& v ) {
+void Graph::bfs(const string& v) {
     restart();
 
     queue<string> q;
@@ -64,6 +67,80 @@ void Graph::bfs(const string& v ) {
             }
         }
     }
+}
+
+int Graph::bfsDiameter(const string& v, const list<string> &wantedAirlines = {}) {
+    int diameter = 0;
+    queue<string> q; // queue of unvisited nodes
+    q.push(v);
+    nodes[v].distance = 0;
+    nodes[v].visited = true;
+    while (!q.empty()) { // while there are still unvisited nodes
+        string u = q.front();
+        q.pop();
+        for (const auto& e : nodes[u].adj) {
+            string w = e.destination;
+            if (nodes[w].visited) continue;
+            if (!wantedAirlines.empty() && !hasCommonAirlines(e.airlines, wantedAirlines)) continue;
+
+            q.push(w);
+            nodes[w].visited = true;
+            nodes[w].distance = nodes[u].distance + 1;
+            diameter = max(diameter, nodes[w].distance);
+
+        }
+    }
+    return diameter;
+}
+
+int Graph::getTotalNumberOfAirlines(){
+    return airlines.size();
+}
+
+int Graph::getTotalNumberOfAirports() {
+    return nodes.size();
+}
+
+int Graph::getTotalNumberOfFlights(){
+    int result= 0;
+    for(auto node: nodes){
+        result+= node.second.adj.size();
+    }
+}
+
+int Graph::getNumberOfFlights(const string& airport){
+    return nodes[airport].adj.size();
+}
+
+list<Airline> Graph::getAirportAirlines(const string& airport){
+    list<Airline> result;
+    for(const auto& airline: nodes[airport].allAirlines){
+        result.push_back(airlines[airline]);
+    }
+}
+
+list<Airport> Graph::getAirportsArrived(const string& airport){
+    list<Airport> result;
+
+    for(const auto& node:nodes){
+        result.push_back(node.second.airport);
+    }
+
+    return result;
+}
+
+//obter uma lista de aeroportos que consegue atingir com um determinado número de voos
+list<Airport> Graph::getPossibleFlightsAirports(const string& airportSrc, int flights){
+    list<Airport> result;
+
+    bfs(airportSrc);
+
+    for(const auto& node: nodes){
+        if(node.second.distance <= flights)
+            result.push_back(node.second.airport);
+    }
+
+    return result;
 }
 
 //the list of the min Paths possible for a local -> airportDestination
@@ -108,7 +185,6 @@ vector<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const str
             q.push(edge.destination);
         }
     }
-
     return result;
 }
 
@@ -132,7 +208,7 @@ bool Graph::hasCommonAirlines(const list<string>& airlines1, const list<string>&
 }
 
 //determinar o as de articulações da rede de determinadas companhias
-void Graph::dfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
+void Graph::bfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
     nodes[v].num = index;
     nodes[v].low = index;
     index++;
@@ -146,7 +222,7 @@ void Graph::dfsArticulations(const string& v, stack<string>& s, const list<strin
 
         if(!nodes[w].visited){
             count++;
-            dfsArticulations(v, s, wantedAirlines, result, index);
+            bfsArticulations(v, s, wantedAirlines, result, index);
             nodes[v].low = min(nodes[v].low, nodes[w].low);
         }
         else if(nodes[w].inStack)
@@ -170,14 +246,14 @@ list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {
     stack<string> s;
     for(const auto& node : nodes){
         if(!node.second.visited)
-            dfsArticulations(node.first, s, wantedAirlines, result, 1);
+            bfsArticulations(node.first, s, wantedAirlines, result, 1);
     }
     return result;
 }
 
 
-//utilizar closestAirports ou cityAirports para determinar a lista de aeroportos e depois determinar o aeroporto com o caminho mais rapido
-vector<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar o aeroporto com o caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
     int min = INT_MAX;
     vector<list<Airport>> result;
 
@@ -199,7 +275,7 @@ vector<list<Airport>> Graph::minPathsAirportsBfs(const string& airportSrc, const
 }
 
 //determinar os aeroportos a Xkm de uma determinada coordenada
-list<string> Graph::closestAirports(double lat, double lon, double kmdistance){
+list<string> Graph::getLocationAirports(double lat, double lon, double kmdistance){
     list<string> result;
 
     for(auto node : nodes) {
@@ -213,7 +289,7 @@ list<string> Graph::closestAirports(double lat, double lon, double kmdistance){
 }
 
 //obter uma lista de aeroportos de uma cidade
-list<string> Graph::cityAirports(const string& city){
+list<string> Graph::getCityAirports(const string& city){
     list<string> result;
 
     for(const auto& node: nodes) {
@@ -239,79 +315,14 @@ int Graph::pathDistance(list<Airport> airports){
     return distance;
 }
 
-// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
-bool Graph::conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB){
-    if(airportsA.size() == airportsB.size())
-        return pathDistance(airportsA) < pathDistance(airportsB);
-    return airportsA.size() < airportsB.size();
 
-}
-
-
-//obter uma lista de aeroportos que consegue atingir com um determinado número de voos
-list<Airport> Graph::possibleAirports(const string& airportSrc, int flights){
-    list<Airport> result;
-
-    bfs(airportSrc);
-
-    for(const auto& node: nodes){
-        if(node.second.distance <= flights)
-            result.push_back(node.second.airport);
-    }
-
-    return result;
-}
-
-set<string> Graph:: possibleCities(const string& airportSrc, int flights){
-    set<string> result;
-
-    list<Airport> airports = possibleAirports(airportSrc, flights);
-
-    for(const Airport& airport : airports){
-        result.insert(airport.get_city());
-    }
-}
-
-set<string> Graph::possibleCountries(const string& airportSrc, int flights){
-    set<string> result;
-
-    list<Airport> airports = possibleAirports(airportSrc, flights);
-
-    for(const Airport& airport : airports){
-        result.insert(airport.get_country());
-    }
-}
-
-
-int Graph::bfs_diameter(const string& v) {
-    int diameter = 0;
-    queue<string> q; // queue of unvisited nodes
-    q.push(v);
-    nodes[v].distance = 0;
-    nodes[v].visited = true;
-    while (!q.empty()) { // while there are still unvisited nodes
-        string u = q.front();
-        q.pop();
-        for (const auto& e : nodes[u].adj) {
-            string w = e.destination;
-            if (!nodes[w].visited) {
-                q.push(w);
-                nodes[w].visited = true;
-                nodes[w].distance = nodes[u].distance + 1;
-                diameter = max(diameter, nodes[w].distance);
-            }
-        }
-    }
-    return diameter;
-}
-
-int Graph::getDiameter() {
+int Graph::getDiameter(const list<string> &wantedAirlines = {}) {
     restart();
     int diameter = 0;
     for(const auto& node: nodes){
         string w = node.first;
         if (!nodes[w].visited) {
-            diameter = max(diameter, bfs_diameter(w));
+            diameter = max(diameter, bfsDiameter(w, wantedAirlines));
         }
     }
     return diameter;

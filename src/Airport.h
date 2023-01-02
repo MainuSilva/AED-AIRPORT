@@ -19,7 +19,6 @@ private:
     double longitude;
 
 public:
-
     Airport();
 
     Airport(string code, string name, string callsign, string country, double latitude, double longitude);

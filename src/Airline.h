@@ -14,6 +14,7 @@ private:
     string country;
 
 public:
+    Airline();
     Airline(string code, string name, string callsign, string country);
     string get_code() const;
     string get_name() const;
