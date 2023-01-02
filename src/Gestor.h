@@ -1,6 +1,3 @@
-//
-// Created by manue on 30/12/2022.
-//
 
 #ifndef AED_AIR_GESTOR_H
 #define AED_AIR_GESTOR_H
@@ -15,12 +12,20 @@ using namespace std;
 class Gestor {
 private:
     Graph* graph;
+    //to verify if they exist
+    unordered_set<string> city_codes;
+    unordered_set<string> country_codes;
 public:
     Gestor();
     ~Gestor();
     void readAirports();
     void readFlights();
     void readAirlines();
+
+    bool availableAirport(const string& airport);
+    bool availableCity(const string& city);
+    bool availableCountry(const string& country);
+    bool availableAirline(const string& airline);
 
     vector<list<Airport>> getMinPathTwoAirports(const string &airportSrc, const string &airportDest, const list<string> &wantedAirlines);
 

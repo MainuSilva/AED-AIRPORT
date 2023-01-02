@@ -93,6 +93,85 @@ int Graph::bfsDiameter(const string& v, const list<string> &wantedAirlines = {})
     return diameter;
 }
 
+//determinar o as de articulações da rede de determinadas companhias
+void Graph::bfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
+    nodes[v].num = index;
+    nodes[v].low = index;
+    index++;
+    nodes[v].inStack = true;
+    s.push(v);
+
+    int count = 0;
+    for(const auto& e: nodes[v].adj){
+        auto w = e.destination;
+        if(!wantedAirlines.empty() && !hasCommonAirlines(e.airlines, wantedAirlines)) continue;
+
+        if(!nodes[w].visited){
+            count++;
+            bfsArticulations(v, s, wantedAirlines, result, index);
+            nodes[v].low = min(nodes[v].low, nodes[w].low);
+        }
+        else if(nodes[w].inStack)
+            nodes[v].low = min (nodes[v].low, nodes[w].num);
+
+        if(nodes[v].num != 1 && !nodes[v].inArt && nodes[w].low >= nodes[v].num){
+            result.push_back(v);
+            nodes[v].inArt = true;
+        }
+        else if(!nodes[v].inArt && nodes[v].num == 1 && count > 1) {
+            result.push_back(v);
+            nodes[v].inArt = true;
+        }
+    }
+    s.pop();
+}
+
+
+//the list of the min Paths possible for a local -> airportDestination
+vector<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}) {
+    restart();
+
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+    queue<string> q;
+
+    nodes[airportSrc].distance = 0;
+    nodes[airportSrc].visited = true;
+    q.push(airportSrc);
+
+    while (!q.empty()) {
+        string curr = q.front();
+        q.pop();
+
+        if (curr == airportDest) {
+            auto path = constructPath(curr, airportSrc);
+
+            if (path.size() < min) {
+                result.clear();
+                result.push_back(path);
+                min = path.size();
+            }
+            else if (path.size() == min) {
+                result.push_back(path);
+            }
+
+            continue;
+        }
+
+        for (const auto& edge : nodes[curr].adj) {
+            auto w = edge.destination;
+            if (nodes[w].visited) continue;
+            if (!wantedAirlines.empty() && !hasCommonAirlines(edge.airlines, wantedAirlines)) continue;
+
+            nodes[w].visited = true;
+            nodes[w].distance = nodes[curr].distance + 1;
+            nodes[w].pred = curr;
+            q.push(edge.destination);
+        }
+    }
+    return result;
+}
+
 int Graph::getTotalNumberOfAirlines(){
     return airlines.size();
 }
@@ -143,51 +222,6 @@ list<Airport> Graph::getPossibleFlightsAirports(const string& airportSrc, int fl
     return result;
 }
 
-//the list of the min Paths possible for a local -> airportDestination
-vector<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}) {
-    restart();
-
-    int min = INT_MAX;
-    vector<list<Airport>> result;
-    queue<string> q;
-
-    nodes[airportSrc].distance = 0;
-    nodes[airportSrc].visited = true;
-    q.push(airportSrc);
-
-    while (!q.empty()) {
-        string curr = q.front();
-        q.pop();
-
-        if (curr == airportDest) {
-            auto path = constructPath(curr, airportSrc);
-
-            if (path.size() < min) {
-                result.clear();
-                result.push_back(path);
-                min = path.size();
-            }
-            else if (path.size() == min) {
-                result.push_back(path);
-            }
-
-            continue;
-        }
-
-        for (const auto& edge : nodes[curr].adj) {
-            auto w = edge.destination;
-            if (nodes[w].visited) continue;
-            if (!wantedAirlines.empty() && !hasCommonAirlines(edge.airlines, wantedAirlines)) continue;
-
-            nodes[w].visited = true;
-            nodes[w].distance = nodes[curr].distance + 1;
-            nodes[w].pred = curr;
-            q.push(edge.destination);
-        }
-    }
-    return result;
-}
-
 // Constructs a path from the destin airport to the src airport
 list<Airport> Graph::constructPath(string curr, const string& airportSrc) {
     list<Airport> path;
@@ -205,39 +239,6 @@ bool Graph::hasCommonAirlines(const list<string>& airlines1, const list<string>&
     list<string> intersection;
     set_intersection(airlines1.begin(), airlines1.end(), airlines2.begin(), airlines2.end(), back_inserter(intersection));
     return !intersection.empty();
-}
-
-//determinar o as de articulações da rede de determinadas companhias
-void Graph::bfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
-    nodes[v].num = index;
-    nodes[v].low = index;
-    index++;
-    nodes[v].inStack = true;
-    s.push(v);
-
-    int count = 0;
-    for(const auto& e: nodes[v].adj){
-        auto w = e.destination;
-        if(!wantedAirlines.empty() && !hasCommonAirlines(e.airlines, wantedAirlines)) continue;
-
-        if(!nodes[w].visited){
-            count++;
-            bfsArticulations(v, s, wantedAirlines, result, index);
-            nodes[v].low = min(nodes[v].low, nodes[w].low);
-        }
-        else if(nodes[w].inStack)
-            nodes[v].low = min (nodes[v].low, nodes[w].num);
-
-        if(nodes[v].num != 1 && !nodes[v].inArt && nodes[w].low >= nodes[v].num){
-            result.push_back(v);
-            nodes[v].inArt = true;
-        }
-        else if(!nodes[v].inArt && nodes[v].num == 1 && count > 1) {
-            result.push_back(v);
-            nodes[v].inArt = true;
-        }
-    }
-    s.pop();
 }
 
 list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {}){
@@ -342,4 +343,18 @@ vector<string> Graph::getTopAirports(int number) {
         return nodes[a].adj.size() > nodes[b].adj.size();
     });
     return vector<string>(airports.begin(), airports.begin() + number);
+}
+
+bool Graph::availableAirport(const string& airport){
+    auto result = nodes.find(airport);
+    if(result == nodes.end() )
+        return false;
+    return true;
+}
+
+bool Graph::availableAirline(const string& airline){
+    auto result = airlines.find(airline);
+    if(result == airlines.end())
+        return false;
+    return true;
 }

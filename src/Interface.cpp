@@ -4,11 +4,106 @@
 using namespace std;
 
 Interface::Interface(){
+    gestor = new Gestor();
     end_prog = false;
 }
 
-void wait_B(){
+string Interface::getAirport() {
+    string airport;
+    bool stop_While = false;
 
+    do {
+        cin >> airport;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (!gestor->availableAirport(airport))
+            cout << "\nThis aiport doesn't exist, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return airport;
+}
+
+string Interface::getCity(){
+    string city;
+    bool stop_While = false;
+
+    do {
+        cin >> city;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (!gestor->availableCity(city))
+            cout << "\nThis city doesn't exist, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return city;
+}
+
+string Interface::getCountry(){
+    string country;
+    bool stop_While = false;
+
+    do {
+        cin >> country;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (!gestor->availableCountry(country))
+            cout << "\nThis country doesn't exist, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return country;
+}
+
+double Interface::getLat(){
+    double latitude;
+    bool stop_While = false;
+
+    do {
+        cin >> latitude;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (!(-90 <= latitude && latitude <= 90))
+            cout << "\nThis latitude doesn't exist, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return latitude;
+}
+
+double Interface::getLong(){
+    double longitude;
+    bool stop_While = false;
+
+    do {
+        cin >> longitude;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (!(-180 <= longitude && longitude <= 180))
+            cout << "\nThis longitude doesn't exist, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return longitude;
+}
+
+void Interface::wait_B(){
     char button;
     bool stop_While = false;
 
@@ -16,10 +111,35 @@ void wait_B(){
 
     while(!stop_While){
         cin >> button;
+        cin.ignore(INT16_MAX, '\n');
         if(button == 'b' || button == 'B') {
             stop_While = true;
         }
     }
+}
+
+
+bool Interface:: verifyExit(){
+    char check;
+
+    cout << "\nAre you sure you want to exit? Y or N: ";
+
+    do {
+        cin >> check;
+        cin.ignore(INT16_MAX, '\n');
+
+        switch(check){
+
+            case 'Y': case 'y': return true;
+
+            case'N': case'n': return false;
+
+            default: cout << "\nInvalid Input, please try again" << endl;
+
+        }
+
+    }
+    while(true);
 }
 
 void Interface::showMenu() {
@@ -43,7 +163,7 @@ void Interface::showMenu() {
 
         switch (choice) {
             case '1':
-                flight_Info();
+                flight_info();
                 break;
 
             case '2':
@@ -63,7 +183,7 @@ void Interface::showMenu() {
 }
 
 
-void::Interface::flight_Info(){
+void::Interface::flight_info(){
     char choice;
     bool stop_While = false;
     do {
@@ -120,35 +240,11 @@ void::Interface::goAirport(){
     cout << endl;
     cout << "\n================| Airport |================" << endl;
     cout << endl;
-    cout << "Insert Airport's name: " << endl;
-    airport = findAirport();
-
-
+    cout << "Insert Airport's name: ";
+    airport = getAirport();
 
     airlines_Info();
 
-}
-
-string Interface::findAirport() {
-    string airport;
-    bool stop_While = false;
-
-    do {
-        cin >> airport;
-        //cin.ignore(INT16_MAX, '\n'); não sei se aqui também se põe isto ou não, deixei comentado caso se precise
-
-
-        //procurar airport lá no grafo
-
-        if (/* Erro de aeroporto */)
-            cout << "\nThis aiport doesn't exist, please try again";
-
-        else
-            stop_While = true;
-
-    } while (!stop_While);
-
-    return airport;
 }
 
 void Interface::goCity(){
@@ -156,36 +252,10 @@ void Interface::goCity(){
     cout << endl;
     cout << "\n================| City |================" << endl;
     cout << endl;
-    cout << "Insert City's name: " << endl;
-    city= findCity();
-
-
-
-
+    cout << "Insert City's name: ";
+    city = getCity();
 
     airlines_Info();
-}
-
-string Interface::findCity(){
-    string city;
-    bool stop_While = false;
-
-    do {
-        cin >> city;
-        //cin.ignore(INT16_MAX, '\n'); não sei se aqui também se põe isto ou não, deixei comentado caso se precise
-
-
-        //procurar city lá no grafo
-
-        if (/* Erro de cidade */)
-            cout << "\nThis city doesn't exist, please try again";
-
-        else
-            stop_While = true;
-
-    } while (!stop_While);
-
-    return city;
 }
 
 void Interface::goCoords(){
@@ -194,58 +264,12 @@ void Interface::goCoords(){
     cout << endl;
     cout << "\n================| Coordinates |================" << endl;
     cout << endl;
-    cout << "Insert Latitude: " << endl;
-    latitude = findLat();
-    cout << "Insert Longitude: " << endl;
-    longitude = findLong();
-
-
-
+    cout << "Insert Latitude: ";
+    latitude = getLat();
+    cout << "Insert Longitude: ";
+    longitude = getLong();
 
     airlines_Info();
-}
-
-double Interface::findLat(){
-    double latitude;
-    bool stop_While = false;
-
-    do {
-        cin >> latitude;
-        //cin.ignore(INT16_MAX, '\n'); não sei se aqui também se põe isto ou não, deixei comentado caso se precise
-
-        //procurar latitude lá no grafo
-
-        if (/* Erro de latitude */)
-            cout << "\nThis latitude doesn't exist, please try again";
-
-        else
-            stop_While = true;
-
-    } while (!stop_While);
-
-    return latitude;
-}
-
-double Interface::findLong(){
-    double longitude;
-    bool stop_While = false;
-
-    do {
-        cin >> longitude;
-        //cin.ignore(INT16_MAX, '\n'); não sei se aqui também se põe isto ou não, deixei comentado caso se precise
-
-
-        //procurar longitude lá no grafo
-
-        if (/* Erro de longitude */)
-            cout << "\nThis longitude doesn't exist, please try again";
-
-        else
-            stop_While = true;
-
-    } while (!stop_While);
-
-    return longitude;
 }
 
 void Interface::airlines_Info(){
@@ -303,11 +327,12 @@ void Interface::airlineTravel(){
 }
 
 void::Interface::airport_ask(){
+    string airport;
     cout << endl;
     cout << "\n================| Airport |================" << endl;
     cout << endl;
-    cout << "Insert Airport's name: " << endl;
-    airport = findAirport();
+    cout << "Insert Airport's name: ";
+    airport = getAirport();
 
 
 
@@ -394,7 +419,7 @@ void Interface::airportReach() {
 
     cout << "\n================| Airport Reach |================" << endl;
     cout << endl;
-    cout << "Insert Number of Flights: " << endl;
+    cout << "Insert Number of Flights: ";
     cin >> yFlights;
 
 

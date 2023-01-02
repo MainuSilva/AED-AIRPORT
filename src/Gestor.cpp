@@ -1,4 +1,3 @@
-
 #include "Gestor.h"
 
 #include <fstream>
@@ -8,6 +7,9 @@ using namespace std;
 
 Gestor::Gestor() {
     graph = new Graph();
+    readAirports();
+    readFlights();
+    readAirlines();
 }
 
 Gestor::~Gestor() { delete graph; }
@@ -30,6 +32,8 @@ void Gestor::readAirports(){
         getline(ss, lat, ',');
         getline(ss, lon, ',');
 
+        city_codes.insert(city);
+        country_codes.insert(country);
         Airport airport(code, name, city, country, stod(lat), stod(lon));
         graph->addNode(airport); // add to graph
     }
@@ -74,6 +78,27 @@ void Gestor::readAirlines(){
     }
 }
 
+bool Gestor::availableAirport(const string& airport) {
+    return graph->availableAirport(airport);
+}
+
+bool Gestor::availableCity(const string& city) {
+    auto result = city_codes.find(city);
+    if(result != city_codes.end())
+        return true;
+    return false;
+}
+
+bool Gestor::availableCountry(const string& country) {
+    auto result = country_codes.find(country);
+    if(result != country_codes.end())
+        return true;
+    return false;
+}
+
+bool Gestor::availableAirline(const string& airline) {
+    return graph->availableAirline(airline);
+}
 
 vector<list<Airport>> Gestor::getMinPathTwoAirports(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}){
     return graph->findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
@@ -149,7 +174,6 @@ set<string> Gestor::getPossibleFlightsCountries(const string& airportSrc, int fl
 
     return result;
 }
-
 
 int Gestor::getDiameter(const list<string>& wantedAirlines = {}){
     return graph->getDiameter(wantedAirlines);

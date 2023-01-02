@@ -88,6 +88,10 @@ public:
     int getTotalNumberOfAirports();
 
     int getTotalNumberOfFlights();
+
+    bool availableAirline(const string &airline);
+
+    bool availableAirport(const string &airport);
 };
 
 #endif //AED_AIR_GRAPH_H

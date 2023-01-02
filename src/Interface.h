@@ -8,21 +8,22 @@
 #include "Airport.h"
 #include "CoordDistance.h"
 #include "Graph.h"
+#include "Gestor.h"
 #include <string>
 
 class Interface {
 
 private:
+    Gestor* gestor;
     bool end_prog;
-    string airport;
 
 public:
     Interface();
     void showMenu();
-    static bool verifyExit();
+    bool verifyExit();
     void airport_ask();
     void airport_Info();
-    void flight_Info();
+    void flight_info();
     void goAirport();
     void goCity();
     void goCoords();
@@ -33,15 +34,15 @@ public:
     void countriesList();
     void flights();
     void flightsNum();
-    void wait_B();
-    string findAirport();
-    string findCity();
-    double findLat();
-    double findLong();
+    static void wait_B();
+    string getAirport();
+    string getCity();
+    static double getLat();
+    static double getLong();
     void airlineTravel();
     void anyTravel();
     void airportReach();
-
+    string getCountry();
 };
 
 
