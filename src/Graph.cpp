@@ -94,7 +94,7 @@ int Graph::bfsDiameter(const string& v, const list<string> &wantedAirlines = {})
 }
 
 //determinar o as de articulações da rede de determinadas companhias
-void Graph::bfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
+void Graph::dfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
     nodes[v].num = index;
     nodes[v].low = index;
     index++;
@@ -108,7 +108,7 @@ void Graph::bfsArticulations(const string& v, stack<string>& s, const list<strin
 
         if(!nodes[w].visited){
             count++;
-            bfsArticulations(v, s, wantedAirlines, result, index);
+            dfsArticulations(v, s, wantedAirlines, result, index);
             nodes[v].low = min(nodes[v].low, nodes[w].low);
         }
         else if(nodes[w].inStack)
@@ -247,7 +247,7 @@ list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {
     stack<string> s;
     for(const auto& node : nodes){
         if(!node.second.visited)
-            bfsArticulations(node.first, s, wantedAirlines, result, 1);
+            dfsArticulations(node.first, s, wantedAirlines, result, 1);
     }
     return result;
 }

@@ -43,7 +43,7 @@ private:
 
     int bfsDiameter(const string &v, const list<string> &wantedAirlines);
 
-    void bfsArticulations(const string& v, stack<string> &s, const list<string> &wantedAirlines, list<string> &result, int index);
+    void dfsArticulations(const string& v, stack<string> &s, const list<string> &wantedAirlines, list<string> &result, int index);
 
     bool hasCommonAirlines(const list<string> &airlines1, const list<string> &airlines2);
 
