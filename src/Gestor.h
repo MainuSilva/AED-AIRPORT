@@ -29,9 +29,9 @@ public:
 
     vector<list<Airport>> getMinPathTwoAirports(const string &airportSrc, const string &airportDest, const list<string> &wantedAirlines);
 
-    vector<list<Airport>> getMinPathToCity(const string &airportSrc, const string &city, const list<string> &wantedAirlines);
+    vector<list<Airport>> getMinPathAirToCity(const string &airportSrc, const string &city, const list<string> &wantedAirlines);
 
-    vector<list<Airport>> getMinPathToLocation(const string &airportSrc, double lat, double lon, double kmDistance, const list<string> &wantedAirlines);
+    vector<list<Airport>> getMinPathAirToLocation(const string &airportSrc, double lat, double lon, double kmDistance, const list<string> &wantedAirlines);
 
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
 
@@ -53,9 +53,26 @@ public:
 
     list<Airport> getPossibleFlightsAirports(const string &airportSrc, int flights);
 
-    vector<string> getTopNumberAirports(int number);
+    vector<string> getTopNumberAirports(int number, string sortingWay);
 
     bool conditionPaths(const list<Airport> &airportsA, const list<Airport> &airportsB);
+
+    vector<list<Airport>> getMinPathLocationToLocation(double lat1, double lon1, double kmDistance1, double lat2, double lon2, double kmDistance2, const list<string> &wantedAirlines);
+
+    vector<list<Airport>> getMinPathLocationToCity(double lat, double lon, double kmDistance, const string &city,
+                                                   const list<string> &wantedAirlines);
+
+    vector<list<Airport>> getMinPathCityToLocation(const string &city, double lat, double lon, double kmDistance,
+                                                   const list<string> &wantedAirlines);
+
+    vector<list<Airport>>
+    getMinPathCityToCity(const string &city1, const string &city2, const list<string> &wantedAirlines);
+
+    vector<list<Airport>>
+    getMinPathCityToAir(const string &city1, const string &airportDest, const list<string> &wantedAirlines);
+
+    vector<list<Airport>> getMinPathLocationToAir(double lat, double lon, double kmDistance, const string &airportDest,
+                                                  const list<string> &wantedAirlines);
 };
 
 

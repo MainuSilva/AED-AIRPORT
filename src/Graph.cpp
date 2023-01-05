@@ -37,8 +37,8 @@ void Graph::addEdge(const string& src, const string& dest, const string& airline
 void Graph::restart(){
     for(auto &node: nodes) {
         node.second.visited = false;
-        node.second.pred = nullptr;
-        node.second.distance = INT_MAX;
+        node.second.pred = "dummy";
+        node.second.distance = -1;
         node.second.num = INT_MAX;
         node.second.low = INT_MAX;
     }
@@ -196,13 +196,16 @@ list<Airline> Graph::getAirportAirlines(const string& airport){
     for(const auto& airline: nodes[airport].allAirlines){
         result.push_back(airlines[airline]);
     }
+    return result;
 }
 
+//get airports that you can reach with one flight
 list<Airport> Graph::getAirportsArrived(const string& airport){
     list<Airport> result;
 
-    for(const auto& node:nodes){
-        result.push_back(node.second.airport);
+    for(const auto& e: nodes[airport].adj){
+        auto w = e.destination;
+        result.push_back(nodes[w].airport);
     }
 
     return result;
@@ -275,6 +278,48 @@ vector<list<Airport>> Graph::getMinPathsAirportsBfs(const string& airportSrc, co
     return result;
 }
 
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+
+    for(const string & airportSrc: airportSrcs) {
+        for (const string &airportDest: wantedAirports) {
+
+            auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
+
+            if (!minPaths.empty()) {
+                if (min > minPaths.front().size()) {
+                    result.clear();
+                    min = minPaths.front().size();
+                } else if (min == minPaths.front().size())
+                    result.insert(result.end(), minPaths.begin(), minPaths.end());
+            }
+        }
+    }
+    return result;
+}
+
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines = {}) {
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+
+    for(const string & airportSrc: airportSrcs) {
+
+            auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
+
+            if (!minPaths.empty()) {
+                if (min > minPaths.front().size()) {
+                    result.clear();
+                    min = minPaths.front().size();
+                } else if (min == minPaths.front().size())
+                    result.insert(result.end(), minPaths.begin(), minPaths.end());
+            }
+    }
+    return result;
+}
+
 //determinar os aeroportos a Xkm de uma determinada coordenada
 list<string> Graph::getLocationAirports(double lat, double lon, double kmdistance){
     list<string> result;
@@ -330,18 +375,24 @@ int Graph::getDiameter(const list<string> &wantedAirlines = {}) {
 }
 
 //get the best *number* airports
-vector<string> Graph::getTopAirports(int number) {
+vector<string> Graph::getTopAirports(int number, string sortingWay) {
     vector<string> airports;
     for (const auto &node: nodes) {
         airports.push_back(node.first);
     }
-    sort(airports.begin(), airports.end(), [&](const string &a, const string &b) {
-        // In case of the same number of flights, sort by number of airlines
-        if (nodes[a].adj.size() == nodes[b].adj.size()) {
+
+    if (sortingWay == "flights"){
+        sort(airports.begin(), airports.end(), [&](const string &a, const string &b) {
+            // Sort by number of flights
+            return nodes[a].adj.size() > nodes[b].adj.size();
+        });
+    }
+    else if (sortingWay == "airlines") {
+        sort(airports.begin(), airports.end(), [&](const string &a, const string &b) {
+            // Sort by number of airlines
             return nodes[a].allAirlines > nodes[b].allAirlines;
-        }
-        return nodes[a].adj.size() > nodes[b].adj.size();
-    });
+        });
+    }
     return vector<string>(airports.begin(), airports.begin() + number);
 }
 

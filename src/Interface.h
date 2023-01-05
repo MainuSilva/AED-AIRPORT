@@ -1,6 +1,3 @@
-//
-// Created by manue on 30/12/2022.
-//
 
 #ifndef AED_AIR_INTERFACE_H
 #define AED_AIR_INTERFACE_H
@@ -22,26 +19,35 @@ public:
     void showMenu();
     bool verifyExit();
     void airport_ask();
-    void airport_Info();
+    void airport_Info(string airport);
     void flight_info();
+    void country_info();
+    void network_info();
     void goAirport();
     void goCity();
     void goCoords();
-    void departuresBoard();
-    void airlines_Info();
-    void destinationsList();
-    void airlinesList();
-    void countriesList();
-    void flights();
-    void flightsNum();
+    void goArticulationP();
+    void goDiameter();
+    void goTopAirports();
+    void goMostFlights();
+    void goMostAirlines();
+    list<string> airlines_select();
+    void cityList(const string& airport);
+    void airlinesList(const string& airport);
+    void countriesList(const string& airport);
+    void flightsNum(string airport);
     static void wait_B();
+
     string getAirport();
+    list<string> getAirlines();
     string getCity();
-    static double getLat();
-    static double getLong();
+    double getLat();
+    double getLong();
+    int getNum();
+
     void airlineTravel();
     void anyTravel();
-    void airportReach();
+    void airportReach(const string& airport);
     string getCountry();
 };
 

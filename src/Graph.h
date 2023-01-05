@@ -61,6 +61,10 @@ public:
 
     vector<list<struct Airport>> getMinPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
+    vector<list<Airport>> getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);
+
+    vector<list<Airport>> getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
+
     int pathDistance(list<Airport> airports);
 
     list<string> getLocationAirports(double lat, double lon , double kmdistance);
@@ -69,7 +73,7 @@ public:
 
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
 
-    vector<string> getTopAirports(int number);
+    vector<string> getTopAirports(int number, string sortingWay);
 
     list<Airport> getPossibleFlightsAirports(const string &airportSrc, int flights);
 
@@ -92,6 +96,7 @@ public:
     bool availableAirline(const string &airline);
 
     bool availableAirport(const string &airport);
+
 };
 
 #endif //AED_AIR_GRAPH_H
