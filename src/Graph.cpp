@@ -105,26 +105,27 @@ void Graph::dfsArticulations(const string& v, stack<string>& s, const list<strin
     s.push(v);
 
     int count = 0;
-    for(const auto& e: nodes[v].adj){
+    for(auto e: nodes[v].adj){
         auto w = e.destination;
         if(!wantedAirlines.empty() && !hasCommonAirlines(e.airlines, wantedAirlines)) continue;
 
         if(!nodes[w].visited){
             count++;
-            dfsArticulations(v, s, wantedAirlines, result, index);
+            dfsArticulations(w, s, wantedAirlines, result, index);
             nodes[v].low = min(nodes[v].low, nodes[w].low);
+
+            if(nodes[v].num != 1 && !nodes[v].inArt && nodes[w].low >= nodes[v].num){
+                result.push_back(v);
+                nodes[v].inArt = true;
+            }
+            else if(!nodes[v].inArt && nodes[v].num == 1 && count > 1) {
+                result.push_back(v);
+                nodes[v].inArt = true;
+            }
         }
         else if(nodes[w].inStack)
             nodes[v].low = min (nodes[v].low, nodes[w].num);
 
-        if(nodes[v].num != 1 && !nodes[v].inArt && nodes[w].low >= nodes[v].num){
-            result.push_back(v);
-            nodes[v].inArt = true;
-        }
-        else if(!nodes[v].inArt && nodes[v].num == 1 && count > 1) {
-            result.push_back(v);
-            nodes[v].inArt = true;
-        }
     }
     nodes[s.top()].inStack = false;
     s.pop();
@@ -252,10 +253,12 @@ list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {
     restart();
     list<string> result;
     stack<string> s;
+
     for(const auto& node : nodes){
         if(!node.second.visited)
             dfsArticulations(node.first, s, wantedAirlines, result, 1);
     }
+
     return result;
 }
 

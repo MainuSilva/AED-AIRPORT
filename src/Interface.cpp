@@ -469,7 +469,7 @@ void Interface::goArticulationP() {
     wantedAirlines = airlines_select();
     list<string> artPoints = gestor->getArticulationPoints(wantedAirlines);
 
-    cout <<"\n=======| Articulation Points |=======" << endl;
+    cout <<"\n===========| Articulation Points |===========" << endl;
     cout << "\nThe";
 
     if(wantedAirlines.empty()) {
@@ -481,7 +481,7 @@ void Interface::goArticulationP() {
         cout << "for these airlines ";
     }
 
-    cout << "is " << artPoints.size();
+    cout << "is " << artPoints.size() << endl;
 
     wait_B();
 }
@@ -491,7 +491,7 @@ void Interface::goDiameter() {
     wantedAirlines = airlines_select();
     list<string> artPoints = gestor->getArticulationPoints(wantedAirlines);
 
-    cout <<"\n=======| Diameter |=======" << endl;
+    cout <<"\n===========| Diameter |============" << endl;
 
     cout << "\nThe maximum diameter ";
 
@@ -499,7 +499,7 @@ void Interface::goDiameter() {
         cout << "for these airlines ";
     }
 
-    cout << "is " << artPoints.size();
+    cout << "is " << artPoints.size() << endl;
 
     wait_B();
 }
@@ -735,8 +735,8 @@ void::Interface::goAirport(){
         }
         index++;
     }
-
     cout << endl;
+
     wait_B();
 
 }
@@ -807,8 +807,8 @@ void Interface::goCity(){
         }
         index++;
     }
-
     cout << endl;
+
     wait_B();
 
 }
@@ -886,8 +886,8 @@ void Interface::goCoords(){
         }
         index++;
     }
-
     cout << endl;
+
     wait_B();
 }
 
@@ -947,10 +947,9 @@ void Interface::countryInfo() {
 
 
 void Interface::AirportsNumCountry(string country) {
+    cout << "\n================| " + country +" Airports |================" << endl;
+    cout << "\nNumber of airports from " + country  + ": " << gestor->getAllAirportsFromCountry(country).size() << endl;
     cout << endl;
-    cout << "Number of airports from " + country  + ": " << gestor->getAllAirportsFromCountry(country).size() << endl;
-    cout << endl;
-    cout << "\n================| " + country +" Airports |================\n" << endl;
     for (const auto& airport: gestor->getAllAirportsFromCountry(country)) {
         cout << airport.get_code() << " " << airport.get_name() << endl;
     }
@@ -959,10 +958,9 @@ void Interface::AirportsNumCountry(string country) {
 }
 
 void Interface::airlinesListCountry(const string& country) {
+    cout << "\n================| " + country +" Airlines |================" << endl;
+    cout << "\nNumber of airlines from " + country  + ": " << gestor->getAllAirLinesFromCountry(country).size() << endl;
     cout << endl;
-    cout << "Number of airlines from " + country  + ": " << gestor->getAllAirLinesFromCountry(country).size() << endl;
-    cout << endl;
-    cout << "\n================| " + country +" Airlines |================\n" << endl;
     for (const auto& airline: gestor->getAllAirLinesFromCountry(country)) {
         cout << airline.get_code() << " " << airline.get_name() << endl;
     }
