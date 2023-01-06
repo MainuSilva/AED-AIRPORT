@@ -30,33 +30,33 @@ private:
     struct Node {
         ///Aeroporto
         Airport airport;
-        ///Lista com todas os edges adjacentes
+        /// Lista com todas os edges adjacentes
         list<Edge> adj; 
-        ///set com todas as companhias aerias
+        /// Set com todas as companhias aerias
         set<string> allAirlines;
-        ///Node visitado ou por visitar
+        /// Node visitado ou por visitar
         bool visited;
-        ///Node está ou não contido na stack
+        /// Node está ou não contido na stack
         bool inStack;
-        ///
+        /// Node é ou não uma articulação
         bool inArt;
-        ///distancia a um determinado node
+        /// Distancia a um determinado node
         int distance;
-        ///indica a ordem pela qual o node é visitado
+        /// Indica a ordem pela qual o node é visitado
         int num;
-        ///o node mais antigo que consegue alcansar
+        /// O node de ordem mais pequena que este node consegue alcançar
         int low;
-        ///
+        /// O node visitado anteriormente
         string pred;
     };
 
-    ///Hash Table que guarda todos os nodes
+    /// Hash Table que guarda todos os nodes
     unordered_map<string, Node> nodes;
     
-    ///Hash Table que guarda todas as companhias aerias
+    /// Hash Table que guarda todas as companhias aerias
     unordered_map<string, Airline> airlines;
 
-    ///reinicia o estado de cada node
+    /// Reinicia o estado de cada node
     void restart();
 
     /// Breadth-First Search
@@ -81,15 +81,25 @@ public:
     Graph();
 
     /**
-     * @brief Adiciona um novo node (aeroporto)
-     * Complexidade Temporal: O(1)
+     * @brief Adiciona um novo node ao grafo (aeroporto)
+     * @details Complexidade Temporal: O(1)
+     *
      * @param airport
      */
     void addNode(const Airport &airport);
 
     /**
-     * @brief Adiciona uma nova edge de uma origem a um destinho com um determinado peso
-     * Complexidade Temporal: O(n) no pior caso e O(1) no melhor caso
+     * @brief Adiciona uma nova companhia aerea à lista de companhias aereas
+     * @details Complexidade Temporal: O(1)
+     *
+     * @param airline
+     */
+    void addAirline(const Airline &airline);
+
+    /**
+     * @brief Adiciona uma nova edge de uma origem a um destino com uma lista de airlines, se a edge já existe adiciona a nova airline na lista de airlines
+     * @details Complexidade Temporal: O(n) no pior caso e O(1) no melhor caso
+     *
      * @param src
      * @param dest
      * @param airline
@@ -97,8 +107,9 @@ public:
     void addEdge(const string& src, const string& dest, const string& airline);
     
     /**
-     * @brief Devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de rigem para um destino
-     * Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
+     * @brief Devolve um vetor de listas com o menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um destino, com um determinado conjunto de airlines
+     * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
+     *
      * @param airportSrc
      * @param airportDest
      * @param airlines
@@ -106,11 +117,12 @@ public:
     vector<list<struct Airport>> findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
     /**
-     * @brief Devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de rigem para um destino
-     * Complexidade Temporal: (n * m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
-     * @param airportSrc
-     * @param wantedAirports
-     * @param wantedAirlines
+     * @brief Devolve um vetor de listas com o menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um destino com vários aeroportos, com um determinado conjunto de airlines
+     * @details Complexidade Temporal: (n + m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
+     *
+     * @param airportSrc aeroporto de origem
+     * @param wantedAirports lista de aeroportos de destino
+     * @param wantedAirlines lista de airlines desejadas
      */
     vector<list<struct Airport>> getMinPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
@@ -119,15 +131,17 @@ public:
     vector<list<Airport>> getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
 
     /**
-     * @brief Devolve a distancia de um percurso
-     * Complexidade Temporal: O(n)
+     * @brief Devolve a distancia em Km de um percurso
+     * @details Complexidade Temporal: O(n)
+     *
      * @param airports
      */
     int pathDistance(list<Airport> airports);
 
     /**
      * @brief Determina os aeroportos a Xkm de uma determinada coordenada
-     * Complexidade Temporal: O(n)
+     * @details Complexidade Temporal: O(n)
+     *
      * @param lat
      * @param lon
      * @param kmdistance
@@ -136,14 +150,16 @@ public:
 
     /**
      * @brief Obtem uma lista de aeroportos de uma cidade
-     * Complexidade Temporal: O(n)
+     * @details Complexidade Temporal: O(n)
+     *
      * @param city
      */
     list<string> getCityAirports(const string& city);
 
     /**
-     * @brief Devolve os pontos de articulação
-     * Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
+     * @brief Devolve os pontos de articulação para um determinado conjunto de airlines
+     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
+     *
      * @param wantedAirlines
      */
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
@@ -153,75 +169,75 @@ public:
 
     /**
      * @brief Devolve uma lista de aeroportos que consegue atingir com um determinado número de voos
-     * Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
+     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
+     *
      * @param airportSrc
      * @param flights
      */
     list<Airport> getPossibleFlightsAirports(const string &airportSrc, int flights);
 
     /**
-     * @brief Devolve o número de voos
-     * Complexidade Temporal: O(1)
+     * @brief Devolve o número de voos de um determinado aeroporto
+     * @details Complexidade Temporal: O(1)
+     *
      * @param airport
      */
     int getNumberOfFlights(const string &airport);
 
     /**
-     * @brief Adiciona uma nova companhia aerea à lista de companhias aereas
-     * Complexidade Temporal: O(1)
-     * @param airline
-     */
-    void addAirline(const Airline &airline);
-
-    /**
-     * @brief Devolve os aeroportos que aterraram
-     * Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
+     * @brief Devolve uma lista de aeroportos possíveis de aterrar através de um determinado aeroporto
+     * @details Complexidade Temporal: O(n) onde n é o número de edges do node.
+     *
      * @param airport
      */
     list<Airport> getAirportsArrived(const string &airport);
 
     /**
-     * @brief Devolve as companhias aereas de um aeroporto
-     * Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
+     * @brief Devolve todas as companhias aereas de um aeroporto
+     * @details Complexidade Temporal: O(n) onde n é o número de elementos do set de airlines.
+     *
      * @param airport
      */
     list<Airline> getAirportAirlines(const string &airport);
 
     /**
-     * @brief Devolve o diametro de um grafo (a maior distânica entre dois nodes)
-     * Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
+     * @brief Devolve o diametro de um grafo (a maior distânica entre dois nodes), para um determinado conjunto de airlines
+     * @details Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
+     *
      * @param wantedAirlines
      */
     int getDiameter(const list<string> &wantedAirlines);
 
     /**
-     * @brief Devolve o número de Companhias Aereas
-     * Complexidade Temporal: O(1)
+     * @brief Devolve o número total de Companhias Aereas da Rede
+     * @details Complexidade Temporal: O(1)
      */
     int getTotalNumberOfAirlines();
 
     /**
-     * @brief Devolve o número de Aeroportos
-     * Complexidade Temporal: O(1)
+     * @brief Devolve o número total de Aeroportos da Rede
+     * @details Complexidade Temporal: O(1)
      */
     int getTotalNumberOfAirports();
 
     /**
-     * @brief Devolve o número de Voos
-     * Complexidade Temporal: O(1)
+     * @brief Devolve o número total de Voos da Rede
+     * @details Complexidade Temporal: O(1)
      */
     int getTotalNumberOfFlights();
 
     /**
-     * @brief Devolve  true no caso de existir uma determinada companhia aerea disponível e false caso contrário
-     * Complexidade Temporal: O(1)
+     * @brief Devolve true no caso de existir uma determinada companhia aerea existir e false caso contrário
+     * @details Complexidade Temporal: O(1)
+     *
      * @param airline
      */
     bool availableAirline(const string &airline);
 
     /**
-     * @brief Devolve  true no caso de existir um determinado aeroporto disponível e false caso contrário
-     * Complexidade Temporal: O(1)
+     * @brief Devolve  true no caso de um determinado aeroporto existir e false caso contrário
+     * @details Complexidade Temporal: O(1)
+     *
      * @param airport
      */
     bool availableAirport(const string &airport);
