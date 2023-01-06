@@ -49,19 +49,9 @@ public:
      * Complexidade Temporal: O(1)
      */
     void airport_ask();
-<<<<<<< HEAD
+
     void airport_Info(string airport);
-    void flight_info();
-    void country_info();
-    void network_info();
-=======
-    
-    /**
-     * @brief Função que cria uma interface para o menu informação dos aeroportos
-     * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
-     */
-    void airport_Info();
-    
+
     /**
      * @brief Função que cria uma interface para o menu informação dos voos
      * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
@@ -72,7 +62,6 @@ public:
      * @brief Função que indica as opções de voos para um aeroporto específico
      * Complexidade Temporal: O(1)
      */
->>>>>>> 3aced4f62840c534da28d235f74725407b67ac11
     void goAirport();
     
     /**
@@ -86,7 +75,8 @@ public:
      * Complexidade Temporal: O(1)
      */
     void goCoords();
-<<<<<<< HEAD
+
+
     void goArticulationP();
     void goDiameter();
     void goTopAirports();
@@ -97,59 +87,9 @@ public:
     void airlinesList(const string& airport);
     void countriesList(const string& airport);
     void flightsNum(string airport);
-    static void wait_B();
-
-    string getAirport();
     list<string> getAirlines();
-    string getCity();
-    double getLat();
-    double getLong();
     int getNum();
 
-=======
-    
-    /**
-     * @brief Função que imprime um painel com os voos
-     * Complexidade Temporal: O(1)
-     */
-    void departuresBoard();
-    
-    /**
-     * @brief Função que 
-     * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
-     */
-    void airlines_Info();
-    
-    /**
-     * @brief Função que 
-     * Complexidade Temporal: O(n) sendo n o número de vezes que o utilizador navega no menu
-     */
-    void destinationsList();
-    
-    /**
-     * @brief Função que retorna as diferentes cidades
-     * Complexidade Temporal: O(1) 
-     */
-    void airlinesList();
-    
-    /**
-     * @brief Função que os diferentes países
-     * Complexidade Temporal: O(1) 
-     */
-    void countriesList();
-    
-    /**
-     * @brief Função que apresenta o menu de seleção dos voos
-     * Complexidade Temporal: O(1)
-     */
-    void flights();
-    
-    /**
-     * @brief Função que imprime o número de voos
-     * Complexidade Temporal: O(1)
-     */
-    void flightsNum();
-    
     /**
      * @brief Função que permite ao utilizador voltar ao menu anterior
      * Complexidade Temporal: O(1)
@@ -172,19 +112,25 @@ public:
      * @brief Função que retorna a latitude de um aeroporto
      * Complexidade Temporal: O(1)
      */
-    static double getLat();
+    double getLat();
     
     /**
      * @brief Função que retorna a longitude de um aeroporto
      * Complexidade Temporal: O(1)
      */
-    static double getLong();
+    double getLong();
+
+
+    /**
+   * @brief Função que retorna os dados de um país
+   * Complexidade Temporal: O(1)
+   */
+    string getCountry();
     
     /**
      * @brief Função que 
      * Complexidade Temporal: O(1)
      */
->>>>>>> 3aced4f62840c534da28d235f74725407b67ac11
     void airlineTravel();
     
     /**
@@ -192,22 +138,10 @@ public:
      * Complexidade Temporal: O(1)
      */
     void anyTravel();
-<<<<<<< HEAD
+
+
     void airportReach(const string& airport);
-=======
-    
-    /**
-     * @brief Função que retorna os aeroportos que o utilizador pode alcançar através de um certo número de voos
-     * Complexidade Temporal: O(1)
-     */
-    void airportReach();
-    
-    /**
-     * @brief Função que retorna os dados de um país
-     * Complexidade Temporal: O(1)
-     */
->>>>>>> 3aced4f62840c534da28d235f74725407b67ac11
-    string getCountry();
+
 };
 
 

@@ -114,18 +114,15 @@ public:
      */
     vector<list<struct Airport>> getMinPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
-<<<<<<< HEAD
     vector<list<Airport>> getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);
 
     vector<list<Airport>> getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
 
-=======
     /**
      * @brief Devolve a distancia de um percurso
      * Complexidade Temporal: O(n)
      * @param airports
      */
->>>>>>> 3aced4f62840c534da28d235f74725407b67ac11
     int pathDistance(list<Airport> airports);
 
     /**
@@ -151,16 +148,8 @@ public:
      */
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
 
-<<<<<<< HEAD
     vector<string> getTopAirports(int number, string sortingWay);
-=======
-    /**
-     * @brief Obtem o melhor número de aeroportos
-     * Complexidade Temporal: O(n * log(n)) onde n é o número de nodes no grafo.
-     * @param number
-     */
-    vector<string> getTopAirports(int number);
->>>>>>> 3aced4f62840c534da28d235f74725407b67ac11
+
 
     /**
      * @brief Devolve uma lista de aeroportos que consegue atingir com um determinado número de voos
