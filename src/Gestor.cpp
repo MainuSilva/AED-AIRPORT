@@ -234,6 +234,14 @@ bool Gestor::conditionPaths(const list<Airport>& airportsA, const list<Airport>&
 
 }
 
+list<Airline> Gestor::getAllAirLinesFromCountry(const string& country){
+    return graph->getAirlinesFromCountry(country);
+}
+
+list<Airport> Gestor::getAllAirportsFromCountry(const string& country){
+    return graph->getAirportsFromCountry(country);
+}
+
 
 
 

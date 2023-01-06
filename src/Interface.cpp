@@ -28,28 +28,54 @@ string Interface::getAirport() {
     return airport;
 }
 
+list<string> Interface::airlines_select(){
+    char choice;
+    list<string> wantedAirlines = {};
+
+    cout << "\nDo you wish to specify any airlines to fly on? (Y/N): ";
+    do {
+        cin >> choice;
+        cin.ignore(INT16_MAX, '\n');
+
+        switch (choice) {
+
+            case 'N': case 'n':
+                return wantedAirlines;
+
+            case 'Y': case 'y':
+                wantedAirlines = getAirlines();
+                return wantedAirlines;
+
+            default:
+                cout << "\nInvalid Input, please try again" << endl;
+
+        }
+    }
+    while(true);
+}
 
 list<string> Interface::getAirlines() {
     list<string> airlines;
     bool stop_While = false;
 
     cout << "\nWrite 'S' when finished" << endl;
-    cout<< endl;
     do {
-        cout << "Insert airline's code: ";
+        cout << "\nInsert airline's code: ";
         string airline;
         cin >> airline;
         cin.ignore(INT16_MAX, '\n');
+        
+        
+        if(airline == "s" || airline == "S" && airlines.empty())
+            cout << " Must insert at least one airline";
 
-        if(airline == "s" || airline == "S")
+        else if(airline == "s" || airline == "S" )
             stop_While = true;
 
         else if (!gestor->availableAirline(airline))
-            cout << "\nThis airline doesn't exist, please try again";
+            cout << " This airline doesn't exist, please try again";
 
-        else{
-            airlines.push_back(airline);
-        }
+        else airlines.push_back(airline);
 
     } while (!stop_While);
 
@@ -61,6 +87,7 @@ string Interface::getCity(){
     bool stop_While = false;
 
     cout << "\nInsert City's name: ";
+
     do {
         cin >> city;
         cin.ignore(INT16_MAX, '\n');
@@ -80,7 +107,8 @@ string Interface::getCountry(){
     string country;
     bool stop_While = false;
 
-    cout << "\nInsert country's name: ";
+    cout << "\nInsert Country's name: ";
+
     do {
         cin >> country;
         cin.ignore(INT16_MAX, '\n');
@@ -136,6 +164,27 @@ double Interface::getLong(){
     return longitude;
 }
 
+double Interface::getDistance(){
+    double distance;
+    bool stop_While = false;
+
+    cout << "\nInsert distance in KM: ";
+    do {
+        cin >> distance;
+        cin.ignore(INT16_MAX, '\n');
+
+        if (distance <= 0)
+            cout << "\nInvalid distance, please try again";
+
+        else
+            stop_While = true;
+
+    } while (!stop_While);
+
+    return distance;
+
+}
+
 int Interface::getNum(){
     int numFlights;
     bool stop_While = false;
@@ -159,7 +208,7 @@ void Interface::wait_B(){
     char button;
     bool stop_While = false;
 
-    cout << "\n[B] Go Back\n" << endl;
+    cout << "\n[B] Go Back" << endl;
 
     while(!stop_While){
         cin >> button;
@@ -174,7 +223,7 @@ void Interface::wait_B(){
 bool Interface:: verifyExit(){
     char check;
 
-    cout << "\nAre you sure you want to exit? Y or N: ";
+    cout << "\nAre you sure you want to exit? (Y/N): ";
 
     do {
         cin >> check;
@@ -187,9 +236,7 @@ bool Interface:: verifyExit(){
             case'N': case'n': return false;
 
             default: cout << "\nInvalid Input, please try again" << endl;
-
         }
-
     }
     while(true);
 }
@@ -217,19 +264,85 @@ void Interface::showMenu() {
 
         switch (choice) {
             case '1':
-                flight_info();
+                flightInfo();
                 break;
 
             case '2':
-                airport_ask();
+                airportInfo();
                 break;
 
             case '3':
-                country_info();
+                countryInfo();
                 break;
 
             case '4':
-                network_info();
+                networkInfo();
+                break;
+
+            case 'E': case 'e':
+                end_prog = verifyExit();
+                break;
+
+            default:
+                cout << "\nInvalid Input, please try again" << endl;
+        }
+    }
+    while(!end_prog);
+}
+
+
+void Interface::airportInfo(){
+    //get Airport
+    string airport;
+    airport = getAirport();
+
+    char choice;
+    bool stop_While = false;
+    do {
+        if (end_prog) break;
+
+        cout << endl;
+        cout << "________________________________________" << endl;
+        cout << "|              Airport Info            |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|        [1] Number of Flights         |" << endl;
+        cout << "|        [2] Airlines List             |" << endl;
+        cout << "|        [3] City List                 |" << endl;
+        cout << "|        [4] Countries List            |" << endl;
+        cout << "|        [5] Airport Reach             |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|              [B] Go Back             |" << endl;
+        cout << "|              [E] Exit                |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << endl;
+        cout << "****************************************" << endl;
+        cout << "\nEnter Your Choice : ";
+        cin >> choice;
+        cin.ignore(INT16_MAX, '\n');
+
+        switch (choice) {
+            case '1':
+                flightsNum(airport); //lista de aeroportos que o aeroporto chega com 1 voo
+                break;
+
+            case '2':
+                airlinesList(airport); //lista de airlines do aeroporto
+                break;
+
+            case '3':
+                cityList(airport); //lista de cidades que o aeroporto chega com 1 voo
+                break;
+
+            case '4':
+                countriesList(airport); //lista de paises que o aeroporto chega com 1 voo
+                break;
+
+            case '5':
+                airportReach(airport); //lista de paises, cidades e aeroportos que o aeroporto chega com k voos
+                break;
+
+            case 'B': case 'b':
+                stop_While = true;
                 break;
 
             case 'E': case 'e':
@@ -241,20 +354,77 @@ void Interface::showMenu() {
 
         }
     }
-    while(!end_prog);
+    while(!stop_While);
+
 }
 
-void Interface::network_info() {
+void Interface::flightsNum(const string& airport){
+    cout << "\n================| " << airport << " airport Flights |================\n" << endl;
+
+    cout << airport << " airport has + " << gestor->getNumberOfAirportFlights(airport) << " flights scheduled";
+
+    wait_B();
+}
+
+void Interface::airlinesList(const string& airport) {
+    cout << "\n================| " << airport << " airport Airlines |================\n" << endl;
+
+    for (const auto& airline: gestor->getAirportAirlines(airport)) {
+        cout << airline.get_code() << " " << airline.get_name() << endl;
+    }
+
+    wait_B();
+}
+
+void Interface::cityList(const string& airport) { //cidades
+    cout << "\n================| " << airport << " airport Cities |================\n" << endl;
+
+    for (const auto& city: gestor->getCitiesArrived(airport)) {
+        cout << city << endl;
+    }
+
+    wait_B();
+}
+
+void Interface::countriesList(const string& airport) {
+    cout << "\n================| " << airport <<" airport Countries |================\n" << endl;
+
+    for (const auto& country: gestor->getCountriesArrived(airport)) {
+        cout << country << endl;
+    }
+
+    wait_B();
+}
+
+void Interface::airportReach(const string& airport) {
+    int numFlights, airportNum, cityNum, countryNum;
+
+    cout << "\n================| " << airport << " airport Reach |================" << endl;
+    cout << "\nInsert Number of Flights: ";
+    numFlights = getNum();
+
+    airportNum = gestor->getPossibleFlightsAirports(airport, numFlights).size();
+    cityNum = gestor->getPossibleFlightsCities(airport, numFlights).size();
+    countryNum = gestor->getPossibleFlightsCountries(airport,numFlights).size();
+
+    cout << "\nFrom this airport you can reach: " << airportNum << " airports, " << cityNum << " cities and " << countryNum << " countries with " << numFlights << " flights." << endl;
+
+    wait_B();
+}
+
+void Interface::networkInfo() {
     char choice;
     bool stop_While = false;
     do {
+        if(end_prog) break;
+
         cout << endl;
         cout << "________________________________________" << endl;
         cout << "|              Network Info            |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|        [1] Articulation Points       |" << endl;
         cout << "|        [2] Diameter                  |" << endl;
-        cout << "|        [3] Top Aiports               |" << endl;
+        cout << "|        [3] Top Airports              |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -288,7 +458,6 @@ void Interface::network_info() {
 
             default:
                 cout << "\nInvalid Input, please try again" << endl;
-
         }
     }
     while(!stop_While);
@@ -296,11 +465,43 @@ void Interface::network_info() {
 }
 
 void Interface::goArticulationP() {
+    list<string> wantedAirlines;
+    wantedAirlines = airlines_select();
+    list<string> artPoints = gestor->getArticulationPoints(wantedAirlines);
 
+    cout <<"\n=======| Articulation Points |=======" << endl;
+    cout << "\nThe";
+
+    if(wantedAirlines.empty()) {
+        cout << " total ";
+    }
+    cout<< "number of articulations ";
+
+    if(!wantedAirlines.empty()) {
+        cout << "for these airlines ";
+    }
+
+    cout << "is " << artPoints.size();
+
+    wait_B();
 }
 
 void Interface::goDiameter() {
+    list<string> wantedAirlines;
+    wantedAirlines = airlines_select();
+    list<string> artPoints = gestor->getArticulationPoints(wantedAirlines);
 
+    cout <<"\n=======| Diameter |=======" << endl;
+
+    cout << "\nThe maximum diameter ";
+
+    if(!wantedAirlines.empty()) {
+        cout << "for these airlines ";
+    }
+
+    cout << "is " << artPoints.size();
+
+    wait_B();
 }
 
 void Interface::goTopAirports() {
@@ -315,7 +516,6 @@ void Interface::goTopAirports() {
         cout << "|        [2] By Most Airlines          |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
-        cout << "|              [E] Exit                |" << endl;
         cout << "|______________________________________|" << endl;
         cout << endl;
         cout << "****************************************" << endl;
@@ -336,58 +536,55 @@ void Interface::goTopAirports() {
                 stop_While = true;
                 break;
 
-            case 'E': case 'e':
-                end_prog = verifyExit();
-                break;
-
             default:
                 cout << "\nInvalid Input, please try again" << endl;
-
         }
     }
     while(!stop_While);
 }
 
-
+// feita não é preciso alterar
 void Interface::goMostAirlines() {
-    int k;
-    int i=1;
-    cout << "Insert how many aiports you would like to see listed: ";
-    k= getNum();
-    cout << endl;
-    cout <<"====| Top "<< k <<" Airports by Airline Number |====" << endl;
-    for (auto a: gestor->getTopNumberAirports(k,"airlines")){
-        cout << i <<". " << a << endl;
-        i++;
+    int index = 1;
+    cout << "\nInsert how many airports you would like to see listed: ";
+    int k = getNum();
+    cout <<"\n====| Top "<< k <<" Airports by Airline Number |====" << endl;
+
+    for (const auto& airport: gestor->getTopNumberAirports(k,"airlines")){
+        cout << index++ <<". " << airport << endl;
     }
+
+    wait_B();
 }
 
+// feita não é preciso alterar
 void Interface::goMostFlights() {
-    int k;
-    int i=1;
-    cout << "Insert how many aiports you would like to see listed: ";
-    k= getNum();
-    cout << endl;
-    cout <<"====| Top "<< k <<" Airports by Flights Number |====" << endl;
-    for (auto a: gestor->getTopNumberAirports(k,"flights")){
-        cout << i <<". " << a << endl;
-        i++;
+    int index = 1;
+    cout << "\nInsert how many airports you would like to see listed: ";
+    int k = getNum();
+    cout <<"\n====| Top "<< k <<" Airports by Flights Number |====" << endl;
+
+    for (const auto& airport : gestor->getTopNumberAirports(k,"flights")){
+        cout << index++ <<". " << airport << endl;
     }
 
+    wait_B();
 }
 
 
-void::Interface::flight_info(){
+void::Interface::flightInfo(){
     char choice;
     bool stop_While = false;
     do {
+        if(end_prog) break;
+
         cout << endl;
         cout << "________________________________________" << endl;
         cout << "|              Flight Info             |" << endl;
         cout << "|______________________________________|" << endl;
-        cout << "|        [1] Travel to an airport      |" << endl;
-        cout << "|        [2] Travel to a city          |" << endl;
-        cout << "|        [3] Travel to a GPS location  |" << endl;
+        cout << "|      [1] Travel to an airport        |" << endl;
+        cout << "|      [2] Travel to a city            |" << endl;
+        cout << "|      [3] Travel to a GPS location    |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -429,111 +626,19 @@ void::Interface::flight_info(){
 }
 
 
-void::Interface::goAirport(){
-    string airport;
-    list<string> wantedAirlines;
-    list<Airport> path;
-
-    cout << "\n================| Airport |================" << endl;
-    cout << endl;
-    airport = getAirport();
-    wantedAirlines = airlines_select();
-
-    /*path = gestor->getMinPathTwoAirports()*/
-
-}
-
-void Interface::goCity(){
-    string city;
-    list<string> wantedAirlines;
-    list<Airport> path;
-
-    cout << "\n================| City |================" << endl;
-    cout << endl;
-    city = getCity();
-    wantedAirlines = airlines_select();
-
-
-}
-
-void Interface::goCoords(){
-    string latitude, longitude;
-    list<string> wantedAirlines;
-    list<Airport> path;
-
-    cout << "\n================| Coordinates |================" << endl;
-    cout << endl;
-    latitude = getLat();
-    longitude = getLong();
-    wantedAirlines = airlines_select();
-}
-
-list<string> Interface::airlines_select(){
-    char choice;
-    list<string> wantedAirlines = {};
-
-    do {
-        cout << endl;
-        cout << "Do you wish to specify any airlines to fly on? (Y/N): ";
-        cin >> choice;
-        cin.ignore(INT16_MAX, '\n');
-        cout << endl;
-
-        switch (choice) {
-
-            case 'N': case 'n':
-                return wantedAirlines;
-
-            case 'Y': case 'y':
-                wantedAirlines = getAirlines();
-                return wantedAirlines;
-
-            default:
-                cout << "\nInvalid Input, please try again" << endl;
-
-        }
-    }
-    while(true);
-
-}
-
-void Interface::anyTravel(){
-
-}
-
-void Interface::airlineTravel(){
-
-}
-
-void Interface::airport_ask(){
-    string airport;
-    cout << endl;
-    cout << "\n================| Airport |================" << endl;
-    cout << endl;
-    airport = getAirport();
-
-    airport_Info(airport);
-
-}
-
-void Interface::airport_Info(string airport){
+int::Interface::fromWhere(){
     char choice;
     bool stop_While = false;
     do {
-        if (end_prog) break;
-
         cout << endl;
         cout << "________________________________________" << endl;
-        cout << "|              Airport Info            |" << endl;
+        cout << "|             From Where?              |" << endl;
         cout << "|______________________________________|" << endl;
-        cout << "|        [1] Number of Flights         |" << endl;
-        cout << "|        [2] Airlines List             |" << endl;
-        cout << "|        [3] Destinations List         |" << endl;
-        cout << "|        [4] Countries List            |" << endl;
-        cout << "|        [5] Airport Reach             |" << endl;
+        cout << "|        [1] from airport              |" << endl;
+        cout << "|        [2] from city                 |" << endl;
+        cout << "|        [3] from GPS location         |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
-        cout << "|              [E] Exit                |" << endl;
         cout << "|______________________________________|" << endl;
         cout << endl;
         cout << "****************************************" << endl;
@@ -543,31 +648,16 @@ void Interface::airport_Info(string airport){
 
         switch (choice) {
             case '1':
-                flightsNum(airport);
-                break;
+                return 1;
 
             case '2':
-                airlinesList(airport);
-                break;
+                return 2;
 
             case '3':
-                cityList(airport); //cidades
-                break;
-
-            case '4':
-                countriesList(airport);
-                break;
-
-            case '5':
-                airportReach(airport);
-                break;
+                return 3;
 
             case 'B': case 'b':
                 stop_While = true;
-                break;
-
-            case 'E': case 'e':
-                end_prog = verifyExit();
                 break;
 
             default:
@@ -579,59 +669,303 @@ void Interface::airport_Info(string airport){
 
 }
 
-void Interface::airlinesList(const string& airport) {
-    for (const auto& a: gestor->getAirportAirlines(airport)) {
-        cout << a.get_code() << " " << a.get_name() << endl;
+
+void::Interface::goAirport(){
+    string airportDest;
+    list<string> wantedAirlines;
+    vector<list<Airport>> paths;
+    int from = fromWhere();
+
+    if(from == 1) {
+        cout << "\n================| Airport -> Airport |================" << endl;
+        cout << "\nSOURCE ";
+        string airportSrc = getAirport();
+
+        cout << "\nDESTINATION ";
+        airportDest = getAirport();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathTwoAirports(airportSrc, airportDest, wantedAirlines);
     }
 
-    wait_B();
+    if(from == 2) {
+        cout << "\n================| City -> Airport |================" << endl;
+        cout << "\nSOURCE";
+        string citySrc = getCity();
 
-}
+        cout << "\nDESTINATION ";
+        airportDest = getAirport();
 
-void Interface::countriesList(const string& airport) {
-    for (const auto& a: gestor->getCountriesArrived(airport)) {
-        cout << a << endl;
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathCityToAir( citySrc, airportDest, wantedAirlines);
     }
 
-    wait_B();
-}
+    if(from == 3) {
+        cout << "\n================| GPS Location -> Airport |================" << endl;
+        cout << "\nSOURCE ";
+        double lat = getLat();
+        double lon = getLong();
+        double distance = getDistance();
 
-void Interface::cityList(const string& airport) { //cidades
-    for (const auto& a: gestor->getCitiesArrived(airport)) {
-        cout << a << endl;
+        cout << "\nDESTINATION ";
+        airportDest = getAirport();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathLocationToAir( lat, lon, distance, airportDest, wantedAirlines);
     }
 
-    wait_B();
-}
+    int index = 1;
 
-void Interface::airportReach(const string& airport) {
-    int numFlights, airportNum, cityNum, countryNum;
+    for(const list<Airport>& path : paths){
+        cout << "\n" << index << ". PATH" << endl;
 
-    cout << "\n================| Airport Reach |================" << endl;
+        int count = 0;
+        for(const Airport& air : path){
+            count++;
+            if(count == 1)
+                cout << air.get_code();
+            else
+                cout << "->" << air.get_code();
+        }
+        index++;
+    }
+
     cout << endl;
-    cout << "\nInsert Number of Flights: ";
-    numFlights= getNum();
+    wait_B();
+
+}
+
+void Interface::goCity(){
+    string city;
+    list<string> wantedAirlines;
+    vector<list<Airport>> paths;
+    int from = fromWhere();
+
+    if(from == 1) {
+        cout << "\n================| Airport -> City |================" << endl;
+        cout << "\nSOURCE ";
+        string airportSrc = getAirport();
+
+        cout << "\nDESTINATION ";
+        city = getCity();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathAirToCity(airportSrc, city, wantedAirlines);
+    }
+
+    if(from == 2) {
+        cout << "\n================| City -> City |================" << endl;
+        cout << "\nSOURCE ";
+        string citySrc = getCity();
+
+        cout << "\nDESTINATION ";
+        city = getCity();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathCityToCity( citySrc, city, wantedAirlines);
+    }
+
+    if(from == 3) {
+        cout << "\n================| GPS Location -> City |================" << endl;
+        cout << "\nSOURCE ";
+        double lat = getLat();
+        double lon = getLong();
+        double distance = getDistance();
+
+        cout << "\nDESTINATION ";
+        city = getCity();
+
+        cout << "\nSELECT AIRLINES: ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathLocationToCity( lat, lon, distance, city, wantedAirlines);
+    }
+
+
+    int index = 1;
+
+    for(const list<Airport>& path : paths){
+        cout << "\n" << index << ". PATH" << endl;
+
+        int count = 0;
+        for(const Airport& air : path){
+            count++;
+            if(count == 1)
+                cout << air.get_code();
+            else
+                cout << "->" << air.get_code();
+        }
+        index++;
+    }
+
     cout << endl;
+    wait_B();
 
-    airportNum = gestor->getPossibleFlightsAirports(airport, numFlights).size();
-    cityNum = gestor->getPossibleFlightsCities(airport, numFlights).size();
-    countryNum = gestor->getPossibleFlightsCountries(airport,numFlights).size();
+}
+
+void Interface::goCoords(){
+    double lat, lon, distance;
+    list<string> wantedAirlines;
+    vector<list<Airport>> paths;
+    int from = fromWhere();
+
+    if(from == 1) {
+        cout << "\n================| Airport -> GPS Location |================" << endl;
+        cout << "\nSOURCE ";
+        string airportSrc = getAirport();
+
+        cout << "\nDESTINATION ";
+        lat = getLat();
+        lon = getLong();
+        distance = getDistance();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathAirToLocation(airportSrc, lat, lon, distance, wantedAirlines);
+    }
+
+    if(from == 2) {
+        cout << "\n================| City -> GPS Location |================" << endl;
+        cout << "\nSOURCE ";
+        string citySrc = getCity();
+
+        cout << "\nDESTINATION ";
+        lat = getLat();
+        lon = getLong();
+        distance = getDistance();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathCityToLocation( citySrc, lat, lon, distance, wantedAirlines);
+    }
+
+    if(from == 3) {
+        cout << "\n================| GPS Location -> GPS Location |================" << endl;
+        cout << "\nSOURCE ";
+        double lat2 = getLat();
+        double lon2 = getLong();
+        double distance2 = getDistance();
+
+        cout << "\nDESTINATION ";
+        lat = getLat();
+        lon = getLong();
+        distance = getDistance();
+
+        cout << "\nSELECT AIRLINES ";
+        wantedAirlines = airlines_select();
+
+        paths = gestor->getMinPathLocationToLocation( lat, lon, distance, lat2, lon2, distance2, wantedAirlines);
+    }
 
 
-    cout << "From this airport you can reach: " << airportNum << " airports, " << cityNum << " cities and " << countryNum << " countries with " << numFlights << " flights." << endl;
+    int index = 1;
+
+    for(const list<Airport>& path : paths){
+
+        cout << "\n" << index << ". PATH" << endl;
+
+        int count = 0;
+        for(const Airport& air : path){
+            count++;
+            if(count == 1)
+                cout << air.get_code();
+            else
+                cout << "->" << air.get_code();
+        }
+        index++;
+    }
+
+    cout << endl;
+    wait_B();
+}
+
+void Interface::anyTravel(){
+
+}
+
+void Interface::airlineTravel(){
+
+}
+
+void Interface::countryInfo() {
+    string country;
+    country = getCountry();
+
+    char choice;
+    bool stop_While = false;
+    do {
+        if (end_prog) break;
+
+        cout << endl;
+        cout << "________________________________________" << endl;
+        cout << "|              Country Info            |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|           [1] Airports List          |" << endl;
+        cout << "|           [2] Airlines List          |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|              [B] Go Back             |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << endl;
+        cout << "****************************************" << endl;
+        cout << "\nEnter Your Choice : ";
+        cin >> choice;
+        cin.ignore(INT16_MAX, '\n');
+
+        switch (choice) {
+            case '1':
+                AirportsNumCountry(country);
+                break;
+
+            case '2':
+                airlinesListCountry(country);
+                break;
+
+            case 'B': case 'b':
+                stop_While = true;
+                break;
+
+            default:
+                cout << "\nInvalid Input, please try again" << endl;
+
+        }
+    }
+    while(!stop_While);
+
+}
+
+
+void Interface::AirportsNumCountry(string country) {
+    cout << endl;
+    cout << "Number of airports from " + country  + ": " << gestor->getAllAirportsFromCountry(country).size() << endl;
+    cout << endl;
+    cout << "\n================| " + country +" Airports |================\n" << endl;
+    for (const auto& airport: gestor->getAllAirportsFromCountry(country)) {
+        cout << airport.get_code() << " " << airport.get_name() << endl;
+    }
 
     wait_B();
 }
 
-
-
-void Interface::flightsNum(string airport){
-
-    cout << airport << " airport has " << gestor->getNumberOfAirportFlights(airport) << " flights scheduled";
+void Interface::airlinesListCountry(const string& country) {
+    cout << endl;
+    cout << "Number of airlines from " + country  + ": " << gestor->getAllAirLinesFromCountry(country).size() << endl;
+    cout << endl;
+    cout << "\n================| " + country +" Airlines |================\n" << endl;
+    for (const auto& airline: gestor->getAllAirLinesFromCountry(country)) {
+        cout << airline.get_code() << " " << airline.get_name() << endl;
+    }
 
     wait_B();
-}
-
-void Interface::country_info() {
-
 }

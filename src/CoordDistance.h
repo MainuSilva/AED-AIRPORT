@@ -24,8 +24,23 @@ class CoordDistance {
 
 public:
 
+    /**
+     * @brief
+     * Time Complexity:
+     * @param airportSrc
+     * @param airportDest
+     * @return
+     */
     static double haversine(Airport &airportSrc, Airport &airportDest);
 
+    /**
+     * @brief
+     * Time Complexity:
+     * @param lat
+     * @param lon
+     * @param airportDest
+     * @return
+     */
     static double haversine(double lat, double lon, Airport &airportDest);
 };
 

@@ -287,6 +287,10 @@ public:
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathLocationToAir(double lat, double lon, double kmDistance, const string &airportDest, const list<string> &wantedAirlines);
+
+    list<Airline> getAllAirLinesFromCountry(const string &country);
+
+    list<Airport> getAllAirportsFromCountry(const string &country);
 };
 
 

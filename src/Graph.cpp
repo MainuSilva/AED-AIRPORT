@@ -37,8 +37,10 @@ void Graph::addEdge(const string& src, const string& dest, const string& airline
 void Graph::restart(){
     for(auto &node: nodes) {
         node.second.visited = false;
+        node.second.inStack = false;
+        node.second.inArt = false;
         node.second.pred = "dummy";
-        node.second.distance = -1;
+        node.second.distance = INT_MAX;
         node.second.num = INT_MAX;
         node.second.low = INT_MAX;
     }
@@ -95,6 +97,7 @@ int Graph::bfsDiameter(const string& v, const list<string> &wantedAirlines = {})
 
 //determinar o as de articulações da rede de determinadas companhias
 void Graph::dfsArticulations(const string& v, stack<string>& s, const list<string>& wantedAirlines, list<string>& result, int index){
+    nodes[v].visited = true;
     nodes[v].num = index;
     nodes[v].low = index;
     index++;
@@ -123,6 +126,7 @@ void Graph::dfsArticulations(const string& v, stack<string>& s, const list<strin
             nodes[v].inArt = true;
         }
     }
+    nodes[s.top()].inStack = false;
     s.pop();
 }
 
@@ -183,7 +187,7 @@ int Graph::getTotalNumberOfAirports() {
 int Graph::getTotalNumberOfFlights(){
     int result= 0;
     for(auto node: nodes){
-        result+= node.second.adj.size();
+        result += node.second.adj.size();
     }
 }
 
@@ -218,7 +222,7 @@ list<Airport> Graph::getPossibleFlightsAirports(const string& airportSrc, int fl
     bfs(airportSrc);
 
     for(const auto& node: nodes){
-        if(node.second.distance <= flights)
+        if(node.second.distance <= flights && node.second.distance > 0)
             result.push_back(node.second.airport);
     }
 
@@ -245,8 +249,8 @@ bool Graph::hasCommonAirlines(const list<string>& airlines1, const list<string>&
 }
 
 list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {}){
-    list<string> result;
     restart();
+    list<string> result;
     stack<string> s;
     for(const auto& node : nodes){
         if(!node.second.visited)
@@ -387,12 +391,14 @@ vector<string> Graph::getTopAirports(int number, string sortingWay) {
             return nodes[a].adj.size() > nodes[b].adj.size();
         });
     }
-    else if (sortingWay == "airlines") {
+
+    if (sortingWay == "airlines") {
         sort(airports.begin(), airports.end(), [&](const string &a, const string &b) {
             // Sort by number of airlines
             return nodes[a].allAirlines > nodes[b].allAirlines;
         });
     }
+
     return vector<string>(airports.begin(), airports.begin() + number);
 }
 
@@ -408,4 +414,24 @@ bool Graph::availableAirline(const string& airline){
     if(result == airlines.end())
         return false;
     return true;
+}
+
+list<Airline> Graph::getAirlinesFromCountry(const string& country){
+    list<Airline> result;
+    for(const auto& airline: airlines){
+        if (airline.second.get_country() == country) {
+            result.push_back(airline.second);
+        }
+    }
+    return result;
+}
+
+list<Airport> Graph::getAirportsFromCountry(const string& country){
+    list<Airport> result;
+    for(const auto& node: nodes){
+        if (node.second.airport.get_country() == country) {
+            result.push_back(node.second.airport);
+        }
+    }
+    return result;
 }

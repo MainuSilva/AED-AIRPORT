@@ -226,6 +226,9 @@ public:
      */
     bool availableAirport(const string &airport);
 
+    list<Airline> getAirlinesFromCountry(const string &country);
+
+    list<Airport> getAirportsFromCountry(const string &country);
 };
 
 #endif //AED_AIR_GRAPH_H

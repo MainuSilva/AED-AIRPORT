@@ -6,7 +6,7 @@
 using namespace std;
 
 /**
- * @brief Classe que representa uma aula
+ * @brief Classe que representa uma companhia aerea
  */
 
 class Airline {
@@ -31,7 +31,7 @@ public:
     Airline();
     
     /**
-    * @brief Função que cria um novo objeto `Airline` com os valores especificados para os seus campos
+    * @brief Função que cria um novo objeto 'Airline' com os valores especificados para os seus campos
     * Complexidade temporal O(1)
     * @param code
     * @param name

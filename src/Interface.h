@@ -23,7 +23,6 @@ private:
     bool end_prog;
 
 public:
-    
     /**
      * @brief Constructor da Classe
      * Complexidade Temporal: O(1)
@@ -43,20 +42,15 @@ public:
      * @return true se o utilizador pretender sair (pressionando Y) ou false se o utilizador pretender continuar a utilizar o programa (pressionando N)
      */
     bool verifyExit();
-    
-    /**
-     * @brief Função que 
-     * Complexidade Temporal: O(1)
-     */
-    void airport_ask();
 
-    void airport_Info(string airport);
+
+    void airportInfo();
 
     /**
      * @brief Função que cria uma interface para o menu informação dos voos
      * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
      */
-    void flight_info();
+    void flightInfo();
     
     /**
      * @brief Função que indica as opções de voos para um aeroporto específico
@@ -85,8 +79,10 @@ public:
     list<string> airlines_select();
     void cityList(const string& airport);
     void airlinesList(const string& airport);
+    void airlinesListCountry(const string& country);
     void countriesList(const string& airport);
-    void flightsNum(string airport);
+    void flightsNum(const string& airport);
+    void AirportsNumCountry(string country);
     list<string> getAirlines();
     int getNum();
 
@@ -141,10 +137,15 @@ public:
 
 
     void airportReach(const string& airport);
+    void airportReachCountry(const string& country);
 
-    void network_info();
+    void networkInfo();
 
-    void country_info();
+    void countryInfo();
+
+    int fromWhere();
+
+    double getDistance();
 };
 
 
