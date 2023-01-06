@@ -189,7 +189,7 @@ public:
 
     /**
      * @brief Devolve o diametro de um grafo (a maior distânica entre dois nodes)
-     * Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
+     * Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
      * @param wantedAirlines
      */
     int getDiameter(const list<string> &wantedAirlines);

@@ -244,10 +244,6 @@ void Interface::showMenu() {
     while(!end_prog);
 }
 
-void Interface::country_info(){
-
-}
-
 void Interface::network_info() {
     char choice;
     bool stop_While = false;
@@ -443,7 +439,7 @@ void::Interface::goAirport(){
     airport = getAirport();
     wantedAirlines = airlines_select();
 
-    path = gestor->getMinPathTwoAirports()
+    /*path = gestor->getMinPathTwoAirports()*/
 
 }
 
@@ -583,10 +579,6 @@ void Interface::airport_Info(string airport){
 
 }
 
-void Interface::network_info() {
-
-}
-
 void Interface::airlinesList(const string& airport) {
     for (const auto& a: gestor->getAirportAirlines(airport)) {
         cout << a.get_code() << " " << a.get_name() << endl;
@@ -638,4 +630,8 @@ void Interface::flightsNum(string airport){
     cout << airport << " airport has " << gestor->getNumberOfAirportFlights(airport) << " flights scheduled";
 
     wait_B();
+}
+
+void Interface::country_info() {
+
 }

@@ -142,6 +142,9 @@ public:
 
     void airportReach(const string& airport);
 
+    void network_info();
+
+    void country_info();
 };
 
 
