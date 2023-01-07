@@ -103,67 +103,81 @@ bool Gestor::availableAirline(const string& airline) {
 
 //aeroporto para aeroporto
 vector<list<Airport>> Gestor::getMinPathTwoAirports(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}){
-    return graph->findMinPathsAirportsBfs(airportSrc, airportDest, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsAirportsBfs(airportSrc, airportDest, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //aeroporto para localização
 vector<list<Airport>> Gestor:: getMinPathAirToCity(const string& airportSrc, const string& city, const list<string>& wantedAirlines = {}){
     list<string> cityAirports = graph->getCityAirports(city);
-    return graph->findMinPathsAirToLocationBfs(airportSrc, cityAirports, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsAirToLocationBfs(airportSrc, cityAirports, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //aeroporto para localização
 vector<list<Airport>> Gestor:: getMinPathAirToLocation(const string& airportSrc, double lat, double lon, double kmDistance, const list<string>& wantedAirlines = {}){
     list<string> locationAirports = graph->getLocationAirports(lat, lon, kmDistance);
-    return graph->findMinPathsAirToLocationBfs(airportSrc, locationAirports, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsAirToLocationBfs(airportSrc, locationAirports, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //localização para localização
 vector<list<Airport>> Gestor:: getMinPathLocationToLocation(double lat1, double lon1, double kmDistance1, double lat2, double lon2, double kmDistance2, const list<string>& wantedAirlines = {}){
     list<string> source = graph ->getLocationAirports(lat1, lon1 , kmDistance1);
     list<string> destination= graph ->getLocationAirports(lat2, lon2 , kmDistance2);
-    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //localização para cidade
 vector<list<Airport>> Gestor:: getMinPathLocationToCity(double lat, double lon, double kmDistance, const string& city, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getLocationAirports(lat, lon , kmDistance);
     list<string> destination = graph -> getCityAirports(city);
-    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //cidade para localização
 vector<list<Airport>> Gestor:: getMinPathCityToLocation( const string& city, double lat, double lon, double kmDistance, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city);
     list<string> destination = graph -> getLocationAirports(lat, lon , kmDistance);
-    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    vector<list<Airport>> paths =   graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //cidade para cidade
 vector<list<Airport>> Gestor:: getMinPathCityToCity( const string& city1, const string& city2, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city1);
     list<string> destination = graph -> getCityAirports(city2);
-    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    vector<list<Airport>> paths =  graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //cidade para aeroporto
 vector<list<Airport>> Gestor:: getMinPathCityToAir( const string& city, const string& airportDest, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city);
-    return graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 //localização para aeroporto
 vector<list<Airport>> Gestor:: getMinPathLocationToAir( double lat, double lon, double kmDistance, const string& airportDest, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getLocationAirports(lat, lon , kmDistance);
-    return graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
+    vector<list<Airport>> paths = graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
+    sort(paths.begin(), paths.end(), [this](list<Airport> &a, list<Airport> &b){ return getPathDistance(a) < getPathDistance(b); });
+    return paths;
 }
 
 list<string> Gestor::getArticulationPoints(const list<string>& wantedAirlines = {}){
     return graph->getArticulationPoints(wantedAirlines);
-}
-
-int Gestor::getNumberOfAirportFlights(const string& airport){
-    return graph->getNumberOfFlights(airport);
 }
 
 list<Airline> Gestor::getAirportAirlines(const string& airport){
@@ -261,9 +275,4 @@ list<pair<string,string>> Gestor::getDepartureBoard(const string& airport) {
 
 int Gestor::getPathDistance( const list<Airport>& path){
     return graph->pathDistance(path);
-}
-
-// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
-bool Gestor::conditionPaths(const list<Airport>& airportsA, const list<Airport>&airportsB){
-    return getPathDistance(airportsA) < getPathDistance(airportsB);
 }

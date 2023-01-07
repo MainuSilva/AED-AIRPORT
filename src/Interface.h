@@ -122,22 +122,9 @@ public:
    * Complexidade Temporal: O(1)
    */
     string getCountry();
-    
-    /**
-     * @brief Função que 
-     * Complexidade Temporal: O(1)
-     */
-    void airlineTravel();
-    
-    /**
-     * @brief Função que 
-     * Complexidade Temporal: O(1)
-     */
-    void anyTravel();
 
 
     void airportReach(const string& airport);
-    void airportReachCountry(const string& country);
 
     void networkInfo();
 

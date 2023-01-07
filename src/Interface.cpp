@@ -314,7 +314,7 @@ void Interface::airportInfo(){
 
         cout << endl;
         cout << "________________________________________" << endl;
-        cout << "|             Airport Info             |" << endl;
+        cout << "|          " << airport << " airport Info            |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|        [1] Flight Board              |" << endl;
         cout << "|        [2] Airports List             |" << endl;
@@ -687,6 +687,7 @@ void::Interface::flightInfo(){
         cout << endl;
         cout << "________________________________________" << endl;
         cout << "|              Flight Info             |" << endl;
+        cout << "|  Shortest paths in order of distance |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|      [1] Travel to an airport        |" << endl;
         cout << "|      [2] Travel to a city            |" << endl;

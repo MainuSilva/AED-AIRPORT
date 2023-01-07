@@ -135,15 +135,6 @@ public:
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
 
     /**
-    * @brief Função que devolve o número de voos de um aeroporto
-    * @details Complexidade temporal O(1)
-    *
-    * @param airport
-    * @return O dado que se pretendia aceder
-    */
-    int getNumberOfAirportFlights(const string& airport);
-
-    /**
     * @brief Função que devolve o número de companhias aereas de um aeroporto
     * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
     *
@@ -226,16 +217,6 @@ public:
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<string> getTopNumberAirports(int number, string sortingWay);
-
-    /**
-    * @brief Função que ordena o vetor de paths por ordem crescente de distância de path
-    * @details Complexidade temporal O(n), onde n é o tamanho do input das listas airportsA e airportsB
-    *
-    * @param airportsA
-    * @param airportsB
-    * @return true se a distância em airportsA for menor que em airportsB, false caso contrário
-    */
-    bool conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB);
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma localização de destino
