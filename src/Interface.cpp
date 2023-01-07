@@ -305,8 +305,8 @@ void Interface::airportInfo(){
         cout << "________________________________________" << endl;
         cout << "|              Airport Info            |" << endl;
         cout << "|______________________________________|" << endl;
-        cout << "|        [1] Number of Flights         |" << endl;
-        cout << "|        [2] Flight Board              |" << endl;
+        cout << "|        [1] Flight Board              |" << endl;
+        cout << "|        [2] Airports List             |" << endl;
         cout << "|        [3] Airlines List             |" << endl;
         cout << "|        [4] City List                 |" << endl;
         cout << "|        [5] Countries List            |" << endl;
@@ -323,11 +323,11 @@ void Interface::airportInfo(){
 
         switch (choice) {
             case '1':
-                flightsNum(airport); //lista de aeroportos que o aeroporto chega com 1 voo
+                flightBoard(airport);
                 break;
 
             case '2':
-                flightBoard(airport);
+                airportsList(airport); //lista de aeroportos que o aeroporto chega com 1 voo
                 break;
 
             case '3':
@@ -363,10 +363,45 @@ void Interface::airportInfo(){
 
 }
 
-void Interface::flightsNum(const string& airport){
-    cout << "\n================| " << airport << " airport Flights |================\n" << endl;
 
-    cout << airport << " airport has + " << gestor->getNumberOfAirportFlights(airport) << " flights scheduled";
+void Interface::flightBoard(const string& airport) {
+
+    list <pair <string,string>> board= gestor->getDepartureBoard(airport);
+
+    cout << "____________________________________________________" << endl;
+    cout << "|                   "<< airport << " DEPARTURES                 |" << endl;
+    cout << "|__________________________________________________|" << endl;
+    cout << "|        Flight         |         Airline          |" << endl;
+    cout << "|_______________________|__________________________|" << endl;
+
+    for (const auto& elem: board){
+        cout << "|       " << airport <<"->"<< elem.first << "        |           "<< elem.second << "            |" << endl;
+        cout << "|_______________________|__________________________|" << endl;
+    }
+
+    cout<< "\nSCHEDULED FLIGHTS" << endl;
+    cout << airport << " airport has " <<  board.size() << " flights scheduled" << endl;
+
+    wait_B();
+}
+
+
+void Interface::airportsList(const string& airport){
+    cout << "\n================| " << airport << " airport -> Airports |================\n" << endl;
+
+    for (const auto& air: gestor->getAirportsArrived(airport)) {
+        cout << air.get_code() << " " << air.get_name() << endl;
+    }
+
+    wait_B();
+}
+
+void Interface::cityList(const string& airport) { //cidades
+    cout << "\n================| " << airport << " airport -> Cities |================\n" << endl;
+
+    for (const auto& city: gestor->getCitiesArrived(airport)) {
+        cout << city << endl;
+    }
 
     wait_B();
 }
@@ -381,18 +416,8 @@ void Interface::airlinesList(const string& airport) {
     wait_B();
 }
 
-void Interface::cityList(const string& airport) { //cidades
-    cout << "\n================| " << airport << " airport Cities |================\n" << endl;
-
-    for (const auto& city: gestor->getCitiesArrived(airport)) {
-        cout << city << endl;
-    }
-
-    wait_B();
-}
-
 void Interface::countriesList(const string& airport) {
-    cout << "\n================| " << airport <<" airport Countries |================\n" << endl;
+    cout << "\n================| " << airport <<" airport -> Countries |================\n" << endl;
 
     for (const auto& country: gestor->getCountriesArrived(airport)) {
         cout << country << endl;
@@ -530,6 +555,46 @@ void Interface::goDiameter() {
     }
 
     cout << "is " << artPoints.size() << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalFlights(){
+    int totalFlights = gestor->getTotalNumberOfFlights();
+    cout << "\n================| Total Flights |================" << endl;
+    cout << "\nThere is a total total of " << totalFlights << " flights in this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalAirports() {
+    int totalAirports = gestor->getTotalNumberOfAirports();
+    cout << "\n================| Total Airports |================" << endl;
+    cout << "\nA total of " << totalAirports << " airports are covered by this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalAirlines() {
+    int totalAirlines = gestor->getTotalNumberOfAirlines();
+    cout << "\n================| Total Airlines |================" << endl;
+    cout << "\nA total of " << totalAirlines << " airlines fly in this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalCities() {
+    int totalCities = gestor->getTotalNumberOfCities();
+    cout << "\n================| Total Cities |================" << endl;
+    cout << "\nA total of " << totalCities << " cities are covered by this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalCountries() {
+    int totalCountries = gestor->getTotalNumberOfCountries();
+    cout << "\n================| Total Countries |================" << endl;
+    cout << "\nA total of " << totalCountries << " countries are covered by this network." << endl;
 
     wait_B();
 }
@@ -920,14 +985,6 @@ void Interface::goCoords(){
     wait_B();
 }
 
-void Interface::anyTravel(){
-
-}
-
-void Interface::airlineTravel(){
-
-}
-
 void Interface::countryInfo() {
     string country;
     country = getCountry();
@@ -992,64 +1049,6 @@ void Interface::airlinesListCountry(const string& country) {
     cout << endl;
     for (const auto& airline: gestor->getAllAirLinesFromCountry(country)) {
         cout << airline.get_code() << " " << airline.get_name() << endl;
-    }
-
-    wait_B();
-}
-
-void Interface::goTotalAirports() {
-    int totalAirports = gestor->getTotalNumberOfAirports();
-    cout << "\n================| Total Airports |================" << endl;
-    cout << "\nA total of " << totalAirports << " airports are covered by this network." << endl;
-
-    wait_B();
-}
-
-void Interface::goTotalFlights(){
-    int totalFlights = gestor->getTotalNumberOfFlights();
-    cout << "\n================| Total Flights |================" << endl;
-    cout << "\nThere is a total total of " << totalFlights << " flights in this network." << endl;
-
-    wait_B();
-}
-
-void Interface::goTotalAirlines() {
-    int totalAirlines = gestor->getTotalNumberOfAirlines();
-    cout << "\n================| Total Airlines |================" << endl;
-    cout << "\nA total of " << totalAirlines << " airlines fly in this network." << endl;
-
-    wait_B();
-}
-
-void Interface::goTotalCities() {
-    int totalCities = gestor->getTotalNumberOfCities();
-    cout << "\n================| Total Cities |================" << endl;
-    cout << "\nA total of " << totalCities << " cities are covered by this network." << endl;
-
-    wait_B();
-}
-
-void Interface::goTotalCountries() {
-    int totalCountries = gestor->getTotalNumberOfCountries();
-    cout << "\n================| Total Countries |================" << endl;
-    cout << "\nA total of " << totalCountries << " countries are covered by this network." << endl;
-
-    wait_B();
-}
-
-void Interface::flightBoard(const string& airport) {
-
-    list <pair <string,string>> board= gestor->getDepartureBoard(airport);
-
-    cout << "____________________________________________________" << endl;
-    cout << "|                   "<< airport << " DEPARTURES                 |" << endl;
-    cout << "|__________________________________________________|" << endl;
-    cout << "|        Flight         |         Airline          |" << endl;
-    cout << "|_______________________|__________________________|" << endl;
-
-    for (const auto& elem: board){
-        cout << "|       " << airport <<"->"<< elem.first << "        |           "<< elem.second << "            |" << endl;
-        cout << "|_______________________|__________________________|" << endl;
     }
 
     wait_B();

@@ -102,59 +102,59 @@ bool Gestor::availableAirline(const string& airline) {
 
 //aeroporto para aeroporto
 vector<list<Airport>> Gestor::getMinPathTwoAirports(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}){
-    return graph->findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
+    return graph->findMinPathsAirportsBfs(airportSrc, airportDest, wantedAirlines);
 }
 
 //aeroporto para localização
 vector<list<Airport>> Gestor:: getMinPathAirToCity(const string& airportSrc, const string& city, const list<string>& wantedAirlines = {}){
     list<string> cityAirports = graph->getCityAirports(city);
-    return graph->getMinPathsAirportsBfs(airportSrc, cityAirports, wantedAirlines);
+    return graph->findMinPathsAirToLocationBfs(airportSrc, cityAirports, wantedAirlines);
 }
 
 //aeroporto para localização
 vector<list<Airport>> Gestor:: getMinPathAirToLocation(const string& airportSrc, double lat, double lon, double kmDistance, const list<string>& wantedAirlines = {}){
     list<string> locationAirports = graph->getLocationAirports(lat, lon, kmDistance);
-    return graph->getMinPathsAirportsBfs(airportSrc, locationAirports, wantedAirlines);
+    return graph->findMinPathsAirToLocationBfs(airportSrc, locationAirports, wantedAirlines);
 }
 
 //localização para localização
 vector<list<Airport>> Gestor:: getMinPathLocationToLocation(double lat1, double lon1, double kmDistance1, double lat2, double lon2, double kmDistance2, const list<string>& wantedAirlines = {}){
     list<string> source = graph ->getLocationAirports(lat1, lon1 , kmDistance1);
     list<string> destination= graph ->getLocationAirports(lat2, lon2 , kmDistance2);
-    return graph->getMinPathsLocationsBfs(source, destination, wantedAirlines);
+    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
 }
 
 //localização para cidade
 vector<list<Airport>> Gestor:: getMinPathLocationToCity(double lat, double lon, double kmDistance, const string& city, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getLocationAirports(lat, lon , kmDistance);
     list<string> destination = graph -> getCityAirports(city);
-    return graph->getMinPathsLocationsBfs(source, destination, wantedAirlines);
+    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
 }
 
 //cidade para localização
 vector<list<Airport>> Gestor:: getMinPathCityToLocation( const string& city, double lat, double lon, double kmDistance, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city);
     list<string> destination = graph -> getLocationAirports(lat, lon , kmDistance);
-    return graph->getMinPathsLocationsBfs(source, destination, wantedAirlines);
+    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
 }
 
 //cidade para cidade
 vector<list<Airport>> Gestor:: getMinPathCityToCity( const string& city1, const string& city2, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city1);
     list<string> destination = graph -> getCityAirports(city2);
-    return graph->getMinPathsLocationsBfs(source, destination, wantedAirlines);
+    return graph->findMinPathsLocationsBfs(source, destination, wantedAirlines);
 }
 
 //cidade para aeroporto
 vector<list<Airport>> Gestor:: getMinPathCityToAir( const string& city, const string& airportDest, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getCityAirports(city);
-    return graph->getMinPathsLocationToAirportBfs(source, airportDest, wantedAirlines);
+    return graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
 }
 
 //localização para aeroporto
 vector<list<Airport>> Gestor:: getMinPathLocationToAir( double lat, double lon, double kmDistance, const string& airportDest, const list<string>& wantedAirlines = {}){
     list<string> source = graph -> getLocationAirports(lat, lon , kmDistance);
-    return graph->getMinPathsLocationToAirportBfs(source, airportDest, wantedAirlines);
+    return graph->findMinPathsLocationToAirBfs(source, airportDest, wantedAirlines);
 }
 
 list<string> Gestor::getArticulationPoints(const list<string>& wantedAirlines = {}){

@@ -81,7 +81,7 @@ public:
     void airlinesList(const string& airport);
     void airlinesListCountry(const string& country);
     void countriesList(const string& airport);
-    void flightsNum(const string& airport);
+    void airportsList(const string& airport);
     void AirportsNumCountry(string country);
     list<string> getAirlines();
     int getNum();

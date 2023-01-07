@@ -72,7 +72,7 @@ private:
     bool hasCommonAirlines(const list<string> &airlines1, const list<string> &airlines2);
 
     /// Constroi um caminho entre dois aeroportos, colocando-os numa lista de aeroportos
-    list<Airport> constructPath(string curr, const string& airportSrc);
+    list<Airport> constructPath(string curr);
 
 public:
     /**
@@ -114,14 +114,14 @@ public:
      * @param airportDest
      * @param airlines
      */
-    vector<list<struct Airport>> findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
+    vector<list<struct Airport>> findMinPathsAirportsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
 
-    vector<list<struct Airport>> getMinPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
+    vector<list<struct Airport>> findMinPathsAirToLocationBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
-    vector<list<Airport>> getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);
+    vector<list<Airport>> findMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);
 
-    vector<list<Airport>> getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
+    vector<list<Airport>> findMinPathsLocationToAirBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
 
     /**
      * @brief Devolve a distancia em Km de um percurso
