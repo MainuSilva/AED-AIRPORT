@@ -132,14 +132,17 @@ double Interface::getLat(){
 
     cout << "\nInsert Latitude: ";
     do {
-        cin >> latitude;
-        cin.ignore(INT16_MAX, '\n');
-
-        if (!(-90 <= latitude && latitude <= 90))
-            cout << "\nThis latitude doesn't exist, please try again";
-
-        else
+        if (!(cin >> latitude)) {
+            cout << "\nInvalid input. Please enter a number: ";
+            cin.clear();
+            cin.ignore(INT16_MAX, '\n');
+        }
+        else if (!(-90 <= latitude && latitude <= 90)) {
+            cout << "\nThis latitude doesn't exist, please try again: ";
+        }
+        else {
             stop_While = true;
+        }
 
     } while (!stop_While);
 
@@ -152,10 +155,12 @@ double Interface::getLong(){
 
     cout << "\nInsert Longitude: ";
     do {
-        cin >> longitude;
-        cin.ignore(INT16_MAX, '\n');
-
-        if (!(-180 <= longitude && longitude <= 180))
+        if (!(cin >> longitude)){
+            cout << "\nInvalid input. Please enter a number: ";
+            cin.clear();
+            cin.ignore(INT16_MAX, '\n');
+        }
+        else if (!(-180 <= longitude && longitude <= 180))
             cout << "\nThis longitude doesn't exist, please try again";
 
         else
@@ -172,10 +177,12 @@ double Interface::getDistance(){
 
     cout << "\nInsert distance in KM: ";
     do {
-        cin >> distance;
-        cin.ignore(INT16_MAX, '\n');
-
-        if (distance <= 0)
+        if (!(cin >> distance)){
+            cout << "\nInvalid input. Please enter a number: ";
+            cin.clear();
+            cin.ignore(INT16_MAX, '\n');
+        }
+        else if (distance <= 0)
             cout << "\nInvalid distance, please try again";
 
         else
@@ -192,10 +199,12 @@ int Interface::getNum(){
     bool stop_While = false;
 
     do {
-        cin >> numFlights;
-        cin.ignore(INT16_MAX, '\n');
-
-        if (numFlights <= 0)
+        if (!(cin >> numFlights)){
+            cout << "\nInvalid input. Please enter a number: ";
+            cin.clear();
+            cin.ignore(INT16_MAX, '\n');
+        }
+        else if (numFlights <= 0)
             cout << "\nInvalid number, please try again";
 
         else
