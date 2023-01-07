@@ -400,8 +400,9 @@ void Interface::flightBoard(const string& airport) {
 void Interface::airportsList(const string& airport){
     cout << "\n================| " << airport << " airport -> Airports |================\n" << endl;
 
+    cout << "CODE  NAME"<< endl;
     for (const auto& air: gestor->getAirportsArrived(airport)) {
-        cout << air.get_code() << " " << air.get_name() << endl;
+        cout << air.get_code() << "   " << air.get_name() << endl;
     }
 
     wait_B();
@@ -420,8 +421,9 @@ void Interface::cityList(const string& airport) { //cidades
 void Interface::airlinesList(const string& airport) {
     cout << "\n================| " << airport << " airport Airlines |================\n" << endl;
 
+    cout << "CODE  NAME"<< endl;
     for (const auto& airline: gestor->getAirportAirlines(airport)) {
-        cout << airline.get_code() << " " << airline.get_name() << endl;
+        cout << airline.get_code() << "   " << airline.get_name() << endl;
     }
 
     wait_B();
@@ -1061,8 +1063,9 @@ void Interface::AirportsNumCountry(string country) {
     cout << "\n================| " + country +" Airports |================" << endl;
     cout << "\nNumber of airports from " + country  + ": " << gestor->getAllAirportsFromCountry(country).size() << endl;
     cout << endl;
+    cout << "CODE  NAME"<< endl;
     for (const auto& airport: gestor->getAllAirportsFromCountry(country)) {
-        cout << airport.get_code() << " " << airport.get_name() << endl;
+        cout << airport.get_code() << "   " << airport.get_name() << endl;
     }
 
     wait_B();
@@ -1072,8 +1075,9 @@ void Interface::airlinesListCountry(const string& country) {
     cout << "\n================| " + country +" Airlines |================" << endl;
     cout << "\nNumber of airlines from " + country  + ": " << gestor->getAllAirLinesFromCountry(country).size() << endl;
     cout << endl;
+    cout << "CODE  NAME"<< endl;
     for (const auto& airline: gestor->getAllAirLinesFromCountry(country)) {
-        cout << airline.get_code() << " " << airline.get_name() << endl;
+        cout << airline.get_code() << "   " << airline.get_name() << endl;
     }
 
     wait_B();
