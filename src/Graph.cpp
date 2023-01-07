@@ -151,7 +151,7 @@ vector<list<Airport>> Graph::findMinPathsAirportsBfs(const string& airportSrc, c
         if (curr == airportDest) {
             auto path = constructPath(curr);
 
-            if (path.size() < min) {
+            if (path.size() < min && path.size() > 1) {
                 result.clear();
                 result.push_back(path);
                 min = path.size();
@@ -197,7 +197,7 @@ vector<list<Airport>> Graph::findMinPathsAirToLocationBfs(const string& airportS
         if (find(wantedAirports.begin(), wantedAirports.end(), curr) != wantedAirports.end()) {
             auto path = constructPath(curr);
 
-            if (path.size() < min) {
+            if (path.size() < min && path.size() > 1) {
                 result.clear();
                 result.push_back(path);
                 min = path.size();
@@ -244,7 +244,7 @@ vector<list<Airport>> Graph::findMinPathsLocationsBfs(const list<string>& airpor
         if (find(wantedAirports.begin(), wantedAirports.end(), curr) != wantedAirports.end()) {
             auto path = constructPath(curr);
 
-            if (path.size() < min) {
+            if (path.size() < min && path.size() > 1) {
                 result.clear();
                 result.push_back(path);
                 min = path.size();
@@ -290,7 +290,7 @@ vector<list<Airport>> Graph::findMinPathsLocationToAirBfs(const list<string>& ai
         if (curr == airportDest) {
             auto path = constructPath(curr);
 
-            if (path.size() < min) {
+            if (path.size() < min && path.size() > 1) {
                 result.clear();
                 result.push_back(path);
                 min = path.size();
@@ -521,5 +521,4 @@ list<pair<string,string>> Graph::getDepartureBoard(const string& airport) {
             result.push_back({flight.destination,airline});
     }
     return result;
-
 }

@@ -1,6 +1,8 @@
 #include "Interface.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
+
 using namespace std;
 
 Interface::Interface(){
@@ -303,7 +305,7 @@ void Interface::airportInfo(){
 
         cout << endl;
         cout << "________________________________________" << endl;
-        cout << "|              Airport Info            |" << endl;
+        cout << "|             Airport Info             |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|        [1] Flight Board              |" << endl;
         cout << "|        [2] Airports List             |" << endl;
@@ -544,7 +546,7 @@ void Interface::goArticulationP() {
 void Interface::goDiameter() {
     list<string> wantedAirlines;
     wantedAirlines = airlines_select();
-    list<string> artPoints = gestor->getArticulationPoints(wantedAirlines);
+    int diameter = gestor->getDiameter(wantedAirlines);
 
     cout <<"\n===========| Diameter |============" << endl;
 
@@ -554,7 +556,7 @@ void Interface::goDiameter() {
         cout << "for these airlines ";
     }
 
-    cout << "is " << artPoints.size() << endl;
+    cout << "is " << diameter << endl;
 
     wait_B();
 }
@@ -814,11 +816,14 @@ void::Interface::goAirport(){
 
         paths = gestor->getMinPathLocationToAir( lat, lon, distance, airportDest, wantedAirlines);
     }
-
     int index = 1;
 
+    if(paths.empty()){
+        cout << "\nNo paths found for this location" << endl;
+    }
+
     for(const list<Airport>& path : paths){
-        cout << "\n" << index << ". PATH" << endl;
+        cout << "\n" << index << ". PATH" <<" (" << "distance:" << gestor->getPathDistance(path) << "km)" << endl;
 
         int count = 0;
         for(const Airport& air : path){
@@ -886,11 +891,14 @@ void Interface::goCity(){
         paths = gestor->getMinPathLocationToCity( lat, lon, distance, city, wantedAirlines);
     }
 
-
     int index = 1;
 
+    if(paths.empty()){
+        cout << "\nNo paths found for this location" << endl;
+    }
+
     for(const list<Airport>& path : paths){
-        cout << "\n" << index << ". PATH" << endl;
+        cout << "\n" << index << ". PATH" <<" (" << "distance:" << gestor->getPathDistance(path) << "km)" << endl;
 
         int count = 0;
         for(const Airport& air : path){
@@ -967,8 +975,12 @@ void Interface::goCoords(){
 
     int index = 1;
 
+    if(paths.empty()){
+        cout << "\nNo paths found for this location" << endl;
+    }
+
     for(const list<Airport>& path : paths){
-        cout << "\n" << index << ". PATH" << endl;
+        cout << "\n" << index << ". PATH" <<" (" << "distance:" << gestor->getPathDistance(path) << "km)" << endl;
 
         int count = 0;
         for(const Airport& air : path){
@@ -996,7 +1008,7 @@ void Interface::countryInfo() {
 
         cout << endl;
         cout << "________________________________________" << endl;
-        cout << "|              Country Info            |" << endl;
+        cout << "|             Country Info             |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|           [1] Airports List          |" << endl;
         cout << "|           [2] Airlines List          |" << endl;

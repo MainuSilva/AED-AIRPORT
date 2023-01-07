@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -226,14 +227,6 @@ vector<string> Gestor::getTopNumberAirports(int number, string sortingWay){
     return graph->getTopAirports(number, sortingWay);
 }
 
-// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
-bool Gestor::conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB){
-    if(airportsA.size() == airportsB.size())
-        return graph->pathDistance(airportsA) < graph->pathDistance(airportsB);
-    return airportsA.size() < airportsB.size();
-
-}
-
 list<Airline> Gestor::getAllAirLinesFromCountry(const string& country){
     return graph->getAirlinesFromCountry(country);
 }
@@ -264,4 +257,13 @@ int Gestor::getTotalNumberOfCountries() {
 
 list<pair<string,string>> Gestor::getDepartureBoard(const string& airport) {
     return graph->getDepartureBoard(airport);
+}
+
+int Gestor::getPathDistance( const list<Airport>& path){
+    return graph->pathDistance(path);
+}
+
+// condição que ordena o vetor de paths por ordem crescente de tamanho e de distância de path
+bool Gestor::conditionPaths(const list<Airport>& airportsA, const list<Airport>&airportsB){
+    return getPathDistance(airportsA) < getPathDistance(airportsB);
 }
