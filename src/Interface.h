@@ -31,7 +31,7 @@ public:
     
     /**
      * @brief Função que cria uma interface para o menu inicial, com todas as opções de navegação associadas
-     * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
+     * @details Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada.
      */
     void showMenu();
     

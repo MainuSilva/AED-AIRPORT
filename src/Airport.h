@@ -41,7 +41,7 @@ public:
 
     /**
     * @brief Função que cria um novo objeto 'Airport' com os valores especificados para os seus campos
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @param code
     * @param name
     * @param city
