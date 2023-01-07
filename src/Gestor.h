@@ -312,20 +312,71 @@ public:
     */
     vector<list<Airport>> getMinPathLocationToAir(double lat, double lon, double kmDistance, const string &airportDest, const list<string> &wantedAirlines);
 
+    /**
+    * @brief Função que devolve uma lista com todas as companhias aereas possíveis de aceder a partir de um determinado país de origem
+    * @details Complexidade temporal O(n), onde n é o número de companhias aéreas no grafo
+    *
+    * @param country
+    * @return Lista com os dados que se pretendia aceder
+    */
     list<Airline> getAllAirLinesFromCountry(const string &country);
 
+    /**
+    * @brief Função que devolve uma lista com todos os aeroportos possíveis de aceder a partir de um determinado país de origem
+    * @details Complexidade temporal O(n), onde n é o número de nós no grafo
+    *
+    * @param country
+    * @return Lista com os dados que se pretendia aceder
+    */
     list<Airport> getAllAirportsFromCountry(const string &country);
 
+    /**
+    * @brief Função que um inteiro que representa o número total de cidades
+    * @details Complexidade Temporal: O(1)
+    *
+    * @return Um inteiro com o valor que se pretendia aceder (número total de cidades)
+    */
     int getTotalNumberOfCities();
 
+    /**
+    * @brief Função que um inteiro que representa o número total de países
+    * @details Complexidade Temporal: O(1)
+    *
+    * @return Um inteiro com o valor que se pretendia aceder (número total de países)
+    */
     int getTotalNumberOfCountries();
 
+    /**
+    * @brief Função que um inteiro que representa o número total de voos
+    * @details Complexidade Temporal: O(1)
+    *
+    * @return Um inteiro com o valor que se pretendia aceder (número total de voos)
+    */
     int getTotalNumberOfFlights();
 
+    /**
+    * @brief Função que um inteiro que representa o número total de companhias aéreas
+    * @details Complexidade Temporal: O(1)
+    *
+    * @return Um inteiro com o valor que se pretendia aceder (número total de companhias aéreas)
+    */
     int getTotalNumberOfAirlines();
 
+    /**
+    * @brief Função que devolve lista dos pecursos com os aeroportos e as companhias aéreas com saída de um determinado aeroporto
+    * @details Complexidade temporal O(n), onde n é o número de voos que partem do aeroporto especifico
+    *
+    * @param airport
+    * @return Lista com os dados que se pretendia aceder
+    */
     list<pair<string, string>> getDepartureBoard(const string &airport);
 
+    /**
+    * @brief Função que um inteiro que representa o número total de aeroportos
+    * @details Complexidade Temporal: O(1)
+    *
+    * @return Um inteiro com o valor que se pretendia aceder (número total de aeroportos)
+    */
     int getTotalNumberOfAirports();
 };
 
