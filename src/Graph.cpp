@@ -190,6 +190,7 @@ int Graph::getTotalNumberOfFlights(){
     for(auto node: nodes){
         result += node.second.adj.size();
     }
+    return result;
 }
 
 int Graph::getNumberOfFlights(const string& airport){
@@ -275,6 +276,7 @@ vector<list<Airport>> Graph::getMinPathsAirportsBfs(const string& airportSrc, co
             if(min > minPaths.front().size()){
                 result.clear();
                 min = minPaths.front().size();
+                result.insert(result.end(), minPaths.begin(), minPaths.end());
             }
 
             else if(min == minPaths.front().size())
@@ -299,7 +301,9 @@ vector<list<Airport>> Graph::getMinPathsLocationsBfs(const list<string>& airport
                 if (min > minPaths.front().size()) {
                     result.clear();
                     min = minPaths.front().size();
-                } else if (min == minPaths.front().size())
+                    result.insert(result.end(), minPaths.begin(), minPaths.end());
+                }
+                else if (min == minPaths.front().size())
                     result.insert(result.end(), minPaths.begin(), minPaths.end());
             }
         }
@@ -320,7 +324,9 @@ vector<list<Airport>> Graph::getMinPathsLocationToAirportBfs(const list<string>&
                 if (min > minPaths.front().size()) {
                     result.clear();
                     min = minPaths.front().size();
-                } else if (min == minPaths.front().size())
+                    result.insert(result.end(), minPaths.begin(), minPaths.end());
+                }
+                else if (min == minPaths.front().size())
                     result.insert(result.end(), minPaths.begin(), minPaths.end());
             }
     }
@@ -437,4 +443,14 @@ list<Airport> Graph::getAirportsFromCountry(const string& country){
         }
     }
     return result;
+}
+
+list<pair<string,string>> Graph::getDepartureBoard(const string& airport) {
+    list<pair<string,string>> result;
+    for (const auto& flight : nodes[airport].adj){
+        for (const auto& airline: flight.airlines)
+            result.push_back({flight.destination,airline});
+    }
+    return result;
+
 }

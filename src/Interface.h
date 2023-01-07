@@ -146,6 +146,18 @@ public:
     int fromWhere();
 
     double getDistance();
+
+    void goTotalAirports();
+
+    void goTotalFlights();
+
+    void goTotalAirlines();
+
+    void goTotalCities();
+
+    void goTotalCountries();
+
+    void flightBoard(const string &airport);
 };
 
 

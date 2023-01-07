@@ -245,6 +245,8 @@ public:
     list<Airline> getAirlinesFromCountry(const string &country);
 
     list<Airport> getAirportsFromCountry(const string &country);
+
+    list<pair<string, string>> getDepartureBoard(const string &airport);
 };
 
 #endif //AED_AIR_GRAPH_H

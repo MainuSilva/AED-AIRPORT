@@ -306,10 +306,11 @@ void Interface::airportInfo(){
         cout << "|              Airport Info            |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|        [1] Number of Flights         |" << endl;
-        cout << "|        [2] Airlines List             |" << endl;
-        cout << "|        [3] City List                 |" << endl;
-        cout << "|        [4] Countries List            |" << endl;
-        cout << "|        [5] Airport Reach             |" << endl;
+        cout << "|        [2] Flight Board              |" << endl;
+        cout << "|        [3] Airlines List             |" << endl;
+        cout << "|        [4] City List                 |" << endl;
+        cout << "|        [5] Countries List            |" << endl;
+        cout << "|        [6] Airport Reach             |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -326,18 +327,22 @@ void Interface::airportInfo(){
                 break;
 
             case '2':
-                airlinesList(airport); //lista de airlines do aeroporto
+                flightBoard(airport);
                 break;
 
             case '3':
-                cityList(airport); //lista de cidades que o aeroporto chega com 1 voo
+                airlinesList(airport); //lista de airlines do aeroporto
                 break;
 
             case '4':
-                countriesList(airport); //lista de paises que o aeroporto chega com 1 voo
+                cityList(airport); //lista de cidades que o aeroporto chega com 1 voo
                 break;
 
             case '5':
+                countriesList(airport); //lista de paises que o aeroporto chega com 1 voo
+                break;
+
+            case '6':
                 airportReach(airport); //lista de paises, cidades e aeroportos que o aeroporto chega com k voos
                 break;
 
@@ -425,6 +430,11 @@ void Interface::networkInfo() {
         cout << "|        [1] Articulation Points       |" << endl;
         cout << "|        [2] Diameter                  |" << endl;
         cout << "|        [3] Top Airports              |" << endl;
+        cout << "|        [4] Total Countries           |" << endl;
+        cout << "|        [5] Total Cities              |" << endl;
+        cout << "|        [6] Total Airports            |" << endl;
+        cout << "|        [7] Total Airlines            |" << endl;
+        cout << "|        [8] Total Flights             |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -446,6 +456,26 @@ void Interface::networkInfo() {
 
             case '3':
                 goTopAirports();
+                break;
+
+            case '4':
+                goTotalCountries();
+                break;
+
+            case '5':
+                goTotalCities();
+                break;
+
+            case '6':
+                goTotalAirports();
+                break;
+
+            case '7':
+                goTotalAirlines();
+                break;
+
+            case '8':
+                goTotalFlights();
                 break;
 
             case 'B': case 'b':
@@ -963,6 +993,64 @@ void Interface::airlinesListCountry(const string& country) {
     cout << endl;
     for (const auto& airline: gestor->getAllAirLinesFromCountry(country)) {
         cout << airline.get_code() << " " << airline.get_name() << endl;
+    }
+
+    wait_B();
+}
+
+void Interface::goTotalAirports() {
+    int totalAirports = gestor->getTotalNumberOfAirports();
+    cout << "\n================| Total Airports |================" << endl;
+    cout << "\nA total of " << totalAirports << " airports are covered by this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalFlights(){
+    int totalFlights = gestor->getTotalNumberOfFlights();
+    cout << "\n================| Total Flights |================" << endl;
+    cout << "\nThere is a total total of " << totalFlights << " flights in this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalAirlines() {
+    int totalAirlines = gestor->getTotalNumberOfAirlines();
+    cout << "\n================| Total Airlines |================" << endl;
+    cout << "\nA total of " << totalAirlines << " airlines fly in this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalCities() {
+    int totalCities = gestor->getTotalNumberOfCities();
+    cout << "\n================| Total Cities |================" << endl;
+    cout << "\nA total of " << totalCities << " cities are covered by this network." << endl;
+
+    wait_B();
+}
+
+void Interface::goTotalCountries() {
+    int totalCountries = gestor->getTotalNumberOfCountries();
+    cout << "\n================| Total Countries |================" << endl;
+    cout << "\nA total of " << totalCountries << " countries are covered by this network." << endl;
+
+    wait_B();
+}
+
+void Interface::flightBoard(const string& airport) {
+
+    list <pair <string,string>> board= gestor->getDepartureBoard(airport);
+
+    cout << "____________________________________________________" << endl;
+    cout << "|                   "<< airport << " DEPARTURES                 |" << endl;
+    cout << "|__________________________________________________|" << endl;
+    cout << "|        Flight         |         Airline          |" << endl;
+    cout << "|_______________________|__________________________|" << endl;
+
+    for (const auto& elem: board){
+        cout << "|       " << airport <<"->"<< elem.first << "        |           "<< elem.second << "            |" << endl;
+        cout << "|_______________________|__________________________|" << endl;
     }
 
     wait_B();

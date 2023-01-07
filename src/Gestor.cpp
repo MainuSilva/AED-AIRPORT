@@ -242,7 +242,26 @@ list<Airport> Gestor::getAllAirportsFromCountry(const string& country){
     return graph->getAirportsFromCountry(country);
 }
 
+int Gestor::getTotalNumberOfAirlines(){
+    return graph->getTotalNumberOfAirlines();
+}
 
+int Gestor::getTotalNumberOfAirports() {
+    return graph->getTotalNumberOfAirports();
+}
 
+int Gestor::getTotalNumberOfFlights() {
+    return graph->getTotalNumberOfFlights();
+}
 
+int Gestor::getTotalNumberOfCities() {
+    return city_codes.size();
+}
 
+int Gestor::getTotalNumberOfCountries() {
+    return country_codes.size();
+}
+
+list<pair<string,string>> Gestor::getDepartureBoard(const string& airport) {
+    return graph->getDepartureBoard(airport);
+}

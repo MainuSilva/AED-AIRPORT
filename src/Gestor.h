@@ -315,6 +315,18 @@ public:
     list<Airline> getAllAirLinesFromCountry(const string &country);
 
     list<Airport> getAllAirportsFromCountry(const string &country);
+
+    int getTotalNumberOfCities();
+
+    int getTotalNumberOfCountries();
+
+    int getTotalNumberOfFlights();
+
+    int getTotalNumberOfAirlines();
+
+    list<pair<string, string>> getDepartureBoard(const string &airport);
+
+    int getTotalNumberOfAirports();
 };
 
 
