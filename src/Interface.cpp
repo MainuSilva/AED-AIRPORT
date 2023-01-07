@@ -787,7 +787,7 @@ void::Interface::goAirport(){
         paths = gestor->getMinPathTwoAirports(airportSrc, airportDest, wantedAirlines);
     }
 
-    if(from == 2) {
+    else if(from == 2) {
         cout << "\n================| City -> Airport |================" << endl;
         cout << "\nSOURCE";
         string citySrc = getCity();
@@ -801,7 +801,7 @@ void::Interface::goAirport(){
         paths = gestor->getMinPathCityToAir( citySrc, airportDest, wantedAirlines);
     }
 
-    if(from == 3) {
+    else if(from == 3) {
         cout << "\n================| GPS Location -> Airport |================" << endl;
         cout << "\nSOURCE ";
         double lat = getLat();
@@ -816,6 +816,8 @@ void::Interface::goAirport(){
 
         paths = gestor->getMinPathLocationToAir( lat, lon, distance, airportDest, wantedAirlines);
     }
+    else return;
+
     int index = 1;
 
     if(paths.empty()){
@@ -861,7 +863,7 @@ void Interface::goCity(){
         paths = gestor->getMinPathAirToCity(airportSrc, city, wantedAirlines);
     }
 
-    if(from == 2) {
+    else if(from == 2) {
         cout << "\n================| City -> City |================" << endl;
         cout << "\nSOURCE ";
         string citySrc = getCity();
@@ -875,7 +877,7 @@ void Interface::goCity(){
         paths = gestor->getMinPathCityToCity( citySrc, city, wantedAirlines);
     }
 
-    if(from == 3) {
+    else if (from == 3) {
         cout << "\n================| GPS Location -> City |================" << endl;
         cout << "\nSOURCE ";
         double lat = getLat();
@@ -890,6 +892,7 @@ void Interface::goCity(){
 
         paths = gestor->getMinPathLocationToCity( lat, lon, distance, city, wantedAirlines);
     }
+    else return;
 
     int index = 1;
 
@@ -938,7 +941,7 @@ void Interface::goCoords(){
         paths = gestor->getMinPathAirToLocation(airportSrc, lat, lon, distance, wantedAirlines);
     }
 
-    if(from == 2) {
+    else if(from == 2) {
         cout << "\n================| City -> GPS Location |================" << endl;
         cout << "\nSOURCE ";
         string citySrc = getCity();
@@ -954,7 +957,7 @@ void Interface::goCoords(){
         paths = gestor->getMinPathCityToLocation( citySrc, lat, lon, distance, wantedAirlines);
     }
 
-    if(from == 3) {
+    else if(from == 3) {
         cout << "\n================| GPS Location -> GPS Location |================" << endl;
         cout << "\nSOURCE ";
         double lat2 = getLat();
@@ -971,7 +974,7 @@ void Interface::goCoords(){
 
         paths = gestor->getMinPathLocationToLocation( lat, lon, distance, lat2, lon2, distance2, wantedAirlines);
     }
-
+    else return;
 
     int index = 1;
 

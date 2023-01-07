@@ -226,7 +226,6 @@ vector<list<Airport>> Graph::findMinPathsAirToLocationBfs(const string& airportS
 //utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
 vector<list<Airport>> Graph::findMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
     restart();
-
     int min = INT_MAX;
     vector<list<Airport>> result;
     queue<string> q;
@@ -412,7 +411,6 @@ list<string> Graph::getLocationAirports(double lat, double lon, double kmdistanc
         if(resultDist <= kmdistance)
             result.push_back(node.first);
     }
-
     return result;
 }
 
