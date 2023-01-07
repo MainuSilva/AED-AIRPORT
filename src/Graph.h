@@ -68,7 +68,7 @@ private:
     /// Adiciona os pontos de articulação no result
     void dfsArticulations(const string& v, stack<string> &s, const list<string> &wantedAirlines, list<string> &result, int index);
 
-    /// Verifica se as duas listas têm companhias aericas em comum
+    /// Verifica se as duas listas têm companhias aerias em comum
     bool hasCommonAirlines(const list<string> &airlines1, const list<string> &airlines2);
 
     /// Constroi um caminho entre dois aeroportos, colocando-os numa lista de aeroportos
@@ -116,14 +116,7 @@ public:
      */
     vector<list<struct Airport>> findMinPathsBfs(const string &airportSrc, const string &airportDest, const list<string> &airlines);
 
-    /**
-     * @brief Devolve um vetor de listas com o menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um destino com vários aeroportos, com um determinado conjunto de airlines
-     * @details Complexidade Temporal: (n + m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
-     *
-     * @param airportSrc aeroporto de origem
-     * @param wantedAirports lista de aeroportos de destino
-     * @param wantedAirlines lista de airlines desejadas
-     */
+
     vector<list<struct Airport>> getMinPathsAirportsBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
 
     vector<list<Airport>> getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);

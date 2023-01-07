@@ -177,6 +177,96 @@ vector<list<Airport>> Graph::findMinPathsBfs(const string& airportSrc, const str
     return result;
 }
 
+
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar o aeroporto com o caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+    restart();
+
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+    queue<string> q;
+
+    nodes[airportSrc].distance = 0;
+    nodes[airportSrc].visited = true;
+    q.push(airportSrc);
+
+    while (!q.empty()) {
+        string curr = q.front();
+        q.pop();
+
+        if (find(wantedAirports.begin(), wantedAirports.end(), curr) != wantedAirports.end()) {
+            auto path = constructPath(curr, airportSrc);
+
+            if (path.size() < min) {
+                result.clear();
+                result.push_back(path);
+                min = path.size();
+            }
+            else if (path.size() == min) {
+                result.push_back(path);
+            }
+
+            continue;
+        }
+
+        for (const auto& edge : nodes[curr].adj) {
+            auto w = edge.destination;
+            if (nodes[w].visited) continue;
+            if (!wantedAirlines.empty() && !hasCommonAirlines(edge.airlines, wantedAirlines)) continue;
+
+            nodes[w].visited = true;
+            nodes[w].distance = nodes[curr].distance + 1;
+            nodes[w].pred = curr;
+            q.push(edge.destination);
+        }
+    }
+    return result;
+}
+
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+
+    for(const string & airportSrc: airportSrcs) {
+
+        auto minPaths = getMinPathsAirportsBfs(airportSrc, wantedAirports, wantedAirlines);
+
+        if (!minPaths.empty()) {
+            if (min > minPaths.front().size()) {
+                result.clear();
+                min = minPaths.front().size();
+                result.insert(result.end(), minPaths.begin(), minPaths.end());
+            }
+            else if (min == minPaths.front().size())
+                result.insert(result.end(), minPaths.begin(), minPaths.end());
+            }
+    }
+    return result;
+}
+
+//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
+vector<list<Airport>> Graph::getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines = {}) {
+    int min = INT_MAX;
+    vector<list<Airport>> result;
+
+    for(const string & airportSrc: airportSrcs) {
+
+        auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
+
+        if (!minPaths.empty()) {
+            if (min > minPaths.front().size()) {
+                result.clear();
+                min = minPaths.front().size();
+                result.insert(result.end(), minPaths.begin(), minPaths.end());
+            }
+            else if (min == minPaths.front().size())
+                result.insert(result.end(), minPaths.begin(), minPaths.end());
+        }
+    }
+    return result;
+}
+
 int Graph::getTotalNumberOfAirlines(){
     return airlines.size();
 }
@@ -260,76 +350,6 @@ list<string> Graph::getArticulationPoints(const list<string>& wantedAirlines = {
             dfsArticulations(node.first, s, wantedAirlines, result, 1);
     }
 
-    return result;
-}
-
-
-//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar o aeroporto com o caminho mais rapido
-vector<list<Airport>> Graph::getMinPathsAirportsBfs(const string& airportSrc, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
-    int min = INT_MAX;
-    vector<list<Airport>> result;
-
-    for(const string& airportDest: wantedAirports){
-        auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
-
-        if(!minPaths.empty()){
-            if(min > minPaths.front().size()){
-                result.clear();
-                min = minPaths.front().size();
-                result.insert(result.end(), minPaths.begin(), minPaths.end());
-            }
-
-            else if(min == minPaths.front().size())
-                result.insert(result.end(), minPaths.begin(), minPaths.end());
-        }
-    }
-
-    return result;
-}
-
-//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
-vector<list<Airport>> Graph::getMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines = {}) {
-    int min = INT_MAX;
-    vector<list<Airport>> result;
-
-    for(const string & airportSrc: airportSrcs) {
-        for (const string &airportDest: wantedAirports) {
-
-            auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
-
-            if (!minPaths.empty()) {
-                if (min > minPaths.front().size()) {
-                    result.clear();
-                    min = minPaths.front().size();
-                    result.insert(result.end(), minPaths.begin(), minPaths.end());
-                }
-                else if (min == minPaths.front().size())
-                    result.insert(result.end(), minPaths.begin(), minPaths.end());
-            }
-        }
-    }
-    return result;
-}
-
-//utilizar getLocationAirports ou getCityAirports para determinar a lista de aeroportos e depois determinar os aeroportos com caminho mais rapido
-vector<list<Airport>> Graph::getMinPathsLocationToAirportBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines = {}) {
-    int min = INT_MAX;
-    vector<list<Airport>> result;
-
-    for(const string & airportSrc: airportSrcs) {
-
-            auto minPaths = findMinPathsBfs(airportSrc, airportDest, wantedAirlines);
-
-            if (!minPaths.empty()) {
-                if (min > minPaths.front().size()) {
-                    result.clear();
-                    min = minPaths.front().size();
-                    result.insert(result.end(), minPaths.begin(), minPaths.end());
-                }
-                else if (min == minPaths.front().size())
-                    result.insert(result.end(), minPaths.begin(), minPaths.end());
-            }
-    }
     return result;
 }
 

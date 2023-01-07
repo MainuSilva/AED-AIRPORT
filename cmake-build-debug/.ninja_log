@@ -79,3 +79,10 @@
 641	1100	6947880233680893	AED_Air.exe	590e9cd27ec22726
 2	646	6947880910255714	CMakeFiles/AED_Air.dir/src/Interface.cpp.obj	1449d2d3ae7421b
 646	1078	6947880914501471	AED_Air.exe	590e9cd27ec22726
+12	285	6948028523863621	CMakeFiles/AED_Air.dir/src/CoordDistance.cpp.obj	c2050effc23b4e6c
+9	292	6948028523943968	CMakeFiles/AED_Air.dir/src/Airport.cpp.obj	4e24f9d3bdc97a71
+2	524	6948028526245637	CMakeFiles/AED_Air.dir/src/main.cpp.obj	b6150ccf7446e2a3
+18	809	6948028529088478	CMakeFiles/AED_Air.dir/src/Interface.cpp.obj	1449d2d3ae7421b
+15	878	6948028529775562	CMakeFiles/AED_Air.dir/src/Gestor.cpp.obj	258fb671de5164b3
+6	1324	6948028534209182	CMakeFiles/AED_Air.dir/src/Graph.cpp.obj	21861afefa8563c0
+1324	1736	6948028538311872	AED_Air.exe	590e9cd27ec22726
