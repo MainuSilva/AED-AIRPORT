@@ -58,7 +58,7 @@ list<string> Interface::getAirlines() {
     list<string> airlines;
     bool stop_While = false;
 
-    cout << "\nWrite 'S' when finished" << endl;
+    cout << "\nWrite the airlines code one by one and 'S' when finished" << endl;
     do {
         cout << "\nInsert airline's code: ";
         string airline;
@@ -764,8 +764,8 @@ void::Interface::goAirport(){
                 cout << "->" << air.get_code();
         }
         index++;
+        cout << endl;
     }
-    cout << endl;
 
     wait_B();
 
@@ -836,8 +836,8 @@ void Interface::goCity(){
                 cout << "->" << air.get_code();
         }
         index++;
+        cout <<  endl;
     }
-    cout << endl;
 
     wait_B();
 
@@ -903,7 +903,6 @@ void Interface::goCoords(){
     int index = 1;
 
     for(const list<Airport>& path : paths){
-
         cout << "\n" << index << ". PATH" << endl;
 
         int count = 0;
@@ -915,8 +914,8 @@ void Interface::goCoords(){
                 cout << "->" << air.get_code();
         }
         index++;
+        cout <<  endl;
     }
-    cout << endl;
 
     wait_B();
 }
