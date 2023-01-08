@@ -58,19 +58,19 @@ public:
     
     /**
      * @brief Função que indica as opções de voos para um aeroporto específico
-     * @details Complexidade Temporal: O(1)
+     * @details Complexidade temporal O(n + m + k + vlog(v)) no pior caso, visto que recorre a uma das funções getMinPath com destino a um aeroporto da classe gestor, que têm esta complexidade.
      */
     void goAirport();
     
     /**
      * @brief Função que indica as opções de voos para uma cidade específica
-     * @details Complexidade Temporal: O(1)
+     * @details Complexidade temporal O(n + m + k1 + k2 + vlog(v)) no pior caso, visto que recorre a uma das funções getMinPath com destino a uma cidade da classe gestor, que têm esta complexidade.
      */
     void goCity();
     
     /**
      * @brief Função que devolve as coordenadas de um aeroporto
-     * @details Complexidade Temporal: O(1)
+     * @details Complexidade temporal O(n + m + k1 + k2 + vlog(v)) no pior caso, visto que recorre a uma das funções getMinPath com destino a uma localização GPS da classe gestor, que têm esta complexidade.
      */
     void goCoords();
 
