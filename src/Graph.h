@@ -74,7 +74,7 @@ private:
      * @brief Função que devolve o diametro do bfs: A maior distância entre 2 nodes do bfs
      * @details Complexidade Temporal: O(n + m), onde n é o número de nodes do grafo e m o número de edges
      *
-     * @param wantedAirlines
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      */
     int bfsDiameter(const string &v, const list<string> &wantedAirlines);
 
@@ -84,7 +84,7 @@ private:
      *
      * @param v
      * @param s
-     * @param wantedAirlines
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @param result
      * @param index
      */
@@ -133,8 +133,8 @@ public:
      * @brief Adiciona uma nova edge de uma origem a um destino com uma lista de airlines, se a edge já existe adiciona a nova airline na lista de airlines
      * @details Complexidade Temporal: O(n) no pior caso e O(1) no melhor caso
      *
-     * @param src
-     * @param dest
+     * @param src : origem
+     * @param dest : destino
      * @param airline
      */
     void addEdge(const string& src, const string& dest, const string& airline);
@@ -143,8 +143,8 @@ public:
      * @brief Devolve um vetor de listas com o menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um destino, com um determinado conjunto de airlines
      * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param airportSrc
-     * @param airportDest
+     * @param airportSrc : aeroporto de origem
+     * @param airportDest : aeroporto de destino
      * @param airlines
      * @return Vetor com os valores desejados (listas com o menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um destino, com um determinado conjunto de airlines)
      */
@@ -154,9 +154,9 @@ public:
      * @brief Função que devolve o(s) menor(es) caminho(s) possíveis entre um aeroporto e uma localização
      * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param airportSrc
-     * @param wantedAirports
-     * @param wantedAirlines
+     * @param airportSrc : aeroporto de origem
+     * @param wantedAirports : lista com os aeroportos escolhidas pelo utilizador
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return Vetor com os valores desejados (o(s) menor(es) caminho(s) possíveis entre um aeroporto e uma localização)
      */
     vector<list<struct Airport>> findMinPathsAirToLocationBfs(const string &airportSrc, const list<string> &wantedAirports, const list<string> &wantedAirlines);
@@ -165,9 +165,9 @@ public:
      * @brief Função que devolve o(s) menor(es) caminho(s) possíveis entre duas localizações
      * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param airportSrcs
-     * @param wantedAirports
-     * @param wantedAirlines
+     * @param airportSrcs : aeroporto de origem
+     * @param wantedAirports : lista com os aeroportos escolhidas pelo utilizador
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return Vetor com os valores desejados (o(s) menor(es) caminho(s) possíveis entre duas localizações)
      */
     vector<list<Airport>> findMinPathsLocationsBfs(const list<string>& airportSrcs, const list<string>& wantedAirports , const list<string>& wantedAirlines);
@@ -176,16 +176,16 @@ public:
      * @brief Função que devolve o(s) menor(es) caminho(s) possíveis entre uma localizalição e um aeroporto
      * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param airportSrcs
-     * @param airportDest
-     * @param wantedAirlines
+     * @param airportSrcs : aeroporto de origem
+     * @param airportDest : aeroporto de destino
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return Vetor com os valores desejados (o(s) menor(es) caminho(s) possíveis entre uma localizalição e um aeroporto)
      */
     vector<list<Airport>> findMinPathsLocationToAirBfs(const list<string>& airportSrcs, const string& airportDest, const list<string>& wantedAirlines);
 
     /**
      * @brief Devolve a distancia em Km de um percurso
-     * @details Complexidade Temporal: O(n)
+     * @details Complexidade Temporal: O(n) onde n é o número de aeroportos na lista
      *
      * @param airports
      * @return O valor desejado (distancia em Km de um percurso)
@@ -194,18 +194,18 @@ public:
 
     /**
      * @brief Determina os aeroportos a Xkm de uma determinada coordenada
-     * @details Complexidade Temporal: O(n)
+     * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo
      *
      * @param lat
      * @param lon
-     * @param kmdistance
+     * @param kmdistance : distância às coordenadas fornecidas de onde se pode encontrar os aeroportos
      * @return Lista com os valores desejados (os aeroportos a Xkm de uma determinada coordenada)
      */
     list<string> getLocationAirports(double lat, double lon , double kmdistance);
 
     /**
      * @brief Obtem uma lista de aeroportos de uma cidade
-     * @details Complexidade Temporal: O(n)
+     * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo
      *
      * @param city
      * @return Lista com os valores desejados (aeroportos de uma cidade)
@@ -216,7 +216,7 @@ public:
      * @brief Devolve os pontos de articulação para um determinado conjunto de airlines
      * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param wantedAirlines
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return Lista com os valores desejados (pontos de articulação para um determinado conjunto de airlines)
      */
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
@@ -225,9 +225,8 @@ public:
      * @brief Função que devolve o melhor número de aeroportos
      * @details Complexidade Temporal: O(n log n) onde n é o número de nodes no grafo
      *
-     * @param airportSrcs
-     * @param airportDest
-     * @param wantedAirlines
+     * @param number
+     * @param sortingWay : de que maneira devem ser ordenados os resultados
      * @return Vetor com os valores desejados (o melhor número de aeroportos)
      */
     vector<string> getTopAirports(int number, string sortingWay);
@@ -236,7 +235,7 @@ public:
      * @brief Devolve uma lista de aeroportos que consegue atingir com um determinado número de voos
      * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param airportSrc
+     * @param airportSrc : aeroporto de origem
      * @param flights
      * @return Lista com os valores desejados (aeroportos que consegue atingir com um determinado número de voos)
      */
@@ -264,7 +263,7 @@ public:
      * @brief Devolve o diametro de um grafo (a maior distânica entre dois nodes), para um determinado conjunto de airlines
      * @details Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
      *
-     * @param wantedAirlines
+     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return O valor desejado (diametro de um grafo para um determinado conjunto de airlines)
      */
     int getDiameter(const list<string> &wantedAirlines);
