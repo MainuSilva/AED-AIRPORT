@@ -331,10 +331,6 @@ int Graph::getTotalNumberOfFlights(){
     return result;
 }
 
-int Graph::getNumberOfFlights(const string& airport){
-    return nodes[airport].adj.size();
-}
-
 list<Airline> Graph::getAirportAirlines(const string& airport){
     list<Airline> result;
     for(const auto& airline: nodes[airport].allAirlines){

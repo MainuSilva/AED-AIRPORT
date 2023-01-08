@@ -53,42 +53,42 @@ public:
 
     /**
     * @brief Função que retorna o código do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (código do aeroporto)
     */
     string get_code() const;
 
     /**
     * @brief Função que retorna o nome do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (nome do aeroporto)
     */
     string get_name() const;
 
     /**
     * @brief Função que retorna a cidade do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (cidade do aeroporto)
     */
     string get_city() const;
 
     /**
     * @brief Função que retorna o país do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (país do aeroporto)
     */
     string get_country() const;
 
     /**
     * @brief Função que retorna a latitude do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return A coordenada desejada (latitude)
     */
     double get_latitude() const;
 
     /**
     * @brief Função que retorna a longitude do aeroporto
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return A coordenada desejada (longitude)
     */
     double get_longitude() const;

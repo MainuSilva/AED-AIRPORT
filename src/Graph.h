@@ -243,15 +243,6 @@ public:
     list<Airport> getPossibleFlightsAirports(const string &airportSrc, int flights);
 
     /**
-     * @brief Devolve o número de voos de um determinado aeroporto
-     * @details Complexidade Temporal: O(1)
-     *
-     * @param airport
-     * @return O valor desejado (número de voos de um determinado aeroporto)
-     */
-    int getNumberOfFlights(const string &airport);
-
-    /**
      * @brief Devolve uma lista de aeroportos possíveis de aterrar através de um determinado aeroporto
      * @details Complexidade Temporal: O(n) onde n é o número de edges do node.
      *

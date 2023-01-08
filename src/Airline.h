@@ -32,7 +32,7 @@ public:
     
     /**
     * @brief Função que cria um novo objeto 'Airline' com os valores especificados para os seus campos
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @param code
     * @param name
     * @param callsign
@@ -42,28 +42,28 @@ public:
     
     /**
     * @brief Função que retorna o código da companhia aérea
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (código da companhia)
     */
     string get_code() const;
     
     /**
     * @brief Função que retorna o nome da companhia aérea
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (nome da companhia)
     */
     string get_name() const;
     
     /**
     * @brief Função que retorna a alcunha da companhia aérea
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (alcunha da companhia)
     */
     string get_callsign() const;
     
     /**
     * @brief Função que retorna o país de origem da companhia aérea
-    * Complexidade temporal O(1)
+    * @details Complexidade temporal O(1)
     * @return O valor desejado (país de origem da companhia)
     */
     string get_country() const;

@@ -25,7 +25,7 @@ private:
 public:
     /**
      * @brief Constructor da Classe
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     Interface();
     
@@ -37,7 +37,7 @@ public:
     
     /**
      * @brief Função que verifica se o utilizador quer de facto sair após ter pressionado "E"
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
        O loop 'while(true)' será sempre executado apenas uma vez porque as condições desse loop são sempre verdadeiras.
      * @return true se o utilizador pretender sair (pressionando Y) ou false se o utilizador pretender continuar a utilizar o programa (pressionando N)
      */
@@ -48,25 +48,25 @@ public:
 
     /**
      * @brief Função que cria uma interface para o menu informação dos voos
-     * Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada. 
+     * @details Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada.
      */
     void flightInfo();
     
     /**
      * @brief Função que indica as opções de voos para um aeroporto específico
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     void goAirport();
     
     /**
      * @brief Função que indica as opções de voos para uma cidade específica
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     void goCity();
     
     /**
      * @brief Função que devolve as coordenadas de um aeroporto
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     void goCoords();
 
@@ -88,38 +88,38 @@ public:
 
     /**
      * @brief Função que permite ao utilizador voltar ao menu anterior
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     static void wait_B();
     
     /**
      * @brief Função que retorna os dados de um aeroporto
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     string getAirport();
     
     /**
      * @brief Função que retorna os dados de uma cidade
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     string getCity();
     
     /**
      * @brief Função que retorna a latitude de um aeroporto
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     double getLat();
     
     /**
      * @brief Função que retorna a longitude de um aeroporto
-     * Complexidade Temporal: O(1)
+     * @details Complexidade Temporal: O(1)
      */
     double getLong();
 
 
     /**
    * @brief Função que retorna os dados de um país
-   * Complexidade Temporal: O(1)
+   * @details Complexidade Temporal: O(1)
    */
     string getCountry();
 
