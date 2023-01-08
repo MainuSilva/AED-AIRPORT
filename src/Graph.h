@@ -243,7 +243,7 @@ public:
 
     /**
      * @brief Devolve uma lista de aeroportos possíveis de aterrar através de um determinado aeroporto
-     * @details Complexidade Temporal: O(n) onde n é o número de edges do node.
+     * @details Complexidade Temporal: O(n) onde n é o número de aeroportos adjacentes ao aeroporto especificado
      *
      * @param airport
      * @return Lista com os valores desejados (aeroportos possíveis de aterrar através de um determinado aeroporto)
@@ -261,7 +261,7 @@ public:
 
     /**
      * @brief Devolve o diametro de um grafo (a maior distânica entre dois nodes), para um determinado conjunto de airlines
-     * @details Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
+     * @details Complexidade Temporal: O(n * (n + m)) onde n é o número de nodes no grafo e m o número de edges.
      *
      * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
      * @return O valor desejado (diametro de um grafo para um determinado conjunto de airlines)
@@ -312,7 +312,7 @@ public:
 
     /**
      * @brief Função que devolve uma lista com todas as companhias aereas possíveis de aceder a partir de um determinado país de origem
-     * @details Complexidade temporal O(n), onde n é o número de companhias aéreas no grafo
+     * @details Complexidade temporal O(n), onde n é o número de aeroportos adjacentes ao aeroporto especificado
      *
      * @param country
      * @return Lista com os valores desejados (todas as companhias aereas de um aeroporto)
