@@ -514,3 +514,6 @@ list<pair<string,string>> Graph::getDepartureBoard(const string& airport) {
     }
     return result;
 }
+Airport Graph::getAirport(const string& airport){
+    return nodes[airport].airport;
+}

@@ -314,12 +314,13 @@ void Interface::airportInfo(){
         cout << "________________________________________" << endl;
         cout << "|          " << airport << " airport Info            |" << endl;
         cout << "|______________________________________|" << endl;
-        cout << "|        [1] Flight Board              |" << endl;
-        cout << "|        [2] Airports List             |" << endl;
-        cout << "|        [3] Airlines List             |" << endl;
-        cout << "|        [4] City List                 |" << endl;
-        cout << "|        [5] Countries List            |" << endl;
-        cout << "|        [6] Airport Reach             |" << endl;
+        cout << "|        [1] " << airport <<" Details               |" << endl;
+        cout << "|        [2] Flight Board              |" << endl;
+        cout << "|        [3] Airports List             |" << endl;
+        cout << "|        [4] Airlines List             |" << endl;
+        cout << "|        [5] City List                 |" << endl;
+        cout << "|        [6] Countries List            |" << endl;
+        cout << "|        [7] Airport Reach             |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -330,28 +331,33 @@ void Interface::airportInfo(){
         cin >> choice;
         cin.ignore(INT16_MAX, '\n');
 
-        switch (choice) {
+        switch (choice){
+
             case '1':
-                flightBoard(airport);
+                airportDetail(airport);
                 break;
 
             case '2':
-                airportsList(airport); //lista de aeroportos que o aeroporto chega com 1 voo
+                flightBoard(airport);
                 break;
 
             case '3':
-                airlinesList(airport); //lista de airlines do aeroporto
+                airportsList(airport); //lista de aeroportos que o aeroporto chega com 1 voo
                 break;
 
             case '4':
-                cityList(airport); //lista de cidades que o aeroporto chega com 1 voo
+                airlinesList(airport); //lista de airlines do aeroporto
                 break;
 
             case '5':
-                countriesList(airport); //lista de paises que o aeroporto chega com 1 voo
+                cityList(airport); //lista de cidades que o aeroporto chega com 1 voo
                 break;
 
             case '6':
+                countriesList(airport); //lista de paises que o aeroporto chega com 1 voo
+                break;
+
+            case '7':
                 airportReach(airport); //lista de paises, cidades e aeroportos que o aeroporto chega com k voos
                 break;
 
@@ -371,6 +377,21 @@ void Interface::airportInfo(){
     while(!stop_While);
 
 }
+
+void Interface::airportDetail(const string& airport) {
+    Airport air = gestor->getAirport(airport);
+    cout << "\n================| " << airport << " Details |================\n" << endl;
+    cout << "Code: " << air.get_code() << endl;
+
+    cout << "\nName : " << air.get_name() << endl;
+
+    cout<< "\nCity : "  << air.get_city() << endl;
+
+    cout << "\nCountry : " << air.get_country() << endl;
+
+    wait_B();
+}
+
 
 
 void Interface::flightBoard(const string& airport) {

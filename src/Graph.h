@@ -336,6 +336,15 @@ public:
      * @return Lista com os valores desejados (todas as companhias aereas de um aeroporto)
      */
     list<pair<string, string>> getDepartureBoard(const string &airport);
+
+    /**
+    * @brief Devolve o aeroporto a partir do codigo de aeroporto
+    * @details Complexidade Temporal: O(1)
+    * @param airport : airport code
+     *
+    * @return aeroporto
+    */
+    Airport getAirport(const string &airport);
 };
 
 #endif //AED_AIR_GRAPH_H

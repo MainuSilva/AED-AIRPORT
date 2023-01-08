@@ -300,6 +300,15 @@ public:
      * @details Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada.
      */
     void goGlobalStats();
+
+
+    /**
+    * @brief Devolve o código do aeroporto, o nome, a cidade e o país
+    * @details Complexidade Temporal: O(1)
+     *
+    * @param airport : airport code
+    */
+    void airportDetail(const string& airport);
 };
 
 

@@ -101,6 +101,10 @@ bool Gestor::availableAirline(const string& airline) {
     return graph->availableAirline(airline);
 }
 
+Airport Gestor::getAirport(const string& airport){
+    return graph->getAirport(airport);
+}
+
 //aeroporto para aeroporto
 vector<list<Airport>> Gestor::getMinPathTwoAirports(const string& airportSrc, const string& airportDest, const list<string>& wantedAirlines = {}){
     vector<list<Airport>> paths = graph->findMinPathsAirportsBfs(airportSrc, airportDest, wantedAirlines);
