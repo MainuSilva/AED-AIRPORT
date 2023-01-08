@@ -72,6 +72,7 @@ void Graph::bfs(const string& v) {
 }
 
 int Graph::bfsDiameter(const string& v, const list<string> &wantedAirlines = {}) {
+    restart();
     int diameter = 0;
     queue<string> q; // queue of unvisited nodes
     q.push(v);
@@ -439,13 +440,10 @@ int Graph::pathDistance(list<Airport> airports){
 
 
 int Graph::getDiameter(const list<string> &wantedAirlines = {}) {
-    restart();
     int diameter = 0;
     for(const auto& node: nodes){
         string w = node.first;
-        if (!nodes[w].visited) {
-            diameter = max(diameter, bfsDiameter(w, wantedAirlines));
-        }
+        diameter = max(diameter, bfsDiameter(w, wantedAirlines));
     }
     return diameter;
 }
