@@ -20,7 +20,7 @@ string Interface::getAirport() {
         cin.ignore(INT16_MAX, '\n');
 
         if (!gestor->availableAirport(airport))
-            cout << "\nThis airport doesn't exist, please try again";
+            cout << "\nThis airport doesn't exist, please try again: ";
 
         else
             stop_While = true;
@@ -49,7 +49,7 @@ list<string> Interface::airlines_select(){
                 return wantedAirlines;
 
             default:
-                cout << "\nInvalid Input, please try again" << endl;
+                cout << "\nInvalid Input, please try again: " << endl;
 
         }
     }
@@ -69,13 +69,13 @@ list<string> Interface::getAirlines() {
         
         
         if(airline == "s" || airline == "S" && airlines.empty())
-            cout << " Must insert at least one airline";
+            cout << "\nMust insert at least one airline: ";
 
         else if(airline == "s" || airline == "S" )
             stop_While = true;
 
         else if (!gestor->availableAirline(airline))
-            cout << " This airline doesn't exist, please try again";
+            cout << "\nThis airline doesn't exist, please try again: ";
 
         else airlines.push_back(airline);
 
@@ -94,7 +94,7 @@ string Interface::getCity(){
         getline(cin, city);
 
         if (!gestor->availableCity(city))
-            cout << "\nThis city doesn't exist, please try again";
+            cout << "\nThis city doesn't exist, please try again: ";
 
         else
             stop_While = true;
@@ -114,7 +114,7 @@ string Interface::getCountry(){
         getline(cin, country);
 
         if (!gestor->availableCountry(country))
-            cout << "\nThis country doesn't exist, please try again";
+            cout << "\nThis country doesn't exist, please try again: ";
 
         else
             stop_While = true;
@@ -159,7 +159,7 @@ double Interface::getLong(){
             cin.ignore(INT16_MAX, '\n');
         }
         else if (!(-180 <= longitude && longitude <= 180))
-            cout << "\nThis longitude doesn't exist, please try again";
+            cout << "\nThis longitude doesn't exist, please try again: ";
 
         else
             stop_While = true;
@@ -181,7 +181,7 @@ double Interface::getDistance(){
             cin.ignore(INT16_MAX, '\n');
         }
         else if (distance <= 0)
-            cout << "\nInvalid distance, please try again";
+            cout << "\nInvalid distance, please try again: ";
 
         else
             stop_While = true;
@@ -203,7 +203,7 @@ int Interface::getNum(){
             cin.ignore(INT16_MAX, '\n');
         }
         else if (numFlights <= 0)
-            cout << "\nInvalid number, please try again";
+            cout << "\nInvalid number, please try again: ";
 
         else
             stop_While = true;
@@ -253,7 +253,7 @@ bool Interface:: verifyExit(){
 void Interface::showMenu() {
     char choice;
     do {
-        cout << "********** FEUP AIRPORT CONTROL ********" << endl;
+        cout << "\n********** FEUP AIRPORT CONTROL ********" << endl;
         cout << endl;
         cout << "________________________________________" << endl;
         cout << "|      What are you looking for?       |" << endl;
@@ -654,7 +654,7 @@ void Interface::goMostAirlines() {
     int index = 1;
     cout << "\nInsert how many airports you would like to see listed: ";
     int k = getNum();
-    cout <<"\n====| Top "<< k <<" Airports by Airline Number |====" << endl;
+    cout <<"\n====| Top "<< k <<" Airports by Airline Number |====\n" << endl;
 
     for (const auto& airport: gestor->getTopNumberAirports(k,"airlines")){
         cout << index++ <<". " << airport << endl;
@@ -668,7 +668,7 @@ void Interface::goMostFlights() {
     int index = 1;
     cout << "\nInsert how many airports you would like to see listed: ";
     int k = getNum();
-    cout <<"\n====| Top "<< k <<" Airports by Flights Number |====" << endl;
+    cout <<"\n====| Top "<< k <<" Airports by Flights Number |====\n" << endl;
 
     for (const auto& airport : gestor->getTopNumberAirports(k,"flights")){
         cout << index++ <<". " << airport << endl;
