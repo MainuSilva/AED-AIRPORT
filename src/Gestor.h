@@ -219,16 +219,6 @@ public:
     vector<string> getTopNumberAirports(int number, string sortingWay);
 
     /**
-    * @brief Função que ordena o vetor de paths por ordem crescente de distância de path
-    * @details Complexidade temporal O(n), onde n é o tamanho do input das listas airportsA e airportsB
-    *
-    * @param airportsA : aeroporto de comparação
-    * @param airportsB : aeroporto de comparação
-    * @return true se a distância em airportsA for menor que em airportsB, false caso contrário
-    */
-    bool conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB);
-
-    /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma localização de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
