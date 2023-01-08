@@ -135,15 +135,6 @@ public:
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
 
     /**
-    * @brief Função que devolve o número de voos de um aeroporto
-    * @details Complexidade temporal O(1)
-    *
-    * @param airport
-    * @return O dado que se pretendia aceder
-    */
-    int getNumberOfAirportFlights(const string& airport);
-
-    /**
     * @brief Função que devolve o número de companhias aereas de um aeroporto
     * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
     *
