@@ -75,3 +75,7 @@
 2	526	6949021392514240	CMakeFiles/AED_Air.dir/src/main.cpp.obj	b6150ccf7446e2a3
 6	820	6949021395446345	CMakeFiles/AED_Air.dir/src/Interface.cpp.obj	1449d2d3ae7421b
 820	1230	6949021399470918	AED_Air.exe	590e9cd27ec22726
+2	440	6949078278485979	CMakeFiles/AED_Air.dir/src/main.cpp.obj	b6150ccf7446e2a3
+5	726	6949078281316259	CMakeFiles/AED_Air.dir/src/Interface.cpp.obj	1449d2d3ae7421b
+9	1001	6949078284065919	CMakeFiles/AED_Air.dir/src/Gestor.cpp.obj	258fb671de5164b3
+1001	1399	6949078288010217	AED_Air.exe	590e9cd27ec22726
