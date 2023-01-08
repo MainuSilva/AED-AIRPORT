@@ -145,7 +145,7 @@ public:
 
     /**
     * @brief Função que devolve o diâmetro de um grafo (maior distância entre 2 nodes)
-    * @details Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
+    * @details Complexidade Temporal: O(n * (n + m)) onde n é o número de nodes no grafo e m o número de edges.
     *
     * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return O dado que se pretendia aceder
@@ -153,16 +153,16 @@ public:
     int getDiameter(const list<string> &wantedAirlines);
 
     /**
-    * @brief Função que retorna todos os aeroportos possíveis de atingir só com um voo
-    * Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
+    * @brief Função que retorna todos os aeroportos possíveis de atingir só com um voo
+    * @details Complexidade Temporal: O(n) onde n é o número de aeroportos adjacentes ao aeroporto especificado
     * @param airport
     * @return Lista com os dados que se pretendia aceder
     */
     list<Airport> getAirportsArrived(const string &airport);
 
     /**
-    * @brief Função que retorna todas as cidades possíveis de atingir só com um voo
-    * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
+    * @brief Função que retorna todas as cidades possíveis de atingir só com um voo
+    * @details Complexidade Temporal: O(n * log(n)) onde n é o número de aeroportos adjacentes ao aeroporto especificado.
     *
     * @param airport
     * @return Set com os dados que se pretendia aceder
@@ -170,8 +170,8 @@ public:
     set<string> getCitiesArrived(const string &airport);
 
     /**
-    * @brief Função que retorna todos os paises possíveis de atingir só com um voo
-    * @details Complexidade Temporal: O(n) onde n é o número de nodes no grafo.
+    * @brief Função que retorna todos os paises possíveis de atingir só com um voo
+    * @details Complexidade Temporal: O(n * log(n)) onde n é o número de aeroportos adjacentes ao aeroporto especificado
     *
     * @param airport
     * @return Set com os dados que se pretendia aceder
@@ -179,7 +179,7 @@ public:
     set<string> getCountriesArrived(const string &airport);
 
     /**
-    * @brief Função que retorna todos os voos possíveis de atingir só com um voo
+    * @brief Função que retorna todos os voos possíveis de atingir só com um voo
     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
     *
     * @param airportSrc : aeroporto de origem
@@ -217,6 +217,16 @@ public:
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<string> getTopNumberAirports(int number, string sortingWay);
+
+    /**
+    * @brief Função que ordena o vetor de paths por ordem crescente de distância de path
+    * @details Complexidade temporal O(n), onde n é o tamanho do input das listas airportsA e airportsB
+    *
+    * @param airportsA : aeroporto de comparação
+    * @param airportsB : aeroporto de comparação
+    * @return true se a distância em airportsA for menor que em airportsB, false caso contrário
+    */
+    bool conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB);
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma localização de destino
