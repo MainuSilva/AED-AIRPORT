@@ -8,6 +8,10 @@
 #include <cmath>
 #include "Airport.h"
 
+/**
+ * @brief Classe responsável por todas as funções de cálculos com coordenadas
+ */
+
 class CoordDistance {
     /**
      * @brief Calcula a menor distância entre duas coordenadas
