@@ -92,7 +92,7 @@ public:
     
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um de destino
-    * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
+    * @details Complexidade Temporal: O(n + m + vlog(v)) no pior caso, onde n é o número de nodes no grafo e m o número de edges e v o comprimento do vetor path.
     *
     * @param airportSrc : aeroporto de origem
     * @param airportDest : aeroporto de destino
@@ -103,7 +103,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para uma cidade de destino
-    * @details Complexidade Temporal: (n * m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
+    * @details Complexidade Temporal: (n + m + k + vlog(v)) no pior caso, onde n é o número de nodes do grafo, m é o número de edges, k o número de aeroportos de destino e v o comprimento do vetor paths.
     *
     * @param airportSrc : aeroporto de origem
     * @param city
@@ -114,7 +114,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para uma localização de destino
-    * @details Complexidade Temporal: (n * m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
+    * @details Complexidade Temporal: (n + m + k + vlog(v)) no pior caso, onde n é o número de nodes do grafo, m é o número de edges, k o número de aeroportos de destino e v o comprimento do vetor paths.
     *
     * @param airportSrc : aeroporto de origem
     * @param lat
@@ -220,7 +220,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma localização de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k1+ k2 + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k1 o número de aeroportos fonte, k2 o número de aeroportos destino e v o comprimento do vetor paths
     *
     * @param lat1 : Latitude do ponto do aeoporto de origem
     * @param lon1 : Longitude do ponto do aeoporto de origem
@@ -234,7 +234,7 @@ public:
     vector<list<Airport>> getMinPathLocationToLocation(double lat1, double lon1, double kmDistance1, double lat2, double lon2, double kmDistance2, const list<string> &wantedAirlines);
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um localização de origem para uma cidade de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k1+ k2 + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k1 o número de aeroportos fonte, k2 o número de aeroportos destino e v o comprimento do vetor paths
     *
     * @param lat : Latitude do ponto do aeoporto de origem
     * @param lon : Longitude do ponto do aeoporto de origem
@@ -247,7 +247,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para uma localização de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k1+ k2 + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k1 o número de aeroportos fonte, k2 o número de aeroportos destino e v o comprimento do vetor paths
     *
     * @param city : cidade de origem
     * @param lat : Latitude do ponto do aeoporto de destino
@@ -260,7 +260,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para uma cidade de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k1+ k2 + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k1 o número de aeroportos fonte, k2 o número de aeroportos destino e v o comprimento do vetor paths
     *
     * @param city1 : cidade de origem
     * @param city2 : cidade de destino
@@ -271,7 +271,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para um aeroporto de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k o número de aeroportos fonte e v o comprimento do vetor paths.
     *
     * @param city1 : cidade de origem
     * @param airportDest : aeroporto de destino
@@ -282,7 +282,7 @@ public:
 
     /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma aeroporto de destino
-    * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
+    * @details Complexidade temporal O(n + m + k + vlog(v)), onde n é o número de nodes (aeroportos) e m o número de edges (voos), k o número de aeroportos fonte e v o comprimento do vetor paths.
     *
     * @param lat : Latitude do ponto do aeoporto de origem
     * @param lon : Longitude do ponto do aeoporto de origem
