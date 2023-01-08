@@ -91,8 +91,7 @@ string Interface::getCity(){
     cout << "\nInsert City's name: ";
 
     do {
-        cin >> city;
-        cin.ignore(INT16_MAX, '\n');
+        getline(cin, city);
 
         if (!gestor->availableCity(city))
             cout << "\nThis city doesn't exist, please try again";
@@ -112,8 +111,7 @@ string Interface::getCountry(){
     cout << "\nInsert Country's name: ";
 
     do {
-        cin >> country;
-        cin.ignore(INT16_MAX, '\n');
+        getline(cin, country);
 
         if (!gestor->availableCountry(country))
             cout << "\nThis country doesn't exist, please try again";
@@ -984,7 +982,7 @@ void Interface::goCoords(){
         cout << "\nSELECT AIRLINES ";
         wantedAirlines = airlines_select();
 
-        paths = gestor->getMinPathLocationToLocation( lat, lon, distance, lat2, lon2, distance2, wantedAirlines);
+        paths = gestor->getMinPathLocationToLocation( lat2, lon2, distance2, lat, lon, distance, wantedAirlines);
     }
     else return;
 
