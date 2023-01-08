@@ -94,9 +94,9 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para um de destino
     * @details Complexidade Temporal: O(n + m) no pior caso, onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param airportSrc
-    * @param airportDest
-    * @param wantedAirlines
+    * @param airportSrc : aeroporto de origem
+    * @param airportDest : aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathTwoAirports(const string &airportSrc, const string &airportDest, const list<string> &wantedAirlines);
@@ -105,9 +105,9 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para uma cidade de destino
     * @details Complexidade Temporal: (n * m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
     *
-    * @param airportSrc
+    * @param airportSrc : aeroporto de origem
     * @param city
-    * @param wantedAirlines
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathAirToCity(const string &airportSrc, const string &city, const list<string> &wantedAirlines);
@@ -116,11 +116,11 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um aeroporto de origem para uma localização de destino
     * @details Complexidade Temporal: (n * m * k) no pior caso, onde n é o número de nodes do grafo, m é o número de edges e k o número de aeroportos de destino.
     *
-    * @param airportSrc
+    * @param airportSrc : aeroporto de origem
     * @param lat
     * @param lon
-    * @param kmDistance
-    * @param wantedAirlines
+    * @param kmDistance : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathAirToLocation(const string &airportSrc, double lat, double lon, double kmDistance, const list<string> &wantedAirlines);
@@ -129,10 +129,19 @@ public:
     * @brief Função que devolve os pontos de articulação do grafo
     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param wantedAirlines
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Lista com os dados que se pretendia aceder
     */
     list<string> getArticulationPoints(const list<string> &wantedAirlines);
+
+    /**
+    * @brief Função que devolve o número de voos de um aeroporto
+    * @details Complexidade temporal O(1)
+    *
+    * @param airport
+    * @return O dado que se pretendia aceder
+    */
+    int getNumberOfAirportFlights(const string& airport);
 
     /**
     * @brief Função que devolve o número de companhias aereas de um aeroporto
@@ -147,7 +156,7 @@ public:
     * @brief Função que devolve o diâmetro de um grafo (maior distância entre 2 nodes)
     * @details Complexidade Temporal: O(n * m) onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param wantedAirlines
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return O dado que se pretendia aceder
     */
     int getDiameter(const list<string> &wantedAirlines);
@@ -182,7 +191,7 @@ public:
     * @brief Função que retorna todos os voos possíveis de atingir só com um voo
     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param airportSrc
+    * @param airportSrc : aeroporto de origem
     * @param flights
     * @return Set com os dados que se pretendia aceder
     */
@@ -192,7 +201,7 @@ public:
     * @brief Devolve uma lista de cidades que consegue atingir com um determinado número de voos de um determinado aeroporto de origem
     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param airportSrc
+    * @param airportSrc : aeroporto de origem
     * @param flights
     * @return Set com os dados que se pretendia aceder
     */
@@ -202,7 +211,7 @@ public:
     * @brief Devolve uma lista de aeroportos que consegue atingir com um determinado número de voos de um determinado aeroporto de origem
     * @details Complexidade Temporal: O(n + m) onde n é o número de nodes no grafo e m o número de edges.
     *
-    * @param airportSrc
+    * @param airportSrc : aeroporto de origem
     * @param flights
     * @return Lista com os dados que se pretendia aceder
     */
@@ -213,22 +222,32 @@ public:
     * @details Complexidade Temporal: O(n * log(n)) onde n é o número de nodes no grafo.
     *
     * @param number
-    * @param sortingWay
+    * @param sortingWay : de que maneira devem ser ordenados os resultados
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<string> getTopNumberAirports(int number, string sortingWay);
 
     /**
+    * @brief Função que ordena o vetor de paths por ordem crescente de distância de path
+    * @details Complexidade temporal O(n), onde n é o tamanho do input das listas airportsA e airportsB
+    *
+    * @param airportsA : aeroporto de comparação
+    * @param airportsB : aeroporto de comparação
+    * @return true se a distância em airportsA for menor que em airportsB, false caso contrário
+    */
+    bool conditionPaths(const list<Airport>& airportsA, const list<Airport>& airportsB);
+
+    /**
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma localização de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param lat1
-    * @param lon1
-    * @param kmDistance1
-    * @param lat2
-    * @param lon2
-    * @param kmDistance2
-    * @param wantedAirlines
+    * @param lat1 : Latitude do ponto do aeoporto de origem
+    * @param lon1 : Longitude do ponto do aeoporto de origem
+    * @param kmDistance1 : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de origem
+    * @param lat2 : Latitude do ponto do aeoporto de destino
+    * @param lon2 : Longitude do ponto do aeoporto de destino
+    * @param kmDistance2 : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathLocationToLocation(double lat1, double lon1, double kmDistance1, double lat2, double lon2, double kmDistance2, const list<string> &wantedAirlines);
@@ -236,11 +255,11 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de um localização de origem para uma cidade de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param lat
-    * @param lon
-    * @param kmDistance
-    * @param city
-    * @param wantedAirlines
+    * @param lat : Latitude do ponto do aeoporto de origem
+    * @param lon : Longitude do ponto do aeoporto de origem
+    * @param kmDistance : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de origem
+    * @param city : cidade de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathLocationToCity(double lat, double lon, double kmDistance, const string &city, const list<string> &wantedAirlines);
@@ -249,11 +268,11 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para uma localização de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param city
-    * @param lat
-    * @param lon
-    * @param kmDistance
-    * @param wantedAirlines
+    * @param city : cidade de origem
+    * @param lat : Latitude do ponto do aeoporto de destino
+    * @param lon : Longitude do ponto do aeoporto de destino
+    * @param kmDistance : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathCityToLocation(const string &city, double lat, double lon, double kmDistance, const list<string> &wantedAirlines);
@@ -262,9 +281,9 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para uma cidade de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param city1
-    * @param city2
-    * @param wantedAirlines
+    * @param city1 : cidade de origem
+    * @param city2 : cidade de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathCityToCity(const string &city1, const string &city2, const list<string> &wantedAirlines);
@@ -273,9 +292,9 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma cidade de origem para um aeroporto de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param city1
-    * @param airportDest
-    * @param wantedAirlines
+    * @param city1 : cidade de origem
+    * @param airportDest : aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathCityToAir(const string &city1, const string &airportDest, const list<string> &wantedAirlines);
@@ -284,11 +303,11 @@ public:
     * @brief Função que devolve um vetor com uma lista do menor número de aeroportos pelos quais é necessário passar para ir de uma localização de origem para uma aeroporto de destino
     * @details Complexidade temporal O(n * m), onde n é o número de nodes (aeroportos) e m o número de edges (voos).
     *
-    * @param lat
-    * @param lon
-    * @param kmDistance
-    * @param airportDest
-    * @param wantedAirlines
+    * @param lat : Latitude do ponto do aeoporto de origem
+    * @param lon : Longitude do ponto do aeoporto de origem
+    * @param kmDistance : distância às coordenadas fornecidas de onde se pode encontrar o aeroporto de origem
+    * @param airportDest : aeroporto de destino
+    * @param wantedAirlines : lista com as companhias aereas escolhidas pelo utilizador
     * @return Vetor com os dados que se pretendia aceder
     */
     vector<list<Airport>> getMinPathLocationToAir(double lat, double lon, double kmDistance, const string &airportDest, const list<string> &wantedAirlines);
@@ -360,6 +379,13 @@ public:
     */
     int getTotalNumberOfAirports();
 
+    /**
+    * @brief Função que devolve a distancia em Km de um percurso
+    * @details Complexidade temporal O(n) onde n é o número de aeroportos na lista path
+    *
+    * @param path : lista de aeroportos de um percurso
+    * @return Os dados que se pretendia aceder
+    */
     int getPathDistance(const list<Airport> &path);
 };
 
