@@ -466,11 +466,7 @@ void Interface::networkInfo() {
         cout << "|        [1] Articulation Points       |" << endl;
         cout << "|        [2] Diameter                  |" << endl;
         cout << "|        [3] Top Airports              |" << endl;
-        cout << "|        [4] Total Countries           |" << endl;
-        cout << "|        [5] Total Cities              |" << endl;
-        cout << "|        [6] Total Airports            |" << endl;
-        cout << "|        [7] Total Airlines            |" << endl;
-        cout << "|        [8] Total Flights             |" << endl;
+        cout << "|        [4] Global Stats              |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "|              [B] Go Back             |" << endl;
         cout << "|              [E] Exit                |" << endl;
@@ -495,23 +491,7 @@ void Interface::networkInfo() {
                 break;
 
             case '4':
-                goTotalCountries();
-                break;
-
-            case '5':
-                goTotalCities();
-                break;
-
-            case '6':
-                goTotalAirports();
-                break;
-
-            case '7':
-                goTotalAirlines();
-                break;
-
-            case '8':
-                goTotalFlights();
+                goGlobalStats();
                 break;
 
             case 'B': case 'b':
@@ -1079,4 +1059,59 @@ void Interface::airlinesListCountry(const string& country) {
     }
 
     wait_B();
+}
+
+void Interface::goGlobalStats() {
+    char choice;
+    bool stop_While = false;
+    do {
+        cout << endl;
+        cout << "________________________________________" << endl;
+        cout << "|             Global Stats             |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|        [1] Total Countries           |" << endl;
+        cout << "|        [2] Total Cities              |" << endl;
+        cout << "|        [3] Total Airports            |" << endl;
+        cout << "|        [4] Total Airlines            |" << endl;
+        cout << "|        [5] Total Flights             |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << "|              [B] Go Back             |" << endl;
+        cout << "|______________________________________|" << endl;
+        cout << endl;
+        cout << "****************************************" << endl;
+        cout << "\nEnter Your Choice : ";
+        cin >> choice;
+        cin.ignore(INT16_MAX, '\n');
+
+        switch (choice) {
+            case '1':
+                goTotalCountries();
+                break;
+
+            case '2':
+                goTotalCities();
+                break;
+
+            case '3':
+                goTotalAirports();
+                break;
+
+            case '4':
+                goTotalAirlines();
+                break;
+
+            case '5':
+                goTotalFlights();
+                break;
+
+            case 'B': case 'b':
+                stop_While = true;
+                break;
+
+            default:
+                cout << "\nInvalid Input, please try again" << endl;
+        }
+    }
+    while(!stop_While);
+
 }
