@@ -294,6 +294,12 @@ public:
      * @param airport
      */
     void flightBoard(const string &airport);
+    
+     /**
+     * @brief Função que cria uma interface para o menu de estatísticas globais da rede, com todas as opções de navegação associadas
+     * @details Complexidade Temporal: O(1). Isto porque a função realiza um número constante de operações, independentemente do tamanho da entrada.
+     */
+    void goGlobalStats();
 };
 
 
